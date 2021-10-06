@@ -1,0 +1,17 @@
+pt-BR:
+  links:
+    confirmation_instructions: Não recebeu as instruções de confirmação?
+    destroy: Destruir
+    edit: Editar
+    go_back: Voltar
+    homepage: Página Inicial
+    login: Entrar
+    login_with: Entrar com
+    show: Exibir
+    signup: Registrar
+    forgot_your_password?: Esqueceu sua senha?
+    unlock_instructions: Não recebeu as instruções de desbloqueio?
+  buttons:
+    go_back: Voltar
+    login: Entrar
+    signup: Registrar
