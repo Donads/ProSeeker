@@ -14,8 +14,9 @@
     <nav>
       <ul>
         <% if user_signed_in? %>
-          <li>Logado como '<%= current_user.email %>'</li>
           <li><%= link_to 'Sair', destroy_user_session_path, method: :delete %></li>
+          <li>Logado como '<%= current_user.email %>'</li>
+          <li><%= link_to 'Cadastrar Novo Projeto', new_project_path %></li>
         <% else %>
           <li><%= link_to 'Entrar', new_user_session_path %></li>
           <li><%= link_to 'Registrar', new_user_registration_path %></li>

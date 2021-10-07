@@ -2,10 +2,20 @@
 pt-BR:
   activerecord:
     models:
+      project:
+        one: Projeto
+        other: Projetos
       user:
         one: Usuário
         other: Usuários
     attributes:
+      project:
+        title: Título
+        description: Descrição
+        skills: Habilidades desejadas
+        max_hourly_rate: Valor máximo (R$/hora)
+        open_until: Prazo para recebimento de propostas
+        attendance_type: Tipo de atuação
       user:
         email: E-mail
         password: Senha

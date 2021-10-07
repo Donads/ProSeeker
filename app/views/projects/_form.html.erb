@@ -1,0 +1,36 @@
+<% if @project.errors.any? %>
+  <ul>
+    <% @project.errors.full_messages.each do |error| %>
+      <li><%= error %></li>
+    <% end %>
+  </ul>
+<% end %>
+
+<%= form_with model: @project do |f| %>
+  <p>
+    <%= f.label :title %>
+    <%= f.text_field :title %>
+  </p>
+  <p>
+    <%= f.label :description %>
+    <%= f.text_field :description %>
+  </p>
+  <p>
+    <%= f.label :skills %>
+    <%= f.text_field :skills %>
+  </p>
+  <p>
+    <%= f.label :max_hourly_rate %>
+    <%= f.text_field :max_hourly_rate %>
+  </p>
+  <p>
+    <%= f.label :open_until %>
+    <%= f.date_field :open_until %>
+  </p>
+  <p>
+    <%= f.label :attendance_type %>
+    <%= f.text_field :attendance_type %>
+  </p>
+
+  <%= f.submit %>
+<% end %>
