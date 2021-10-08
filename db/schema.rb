@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_07_214239) do
+ActiveRecord::Schema.define(version: 2021_10_08_160438) do
 
   create_table "projects", force: :cascade do |t|
     t.string "title"
@@ -18,7 +18,7 @@ ActiveRecord::Schema.define(version: 2021_10_07_214239) do
     t.string "skills"
     t.decimal "max_hourly_rate"
     t.date "open_until"
-    t.string "attendance_type"
+    t.integer "attendance_type", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
