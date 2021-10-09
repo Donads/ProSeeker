@@ -1,26 +1,30 @@
-<%= success %>
+<% if success %>
+  <div class="alert alert-success" role="alert">
+    <%= success %>
+  </div>
+<% end %>
 
-<%= @project.title %>
+<p><h1 class="display-3"><%= @project.title %></h1></p>
 
-<dl>
-  <p>
-    <dt><%= Project.human_attribute_name(:description) %>:</dt>
-    <dd><%= @project.description %></dd>
-  </p>
-  <p>
-    <dt><%= Project.human_attribute_name(:skills) %>:</dt>
-    <dd><%= @project.skills %></dd>
-  </p>
-  <p>
-    <dt><%= Project.human_attribute_name(:max_hourly_rate) %>:</dt>
-    <dd><%= number_to_currency(@project.max_hourly_rate) %></dd>
-  </p>
-  <p>
-    <dt><%= Project.human_attribute_name(:open_until) %>:</dt>
-    <dd><%= l @project.open_until %></dd>
-  </p>
-  <p>
-    <dt><%= Project.human_attribute_name(:attendance_type) %>:</dt>
-    <dd><%= @project.attendance_type %></dd>
-  </p>
+<dl class="row">
+    <p>
+      <dt class="col-sm-3"><%= Project.human_attribute_name(:description) %>:</dt>
+      <dd class="col-sm-9"><%= @project.description %></dd>
+    </p>
+    <p>
+      <dt class="col-sm-3"><%= Project.human_attribute_name(:skills) %>:</dt>
+      <dd class="col-sm-9"><%= @project.skills %></dd>
+    </p>
+    <p>
+      <dt class="col-sm-3"><%= Project.human_attribute_name(:max_hourly_rate) %>:</dt>
+      <dd class="col-sm-9"><%= number_to_currency(@project.max_hourly_rate) %></dd>
+    </p>
+    <p>
+      <dt class="col-sm-3"><%= Project.human_attribute_name(:open_until) %>:</dt>
+      <dd class="col-sm-9"><%= l @project.open_until %></dd>
+    </p>
+    <p>
+      <dt class="col-sm-3"><%= Project.human_attribute_name(:attendance_type) %>:</dt>
+      <dd class="col-sm-9"><%= @project.attendance_type %></dd>
+    </p>
 </dl>

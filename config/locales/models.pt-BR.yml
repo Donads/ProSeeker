@@ -21,3 +21,10 @@ pt-BR:
         password: Senha
         password_confirmation: Confirmação de Senha
         remember_me: Manter logado
+        role: Função
+  admin: Administrador
+  professional: Profissional
+  user: Usuário
+  mixed_attendance: Atuação Mista
+  presential_attendance: Atuação Presencial
+  remote_attendance: Atuação Remota

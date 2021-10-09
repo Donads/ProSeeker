@@ -3,7 +3,7 @@ require 'rails_helper'
 describe 'Visitor signs in' do
   context 'as an user' do
     it 'successfully' do
-      user = User.create!(email: 'usuario@teste.com.br', password: '123456')
+      user = User.create!(email: 'usuario@teste.com.br', password: '123456', role: :user)
 
       visit root_path
       click_link 'Entrar'
@@ -40,7 +40,7 @@ describe 'Visitor signs in' do
     end
 
     it 'and logs out' do
-      user = User.create!(email: 'usuario@teste.com.br', password: '123456')
+      user = User.create!(email: 'usuario@teste.com.br', password: '123456', role: :user)
 
       login_as user, scope: :user
       visit root_path

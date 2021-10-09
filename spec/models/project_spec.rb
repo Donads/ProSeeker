@@ -60,25 +60,25 @@ RSpec.describe Project, type: :model do
   end
 
   context 'validates attendance_type' do
-    it 'mixed_attendance should be valid' do
+    it 'mixed_attendance is valid' do
       project = Project.new(attendance_type: :mixed_attendance)
       project.valid?
       expect(project.errors.full_messages_for(:attendance_type)).to eq []
     end
 
-    it 'remote_attendance should be valid' do
+    it 'remote_attendance is valid' do
       project = Project.new(attendance_type: :remote_attendance)
       project.valid?
       expect(project.errors.full_messages_for(:attendance_type)).to eq []
     end
 
-    it 'presential_attendance should be valid' do
+    it 'presential_attendance is valid' do
       project = Project.new(attendance_type: :presential_attendance)
       project.valid?
       expect(project.errors.full_messages_for(:attendance_type)).to eq []
     end
 
-    it 'other should not be valid' do
+    it 'other are not valid' do
       # TODO: Implement validation that doesn't raise ArgumentError
     end
   end

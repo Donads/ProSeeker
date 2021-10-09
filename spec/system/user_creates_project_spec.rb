@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe 'User creates project' do
   it 'successfully' do
-    user = User.create!(email: 'usuario@teste.com.br', password: '123456')
+    user = User.create!(email: 'usuario@teste.com.br', password: '123456', role: :user)
     project = { title: 'Teste de título', description: 'Teste de descrição', skills: 'Teste de habilidades', max_hourly_rate: 60, open_until: '31/12/2021',
                 attendance_type: :remote_attendance }
 
@@ -15,7 +15,7 @@ describe 'User creates project' do
       fill_in 'Habilidades desejadas', with: project[:skills]
       fill_in 'Valor máximo (R$/hora)', with: project[:max_hourly_rate]
       fill_in 'Prazo para recebimento de propostas', with: project[:open_until]
-      fill_in 'Tipo de atuação', with: project[:attendance_type]
+      choose 'project_attendance_type_remote_attendance'
       click_button 'Criar Projeto'
     end
 
@@ -31,7 +31,7 @@ describe 'User creates project' do
   end
 
   it 'and fails due to failed validations' do
-    user = User.create!(email: 'usuario@teste.com.br', password: '123456')
+    user = User.create!(email: 'usuario@teste.com.br', password: '123456', role: :user)
 
     login_as user, scope: :user
     visit root_path
@@ -42,7 +42,6 @@ describe 'User creates project' do
       fill_in 'Habilidades desejadas', with: ''
       fill_in 'Valor máximo (R$/hora)', with: 0
       fill_in 'Prazo para recebimento de propostas', with: ''
-      fill_in 'Tipo de atuação', with: ''
       click_button 'Criar Projeto'
     end
 

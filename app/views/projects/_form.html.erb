@@ -8,29 +8,41 @@
 
 <%= form_with model: @project do |f| %>
   <p>
-    <%= f.label :title %>
-    <%= f.text_field :title %>
+    <%= f.label :title, class: "form-label" %>
+    <%= f.text_field :title, class: "form-control" %>
   </p>
   <p>
-    <%= f.label :description %>
-    <%= f.text_field :description %>
+    <%= f.label :description, class: "form-label" %>
+    <%= f.text_field :description, class: "form-control" %>
   </p>
   <p>
-    <%= f.label :skills %>
-    <%= f.text_field :skills %>
+    <%= f.label :skills, class: "form-label" %>
+    <%= f.text_field :skills, class: "form-control" %>
   </p>
   <p>
-    <%= f.label :max_hourly_rate %>
-    <%= f.text_field :max_hourly_rate %>
+    <%= f.label :max_hourly_rate, class: "form-label" %>
+    <%= f.text_field :max_hourly_rate, class: "form-control" %>
   </p>
   <p>
-    <%= f.label :open_until %>
-    <%= f.date_field :open_until %>
-  </p>
-  <p>
-    <%= f.label :attendance_type %>
-    <%= f.text_field :attendance_type %>
+    <%= f.label :open_until, class: "form-label" %>
+    <%= f.date_field :open_until, class: "form-control" %>
   </p>
 
-  <%= f.submit %>
+  <div class="field">
+    <%= f.label :attendance_type, class: "form-label" %><br />
+    <p>
+      <%= f.radio_button :attendance_type, "mixed_attendance" %>
+      <%= f.label :attendance_type_mixed_attendance, t('mixed_attendance') %>
+    </p>
+    <p>
+      <%= f.radio_button :attendance_type, "presential_attendance" %>
+      <%= f.label :attendance_type_presential_attendance, t('presential_attendance') %>
+    </p>
+    <p>
+      <%= f.radio_button :attendance_type, "remote_attendance" %>
+      <%= f.label :attendance_type_remote_attendance, t('remote_attendance') %>
+    </p>
+  </div>
+
+  <%= f.submit class: "btn btn-primary" %>
 <% end %>
