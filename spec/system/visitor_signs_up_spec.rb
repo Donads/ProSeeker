@@ -44,4 +44,26 @@ describe 'Visitor signs up' do
       expect(page).not_to have_link('Registrar')
     end
   end
+
+  it 'and fails' do
+    invalid_user = { email: 'usuario', password: '12345', password_confirmation: '1234' }
+
+    visit root_path
+    click_link 'Registrar'
+    within 'form' do
+      fill_in 'E-mail', with: invalid_user[:email]
+      fill_in 'Senha', with: invalid_user[:password]
+      fill_in 'Confirmação de Senha', with: invalid_user[:password_confirmation]
+      click_button 'Registrar'
+    end
+
+    expect(page).to have_content('Não foi possível salvar usuário: 4 erros')
+    expect(page).to have_content('E-mail não é válido')
+    expect(page).to have_content('Confirmação de Senha não é igual a Senha')
+    expect(page).to have_content('Senha é muito curto (mínimo: 6 caracteres)')
+    expect(page).to have_content('Função não pode ficar em branco')
+    expect(page).to have_link('Entrar')
+    expect(page).to have_link('Registrar')
+    expect(page).not_to have_link('Sair')
+  end
 end
