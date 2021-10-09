@@ -1,4 +1,6 @@
 class ProjectsController < ApplicationController
+  before_action :professional_must_fill_profile
+
   def new
     @project = Project.new
   end

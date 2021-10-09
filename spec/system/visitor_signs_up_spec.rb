@@ -37,7 +37,9 @@ describe 'Visitor signs up' do
         click_button 'Registrar'
       end
 
-      expect(page).to have_content('Login efetuado com sucesso.')
+      expect(current_path).to eq new_professional_profile_path
+      expect(page).to have_css('div',
+                               text: 'Profissionais devem preencher o perfil por completo antes de terem acesso às funcionalidades da plataforma.')
       expect(page).to have_content("Logado como '#{professional[:email]}' (Profissional)")
       expect(page).to have_link('Sair')
       expect(page).not_to have_link('Entrar')

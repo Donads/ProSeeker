@@ -4,6 +4,9 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
+  has_one_attached :profile_photo
+  has_one :professional_profile
+
   enum role: { admin: 0, user: 10, professional: 20 }
 
   validates :role, presence: true
