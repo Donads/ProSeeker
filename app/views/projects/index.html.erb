@@ -1,0 +1,8 @@
+<h1 class="display-4 mb-4">Projetos</h1>
+
+<dl class="row">
+  <% @projects.each do |pr| %>
+    <dt class="col-sm-3"><%= link_to pr.title, project_path(pr) %></dt>
+    <dd class="col-sm-9"><%= pr.description %></dd>
+  <% end %>
+</dl>

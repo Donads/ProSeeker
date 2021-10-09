@@ -26,7 +26,7 @@ describe 'User creates project' do
     expect(page).to have_content(project[:skills])
     expect(page).to have_content("R$ #{project[:max_hourly_rate]}")
     expect(page).to have_content(project[:open_until])
-    expect(page).to have_content(project[:attendance_type])
+    expect(page).to have_content(I18n.t(project[:attendance_type]))
     expect(current_path).not_to eq new_project_path
   end
 

@@ -25,6 +25,10 @@
     </p>
     <p>
       <dt class="col-sm-3"><%= Project.human_attribute_name(:attendance_type) %>:</dt>
-      <dd class="col-sm-9"><%= @project.attendance_type %></dd>
+      <dd class="col-sm-9"><%= t(@project.attendance_type) %></dd>
+    </p>
+    <p>
+      <dt class="col-sm-3"><%= User.model_name.human %> responsável:</dt>
+      <dd class="col-sm-9"><%= @project.user.email %></dd>
     </p>
 </dl>

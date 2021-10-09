@@ -70,7 +70,6 @@ describe 'Visitor signs in' do
         fill_in 'Senha', with: professional.password
         click_button 'Entrar'
       end
-      # click_link 'Cadastrar Novo Projeto'
 
       expect(current_path).to eq new_professional_profile_path
       expect(page).to have_css('div',
