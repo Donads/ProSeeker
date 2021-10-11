@@ -15,27 +15,29 @@ describe 'Professional must fill profile' do
     end
 
     it 'gets redirected and fills it successfully' do
+      birth_date = 30.years.ago.to_date
       professional = User.create!(email: 'profissional@teste.com.br', password: '123456', role: :professional)
 
       login_as professional, scope: :user
       visit root_path
       within 'form' do
         fill_in 'Nome Completo', with: 'Fulano de Tal'
-        fill_in 'Nome Social', with: 'Ciclano'
+        fill_in 'Nome Social', with: 'Ciclano da Silva'
         fill_in 'Descrição', with: 'Busco projetos desafiadores'
         fill_in 'Qualificação Profissional', with: 'Ensino Superior'
         fill_in 'Experiência Profissional', with: '6 anos trabalhando em projetos diversos'
-        fill_in 'Data de Nascimento', with: '31/12/1990'
+        fill_in 'Data de Nascimento', with: birth_date
         click_button 'Criar Perfil Profissional'
       end
 
       expect(page).to have_content('Perfil cadastrado com sucesso!')
       expect(page).to have_content('Nome Completo: Fulano de Tal')
-      expect(page).to have_content('Nome Social: Ciclano')
+      expect(page).to have_content('Nome Social: Ciclano da Silva')
       expect(page).to have_content('Descrição: Busco projetos desafiadores')
       expect(page).to have_content('Qualificação Profissional: Ensino Superior')
       expect(page).to have_content('Experiência Profissional: 6 anos trabalhando em projetos diversos')
-      expect(page).to have_content('Data de Nascimento: 31/12/1990')
+      expect(page).to have_content('Data de Nascimento:')
+      expect(page).to have_content(I18n.l(birth_date))
       expect(page).to have_content("Logado como '#{professional.email}' (Profissional)")
       expect(page).to have_link('Sair')
       expect(page).not_to have_link('Entrar')

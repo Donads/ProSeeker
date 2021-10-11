@@ -33,7 +33,7 @@
     </p>
 </dl>
 
-<% if current_user.professional? || current_user.admin? %>
+<% if current_user&.professional? || current_user&.admin? %>
   <% if @project_proposal.new_record? %>
     <div class="display-6 mb-3"><%= current_user.professional_profile.social_name %>, envie sua proposta para esse projeto preenchendo os campos abaixo:</div>
   <% else %>
@@ -53,30 +53,35 @@
     <%= f.submit class: "btn btn-primary mt-3 mb-3" %>
   <% end %>
   <% unless @project_proposal.new_record? %>
-    <%= button_to 'Cancelar Proposta', project_proposal_path(@project_proposal), data: { confirm: t('messages.are_you_sure') },
+    <%= button_to 'Cancelar Proposta', project_proposal_path(@project_proposal), data: { confirm: t('messages.are_you_sure?') },
     method: :delete, class: "btn btn-outline-danger mt-3 mb-3" %>
   <% end %>
 <% end %>
 
-<% if current_user.user? || current_user.admin? %>
-  <% if @project_proposals.any? %>
-    <dl class="row">
-      <dt class="col-sm-3">Nome do Profissional</dt>
-      <dd class="col-sm-9">
-        Valor (R$/hora)
-        Horas/semana
-        Prévia de conclusão
-      </dd>
-      <% @project_proposals.each do |pp| %>
-        <p>
-          <dt class="col-sm-3"><%= link_to pp.user.professional_profile.social_name, project_proposal_path(pp) %></dt>
-          <dd class="col-sm-9">
-            <%= pp.hourly_rate %>
-            <%= pp.weekly_hours %>
-            <%= l pp.deadline %>
-          </dd>
-        </p>
-      <% end %>
-    </dl>
+<% if current_user&.user? || current_user&.admin? %>
+  <% if @project_proposals.present? %>
+    <div class="display-6 mb-3">Propostas enviadas:</div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th><%= ProfessionalProfile.human_attribute_name(:social_name) %></th>
+          <th><%= ProjectProposal.human_attribute_name(:reason) %></th>
+          <th><%= ProjectProposal.human_attribute_name(:hourly_rate) %></th>
+          <th><%= ProjectProposal.human_attribute_name(:weekly_hours) %></th>
+          <th><%= ProjectProposal.human_attribute_name(:deadline) %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @project_proposals.each do |pp| %>
+          <tr>
+            <td><%= link_to pp.user.professional_profile.social_name, pp.user.professional_profile %></td>
+            <td><%= pp.reason %></td>
+            <td><%= pp.hourly_rate %></td>
+            <td><%= pp.weekly_hours %></td>
+            <td><%= l pp.deadline %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
   <% end %>
 <% end %>

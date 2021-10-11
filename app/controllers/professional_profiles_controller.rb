@@ -1,5 +1,5 @@
 class ProfessionalProfilesController < ApplicationController
-  before_action :require_professional_login
+  before_action :require_professional_login, except: %i[show]
   before_action :professional_must_fill_profile, except: %i[new create show]
 
   def new

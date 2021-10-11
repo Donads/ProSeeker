@@ -39,7 +39,7 @@ describe 'Visitor signs in' do
   context 'as a professional' do
     it 'successfully and has filled their profile' do
       professional = User.create!(email: 'profissional@teste.com.br', password: '123456', role: :professional)
-      profile = ProfessionalProfile.create!(full_name: 'Fulano de Tal', social_name: 'Ciclano',
+      profile = ProfessionalProfile.create!(full_name: 'Fulano de Tal', social_name: 'Ciclano da Silva',
                                             description: 'Busco projetos desafiadores',
                                             professional_qualification: 'Ensino Superior',
                                             professional_experience: '6 anos trabalhando em projetos diversos',

@@ -17,4 +17,4 @@ pt-BR:
     forgot_your_password?: Esqueceu sua senha?
     unlock_instructions: Não recebeu as instruções de desbloqueio?
   messages:
-    are_you_sure: Tem certeza?
+    are_you_sure?: Tem certeza?

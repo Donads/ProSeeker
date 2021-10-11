@@ -23,12 +23,17 @@
               <% if user_signed_in? %>
                 <li class="nav-item"><%= link_to 'Sair', destroy_user_session_path, method: :delete, class: "nav-link" %></li>
                 <li class="nav-item"><span class="nav-link">Logado como '<%= current_user.email %>' (<%= t(current_user.role) %>)</span></li>
-                <li class="nav-item"><%= link_to 'Cadastrar Novo Projeto', new_project_path, class: "nav-link" %></li>
+                <li class="nav-item"><%= link_to 'Projetos', projects_path, class: "nav-link" %></li>
+                <% if current_user.user? || current_user.admin? %>
+                  <li class="nav-item"><%= link_to 'Cadastrar Novo Projeto', new_project_path, class: "nav-link" %></li>
+                <% end %>
+                <% if current_user.professional? || current_user.admin? %>
+                  <li class="nav-item"><%= link_to 'Meu Perfil', current_user.professional_profile, class: "nav-link" %></li>
+                <% end %>
               <% else %>
                 <li class="nav-item"><%= link_to 'Entrar', new_user_session_path, class: "nav-link" %></li>
                 <li class="nav-item"><%= link_to 'Registrar', new_user_registration_path, class: "nav-link" %></li>
               <% end %>
-              <li class="nav-item"><%= link_to 'Projetos', projects_path, class: "nav-link" %></li>
             </ul>
           </div>
         </div>

@@ -2,9 +2,10 @@ require 'rails_helper'
 
 describe 'User creates project' do
   it 'successfully' do
+    future_date = 2.months.from_now.to_date
     user = User.create!(email: 'usuario@teste.com.br', password: '123456', role: :user)
-    project = { title: 'Teste de título', description: 'Teste de descrição', skills: 'Teste de habilidades', max_hourly_rate: 60, open_until: '31/12/2021',
-                attendance_type: :remote_attendance }
+    project = { title: 'Teste de título', description: 'Teste de descrição', skills: 'Teste de habilidades',
+                max_hourly_rate: 60, open_until: future_date, attendance_type: :remote_attendance }
 
     login_as user, scope: :user
     visit root_path
@@ -25,7 +26,7 @@ describe 'User creates project' do
     expect(page).to have_content(project[:description])
     expect(page).to have_content(project[:skills])
     expect(page).to have_content("R$ #{project[:max_hourly_rate]}")
-    expect(page).to have_content(project[:open_until])
+    expect(page).to have_content(I18n.l(future_date))
     expect(page).to have_content(I18n.t(project[:attendance_type]))
     expect(current_path).not_to eq new_project_path
   end
