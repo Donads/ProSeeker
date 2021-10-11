@@ -104,23 +104,24 @@ RSpec.describe ProjectProposal, type: :model do
   end
 
   context 'hourly_rate must not exceed the maximum allowed for the project' do
+    before :context do
+      @project = Project.new(max_hourly_rate: 50)
+    end
+
     it 'and is greater than the maximum' do
-      project = Project.new(max_hourly_rate: 50)
-      proposal = ProjectProposal.new(project: project, hourly_rate: 60)
+      proposal = ProjectProposal.new(project: @project, hourly_rate: 60)
       proposal.valid?
       expect(proposal.errors.full_messages_for(:hourly_rate)).to include('Valor (R$/hora) não pode ser maior que o limite do projeto')
     end
 
     it 'and is equal to the maximum' do
-      project = Project.new(max_hourly_rate: 50)
-      proposal = ProjectProposal.new(project: project, hourly_rate: 50)
+      proposal = ProjectProposal.new(project: @project, hourly_rate: 50)
       proposal.valid?
       expect(proposal.errors.full_messages_for(:hourly_rate)).to eq []
     end
 
     it 'and is lower than the maximum' do
-      project = Project.new(max_hourly_rate: 50)
-      proposal = ProjectProposal.new(project: project, hourly_rate: 40)
+      proposal = ProjectProposal.new(project: @project, hourly_rate: 40)
       proposal.valid?
       expect(proposal.errors.full_messages_for(:hourly_rate)).to eq []
     end

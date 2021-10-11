@@ -1,5 +1,6 @@
 class ProjectsController < ApplicationController
   before_action :professional_must_fill_profile
+  before_action :set_project, only: %i[show]
 
   def new
     @project = Project.new
@@ -21,8 +22,6 @@ class ProjectsController < ApplicationController
   end
 
   def show
-    @project = Project.find(params[:id])
-
     @project_proposals = ProjectProposal.where(project: @project) if @project.user == current_user
 
     @project_proposal = ProjectProposal.find_by(project: @project, user: current_user) || ProjectProposal.new
@@ -32,5 +31,9 @@ class ProjectsController < ApplicationController
 
   def project_params
     params.require(:project).permit(:title, :description, :skills, :max_hourly_rate, :open_until, :attendance_type)
+  end
+
+  def set_project
+    @project = Project.find(params[:id])
   end
 end
