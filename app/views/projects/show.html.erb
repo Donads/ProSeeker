@@ -32,3 +32,46 @@
       <dd class="col-sm-9"><%= @project.user.email %></dd>
     </p>
 </dl>
+
+<% if current_user.professional? || current_user.admin? %>
+  <% if @project_proposal.new_record? %>
+    <div class="display-6 mb-3"><%= current_user.professional_profile.social_name %>, envie sua proposta para esse projeto preenchendo os campos abaixo:</div>
+  <% else %>
+    <div class="display-6 mb-3"><%= current_user.professional_profile.social_name %>, você enviou a seguinte proposta para esse projeto:</div>
+  <% end %>
+
+  <%= form_with model: [@project, @project_proposal] do |f| %>
+    <%= f.label :reason, class: "form-label mb-1" %>
+    <%= f.text_field :reason, class: "form-control mb-3" %>
+    <%= f.label :hourly_rate, class: "form-label mb-1" %>
+    <%= f.number_field :hourly_rate, class: "form-control mb-3" %>
+    <%= f.label :weekly_hours, class: "form-label mb-1" %>
+    <%= f.number_field :weekly_hours, class: "form-control mb-3" %>
+    <%= f.label :deadline, class: "form-label mb-1" %>
+    <%= f.date_field :deadline, class: "form-control mb-3" %>
+    <%= f.submit class: "btn btn-primary mt-3 mb-3" %>
+  <% end %>
+<% end %>
+
+<% if current_user.user? || current_user.admin? %>
+  <% if @project_proposals.any? %>
+    <dl class="row">
+      <dt class="col-sm-3">Nome do Profissional</dt>
+      <dd class="col-sm-9">
+        Valor (R$/hora)
+        Horas/semana
+        Prévia de conclusão
+      </dd>
+      <% @project_proposals.each do |pp| %>
+        <p>
+          <dt class="col-sm-3"><%= link_to pp.user.professional_profile.social_name, project_proposal_path(pp) %></dt>
+          <dd class="col-sm-9">
+            <%= pp.hourly_rate %>
+            <%= pp.weekly_hours %>
+            <%= l pp.deadline %>
+          </dd>
+        </p>
+      <% end %>
+    </dl>
+  <% end %>
+<% end %>

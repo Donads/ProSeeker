@@ -22,6 +22,8 @@ class ProjectsController < ApplicationController
 
   def show
     @project = Project.find(params[:id])
+    @project_proposals = ProjectProposal.where(project: @project)
+    @project_proposal = ProjectProposal.find_by(project: @project, user: current_user) || ProjectProposal.new
   end
 
   private

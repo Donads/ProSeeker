@@ -8,28 +8,28 @@
 
 <%= form_with model: @project do |f| %>
   <p>
-    <%= f.label :title, class: "form-label" %>
-    <%= f.text_field :title, class: "form-control" %>
+    <%= f.label :title, class: "form-label mb-1" %>
+    <%= f.text_field :title, class: "form-control mb-3" %>
   </p>
   <p>
-    <%= f.label :description, class: "form-label" %>
-    <%= f.text_field :description, class: "form-control" %>
+    <%= f.label :description, class: "form-label mb-1" %>
+    <%= f.text_field :description, class: "form-control mb-3" %>
   </p>
   <p>
-    <%= f.label :skills, class: "form-label" %>
-    <%= f.text_field :skills, class: "form-control" %>
+    <%= f.label :skills, class: "form-label mb-1" %>
+    <%= f.text_field :skills, class: "form-control mb-3" %>
   </p>
   <p>
-    <%= f.label :max_hourly_rate, class: "form-label" %>
-    <%= f.text_field :max_hourly_rate, class: "form-control" %>
+    <%= f.label :max_hourly_rate, class: "form-label mb-1" %>
+    <%= f.text_field :max_hourly_rate, class: "form-control mb-3" %>
   </p>
   <p>
-    <%= f.label :open_until, class: "form-label" %>
-    <%= f.date_field :open_until, class: "form-control" %>
+    <%= f.label :open_until, class: "form-label mb-1" %>
+    <%= f.date_field :open_until, class: "form-control mb-3" %>
   </p>
 
   <div class="field">
-    <%= f.label :attendance_type, class: "form-label" %><br />
+    <%= f.label :attendance_type, class: "form-label mb-1" %><br />
     <p>
       <%= f.radio_button :attendance_type, "mixed_attendance" %>
       <%= f.label :attendance_type_mixed_attendance, t('mixed_attendance') %>
@@ -44,5 +44,5 @@
     </p>
   </div>
 
-  <%= f.submit class: "btn btn-primary" %>
+  <%= f.submit class: "btn btn-primary mt-3 mb-3" %>
 <% end %>

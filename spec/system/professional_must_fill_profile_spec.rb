@@ -55,7 +55,7 @@ describe 'Professional must fill profile' do
       expect(page).not_to have_content('Logado como')
     end
 
-    it 'user must sign out and then sign in as professional' do
+    it 'user is signed out and then must sign in as professional' do
       user = User.create!(email: 'usuario@teste.com.br', password: '123456', role: :user)
 
       login_as user, scope: :user

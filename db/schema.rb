@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_09_234205) do
+ActiveRecord::Schema.define(version: 2021_10_10_210822) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -53,6 +53,19 @@ ActiveRecord::Schema.define(version: 2021_10_09_234205) do
     t.index ["user_id"], name: "index_professional_profiles_on_user_id"
   end
 
+  create_table "project_proposals", force: :cascade do |t|
+    t.string "reason"
+    t.decimal "hourly_rate"
+    t.integer "weekly_hours"
+    t.date "deadline"
+    t.integer "project_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "user_id", null: false
+    t.index ["project_id"], name: "index_project_proposals_on_project_id"
+    t.index ["user_id"], name: "index_project_proposals_on_user_id"
+  end
+
   create_table "projects", force: :cascade do |t|
     t.string "title"
     t.string "description"
@@ -82,5 +95,7 @@ ActiveRecord::Schema.define(version: 2021_10_09_234205) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "professional_profiles", "users"
+  add_foreign_key "project_proposals", "projects"
+  add_foreign_key "project_proposals", "users"
   add_foreign_key "projects", "users"
 end

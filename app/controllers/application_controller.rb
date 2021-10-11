@@ -1,6 +1,5 @@
 class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
-  # before_action :professional_must_fill_profile, except: %i[destroy]
 
   add_flash_types :success
 
@@ -12,6 +11,7 @@ class ApplicationController < ActionController::Base
 
   def professional_must_fill_profile
     return unless current_user&.professional?
+
     return if current_user&.professional_profile
 
     flash[:notice] =

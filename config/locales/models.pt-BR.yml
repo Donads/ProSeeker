@@ -8,6 +8,9 @@ pt-BR:
       project:
         one: Projeto
         other: Projetos
+      project_proposal:
+        one: Proposta
+        other: Propostas
       user:
         one: Usuário
         other: Usuários
@@ -26,6 +29,11 @@ pt-BR:
         max_hourly_rate: Valor máximo (R$/hora)
         open_until: Prazo para recebimento de propostas
         attendance_type: Tipo de atuação
+      project_proposal:
+        reason: Motivo
+        hourly_rate: 'Valor (R$/hora)'
+        weekly_hours: 'Disponibilidade de horas por semana'
+        deadline: 'Expectativa de conclusão'
       user:
         email: E-mail
         password: Senha

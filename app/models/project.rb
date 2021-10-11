@@ -1,5 +1,6 @@
 class Project < ApplicationRecord
   belongs_to :user
+  has_many :project_proposals
 
   enum attendance_type: { mixed_attendance: 0, remote_attendance: 1, presential_attendance: 2 }
 
