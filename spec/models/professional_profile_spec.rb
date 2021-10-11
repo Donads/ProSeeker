@@ -38,4 +38,24 @@ RSpec.describe ProfessionalProfile, type: :model do
       expect(profile.errors.full_messages_for(:birth_date)).to include('Data de Nascimento não pode ficar em branco')
     end
   end
+
+  context 'birth_date must be in the past' do
+    it 'and was in the past' do
+      profile = ProfessionalProfile.new(birth_date: Date.yesterday)
+      profile.valid?
+      expect(profile.errors.full_messages_for(:birth_date)).to eq []
+    end
+
+    it 'and was in the present' do
+      profile = ProfessionalProfile.new(birth_date: Date.today)
+      profile.valid?
+      expect(profile.errors.full_messages_for(:birth_date)).to include('Data de Nascimento deve estar no passado')
+    end
+
+    it 'and was in the future' do
+      profile = ProfessionalProfile.new(birth_date: Date.tomorrow)
+      profile.valid?
+      expect(profile.errors.full_messages_for(:birth_date)).to include('Data de Nascimento deve estar no passado')
+    end
+  end
 end
