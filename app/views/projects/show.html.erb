@@ -49,7 +49,12 @@
     <%= f.number_field :weekly_hours, class: "form-control mb-3" %>
     <%= f.label :deadline, class: "form-label mb-1" %>
     <%= f.date_field :deadline, class: "form-control mb-3" %>
+
     <%= f.submit class: "btn btn-primary mt-3 mb-3" %>
+  <% end %>
+  <% unless @project_proposal.new_record? %>
+    <%= button_to 'Cancelar Proposta', project_proposal_path(@project_proposal), data: { confirm: t('messages.are_you_sure') },
+    method: :delete, class: "btn btn-outline-danger mt-3 mb-3" %>
   <% end %>
 <% end %>
 

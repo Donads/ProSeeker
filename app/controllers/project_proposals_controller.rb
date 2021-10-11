@@ -22,6 +22,17 @@ class ProjectProposalsController < ApplicationController
     end
   end
 
+  def destroy
+    @project_proposal = ProjectProposal.find(params[:id])
+    @project = @project_proposal.project
+
+    if @project_proposal.destroy
+      redirect_to @project, success: 'Proposta cancelada com sucesso!'
+    else
+      render 'projects/show'
+    end
+  end
+
   private
 
   def secure_params

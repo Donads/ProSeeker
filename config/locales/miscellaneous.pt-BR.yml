@@ -1,4 +1,8 @@
 pt-BR:
+  buttons:
+    go_back: Voltar
+    login: Entrar
+    signup: Registrar
   links:
     confirmation_instructions: Não recebeu as instruções de confirmação?
     destroy: Destruir
@@ -12,7 +16,5 @@ pt-BR:
     signup: Registrar
     forgot_your_password?: Esqueceu sua senha?
     unlock_instructions: Não recebeu as instruções de desbloqueio?
-  buttons:
-    go_back: Voltar
-    login: Entrar
-    signup: Registrar
+  messages:
+    are_you_sure: Tem certeza?
