@@ -59,6 +59,26 @@ RSpec.describe Project, type: :model do
     end
   end
 
+  context 'open_until must be in the future' do
+    it 'and was in the past' do
+      project = Project.new(open_until: Date.yesterday)
+      project.valid?
+      expect(project.errors.full_messages_for(:open_until)).to include('Prazo para recebimento de propostas não pode estar no passado')
+    end
+
+    it 'and was in the present' do
+      project = Project.new(open_until: Date.today)
+      project.valid?
+      expect(project.errors.full_messages_for(:open_until)).to include('Prazo para recebimento de propostas não pode estar no passado')
+    end
+
+    it 'and was in the future' do
+      project = Project.new(open_until: Date.tomorrow)
+      project.valid?
+      expect(project.errors.full_messages_for(:open_until)).to eq []
+    end
+  end
+
   context 'validates attendance_type' do
     it 'mixed_attendance is valid' do
       project = Project.new(attendance_type: :mixed_attendance)

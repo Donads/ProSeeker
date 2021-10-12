@@ -103,9 +103,32 @@ RSpec.describe ProjectProposal, type: :model do
     end
   end
 
+  context 'proposal must be done while project is open' do
+    it 'and was done after the closing day' do
+      project = Project.new(open_until: Date.yesterday)
+      proposal = ProjectProposal.new(project: project)
+      proposal.valid?
+      expect(proposal.errors.full_messages_for(:project_id)).to include('Projeto não está aberto')
+    end
+
+    it 'and was done during the closing day' do
+      project = Project.new(open_until: Date.today)
+      proposal = ProjectProposal.new(project: project)
+      proposal.valid?
+      expect(proposal.errors.full_messages_for(:project_id)).to eq []
+    end
+
+    it 'and was done before the closing day' do
+      project = Project.new(open_until: Date.tomorrow)
+      proposal = ProjectProposal.new(project: project)
+      proposal.valid?
+      expect(proposal.errors.full_messages_for(:project_id)).to eq []
+    end
+  end
+
   context 'hourly_rate must not exceed the maximum allowed for the project' do
     before :context do
-      @project = Project.new(max_hourly_rate: 50)
+      @project = Project.new(max_hourly_rate: 50, open_until: Date.tomorrow)
     end
 
     it 'and is greater than the maximum' do

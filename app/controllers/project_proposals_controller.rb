@@ -4,14 +4,15 @@ class ProjectProposalsController < ApplicationController
 
   def create
     @project_proposal = ProjectProposal.new(secure_params)
-    project = Project.find(params[:project_id])
-    @project_proposal.project = project
+    @project = Project.find(params[:project_id])
+    @project_proposal.project = @project
     @project_proposal.user = current_user
 
     if @project_proposal.save
       redirect_to @project_proposal.project, success: 'Proposta enviada com sucesso!'
     else
-      render 'projects/show'
+      redirect_to @project, warning: 'Erro ao inserir a proposta!'
+      # render 'projects/show'
     end
   end
 
@@ -19,7 +20,7 @@ class ProjectProposalsController < ApplicationController
     if @project_proposal.update(secure_params)
       redirect_to @project, success: 'Proposta atualizada com sucesso!'
     else
-      # TODO: Find out why the flash error validation doesn't reach this part
+      # TODO: Find out why the flash error validation doesn't reach this part (update, create and maybe destroy)
       redirect_to @project, warning: 'Erro ao atualizar a proposta!'
       # render 'projects/show'
     end

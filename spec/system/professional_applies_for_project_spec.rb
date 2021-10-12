@@ -58,7 +58,7 @@ describe 'Professional applies for project' do
     click_link 'Projetos'
     click_link 'Projeto de E-commerce'
     fill_in 'Valor (R$/hora)', with: 65.8
-    fill_in 'Expectativa de conclusão', with: future_date - 10
+    fill_in 'Expectativa de conclusão', with: future_date - 10.days
     click_button 'Atualizar Proposta'
 
     expect(current_path).to eq project_path(project)
@@ -67,7 +67,7 @@ describe 'Professional applies for project' do
     expect(page).to have_field('Motivo', with: 'Gosto muito de trabalhar com e-commerces e tenho experiência')
     expect(page).to have_field('Valor (R$/hora)', with: 65.8)
     expect(page).to have_field('Disponibilidade de horas por semana', with: 30)
-    expect(page).to have_field('Expectativa de conclusão', with: future_date - 10)
+    expect(page).to have_field('Expectativa de conclusão', with: future_date - 10.days)
   end
 
   it 'and removes their proposal' do

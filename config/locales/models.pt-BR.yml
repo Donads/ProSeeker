@@ -23,17 +23,21 @@ pt-BR:
         professional_qualification: Qualificação Profissional
         professional_experience: Experiência Profissional
       project:
-        title: Título
+        attendance_type: Tipo de atuação
         description: Descrição
-        skills: Habilidades desejadas
         max_hourly_rate: Valor máximo (R$/hora)
         open_until: Prazo para recebimento de propostas
-        attendance_type: Tipo de atuação
+        skills: Habilidades desejadas
+        status: Situação
+        statuses:
+        title: Título
       project_proposal:
+        deadline: Expectativa de conclusão
+        hourly_rate: Valor (R$/hora)
+        project_id: Projeto
         reason: Motivo
-        hourly_rate: 'Valor (R$/hora)'
-        weekly_hours: 'Disponibilidade de horas por semana'
-        deadline: 'Expectativa de conclusão'
+        status: Situação
+        weekly_hours: Disponibilidade de horas por semana
       user:
         email: E-mail
         password: Senha
@@ -46,3 +50,9 @@ pt-BR:
   mixed_attendance: Atuação Mista
   presential_attendance: Atuação Presencial
   remote_attendance: Atuação Remota
+  pending: Pendente
+  approved: Aprovada
+  rejected: Recusada
+  open: Aberto
+  closed: Fechado
+  finished: Finalizado

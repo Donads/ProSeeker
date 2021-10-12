@@ -10,11 +10,16 @@ class ProjectProposal < ApplicationRecord
 
   validate :date_cannot_be_in_the_past
   validate :hourly_rate_cannot_exceed_maximum_allowed
+  validate :check_project_status
 
   private
 
   def date_cannot_be_in_the_past
     errors.add(:deadline, 'não pode estar no passado') if deadline && deadline <= Date.today
+  end
+
+  def check_project_status
+    errors.add(:project_id, 'não está aberto') if project && project.open_until < Date.today
   end
 
   def hourly_rate_cannot_exceed_maximum_allowed
