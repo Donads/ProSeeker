@@ -3,8 +3,8 @@ Rails.application.routes.draw do
 
   root to: 'home#index'
 
-  resources :projects, only: %i[index new create show] do
-    resources :project_proposals, only: %i[index create new show] # shallow nesting breaks form_with on project show page
+  resources :projects, only: %i[index new create show edit update] do
+    resources :project_proposals, only: %i[index new create show] # shallow nesting breaks form_with on project show page
   end
   resources :project_proposals, only: %i[edit update destroy] do
     post 'approve', on: :member

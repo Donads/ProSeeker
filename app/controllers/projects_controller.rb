@@ -1,6 +1,7 @@
 class ProjectsController < ApplicationController
+  before_action :require_user_login, except: %i[index show]
   before_action :professional_must_fill_profile
-  before_action :set_project, only: %i[show]
+  before_action :set_project, only: %i[show edit update]
 
   def new
     @project = Project.new
@@ -11,7 +12,7 @@ class ProjectsController < ApplicationController
     @project.user = current_user
 
     if @project.save
-      redirect_to project_path(@project), success: 'Projeto cadastrado com sucesso!'
+      redirect_to @project, success: 'Projeto cadastrado com sucesso!'
     else
       render :new
     end
@@ -27,10 +28,29 @@ class ProjectsController < ApplicationController
     @project_proposal = ProjectProposal.find_by(project: @project, user: current_user) || ProjectProposal.new
   end
 
+  def edit
+    redirect_to @project, alert: 'Somente o autor do projeto pode editá-lo' unless @project.user == current_user
+  end
+
+  def update
+    if @project.update(project_params)
+      redirect_to @project, success: 'Projeto atualizado com sucesso!'
+    else
+      render :edit
+    end
+  end
+
   private
 
   def project_params
     params.require(:project).permit(:title, :description, :skills, :max_hourly_rate, :open_until, :attendance_type)
+  end
+
+  def require_user_login
+    unless current_user&.user? || current_user&.admin?
+      sign_out current_user
+      redirect_to new_user_session_path, notice: 'Acesso restrito a usuários autenticados.'
+    end
   end
 
   def set_project

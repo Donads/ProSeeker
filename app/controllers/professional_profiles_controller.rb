@@ -28,9 +28,8 @@ class ProfessionalProfilesController < ApplicationController
   end
 
   def require_professional_login
-    sign_out current_user if current_user&.user?
-
     unless current_user&.professional? || current_user&.admin?
+      sign_out current_user
       redirect_to new_user_session_path, notice: 'Acesso restrito a profissionais autenticados.'
     end
   end
