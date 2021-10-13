@@ -2,6 +2,9 @@
 pt-BR:
   activerecord:
     models:
+      feedback:
+        one: Avaliação
+        other: Avaliações
       professional_profile:
         one: Perfil Profissional
         other: Perfis Profissionais
@@ -15,6 +18,10 @@ pt-BR:
         one: Usuário
         other: Usuários
     attributes:
+      feedback:
+        score: Nota
+        user_feedback: Avaliação do usuário
+        project_feedback: Avaliação do projeto
       professional_profile:
         full_name: Nome Completo
         social_name: Nome Social

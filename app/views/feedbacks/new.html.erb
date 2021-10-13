@@ -1,0 +1,40 @@
+<h1 class="display-5 mb-4">Avaliação</h1>
+
+<%= form_with model: @feedback do |f| %>
+  <div class="form-check-group mb-3">
+  Escolha uma nota:
+    <div class="form-check form-check-inline">
+      <%= f.radio_button :score, "1", class: "form-check-input" %>
+      <%= f.label :score_1, "1", class: "form-check-label" %>
+    </div>
+    <div class="form-check form-check-inline">
+      <%= f.radio_button :score, "2", class: "form-check-input" %>
+      <%= f.label :score_2, "2", class: "form-check-label" %>
+    </div>
+    <div class="form-check form-check-inline">
+      <%= f.radio_button :score, "3", class: "form-check-input" %>
+      <%= f.label :score_3, "3", class: "form-check-label" %>
+    </div>
+    <div class="form-check form-check-inline">
+      <%= f.radio_button :score, "4", class: "form-check-input" %>
+      <%= f.label :score_4, "4", class: "form-check-label" %>
+    </div>
+    <div class="form-check form-check-inline">
+      <%= f.radio_button :score, "5", class: "form-check-input" %>
+      <%= f.label :score_5, "5", class: "form-check-label" %>
+    </div>
+  </div>
+
+  <div class="form-floating mb-3">
+    <%= f.text_field :user_feedback, placeholder: :user_feedback, class: "form-control" %>
+    <%= f.label :user_feedback %>
+  </div>
+  <div class="form-floating mb-3">
+    <%= f.text_field :project_feedback, placeholder: :project_feedback, class: "form-control" %>
+    <%= f.label :project_feedback %>
+  </div>
+
+  <%= f.submit class: "btn btn-primary mt-3 mb-3" %>
+<% end %>
+
+<%= link_to t('links.go_back'), :back, class: "btn btn-outline-primary mt-1 mb-1" %>

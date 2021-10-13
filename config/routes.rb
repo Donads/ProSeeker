@@ -8,11 +8,14 @@ Rails.application.routes.draw do
     post 'close', on: :member
     post 'finish', on: :member
   end
+
   resources :project_proposals, only: %i[edit update destroy] do
     post 'approve', on: :member
     post 'reject', on: :member
+    get 'rate', on: :member
   end
   patch '/projects/:project_id/project_proposals/:id', to: 'project_proposals#update'
 
-  resources :professional_profiles, only: %i[new create show]
+  resources :professional_profiles, only: %i[new create edit update show]
+  resources :feedbacks, only: %i[new create]
 end

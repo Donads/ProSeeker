@@ -1,0 +1,28 @@
+<%= form_with model: @professional_profile do |f| %>
+  <div class="form-floating mb-3">
+    <%= f.text_field :full_name, placeholder: :full_name, class: "form-control" %>
+    <%= f.label :full_name %>
+  </div>
+  <div class="form-floating mb-3">
+    <%= f.text_field :social_name, placeholder: :social_name, class: "form-control" %>
+    <%= f.label :social_name %>
+  </div>
+  <div class="form-floating mb-3">
+    <%= f.text_field :description, placeholder: :description, class: "form-control" %>
+    <%= f.label :description %>
+  </div>
+  <div class="form-floating mb-3">
+    <%= f.text_field :professional_qualification, placeholder: :professional_qualification, class: "form-control" %>
+    <%= f.label :professional_qualification %>
+  </div>
+  <div class="form-floating mb-3">
+    <%= f.text_field :professional_experience, placeholder: :professional_experience, class: "form-control" %>
+    <%= f.label :professional_experience %>
+  </div>
+  <div class="form-floating mb-3">
+    <%= f.date_field :birth_date, placeholder: :birth_date, class: "form-control" %>
+    <%= f.label :birth_date %>
+  </div>
+
+  <%= f.submit class: "btn btn-primary mt-3 mb-3" %>
+<% end %>

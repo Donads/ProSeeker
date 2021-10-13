@@ -7,29 +7,29 @@
 <% end %>
 
 <%= form_with model: @project do |f| %>
-  <p>
-    <%= f.label :title, class: "form-label mb-1" %>
-    <%= f.text_field :title, class: "form-control mb-3" %>
-  </p>
-  <p>
-    <%= f.label :description, class: "form-label mb-1" %>
-    <%= f.text_field :description, class: "form-control mb-3" %>
-  </p>
-  <p>
-    <%= f.label :skills, class: "form-label mb-1" %>
-    <%= f.text_field :skills, class: "form-control mb-3" %>
-  </p>
-  <p>
-    <%= f.label :max_hourly_rate, class: "form-label mb-1" %>
-    <%= f.number_field :max_hourly_rate, step: 0.5, class: "form-control mb-3" %>
-  </p>
-  <p>
-    <%= f.label :open_until, class: "form-label mb-1" %>
-    <%= f.date_field :open_until, class: "form-control mb-3" %>
-  </p>
+  <div class="form-floating mb-3">
+    <%= f.text_field :title, placeholder: :title, class: "form-control" %>
+    <%= f.label :title %>
+  </div>
+  <div class="form-floating mb-3">
+    <%= f.text_field :description, placeholder: :description, class: "form-control" %>
+    <%= f.label :description %>
+  </div>
+  <div class="form-floating mb-3">
+    <%= f.text_field :skills, placeholder: :skills, class: "form-control" %>
+    <%= f.label :skills %>
+  </div>
+  <div class="form-floating mb-3">
+    <%= f.number_field :max_hourly_rate, placeholder: :max_hourly_rate, step: 0.5, class: "form-control" %>
+    <%= f.label :max_hourly_rate %>
+  </div>
+  <div class="form-floating mb-3">
+    <%= f.date_field :open_until, placeholder: :open_until, class: "form-control" %>
+    <%= f.label :open_until %>
+  </div>
 
   <div class="field">
-    <%= f.label :attendance_type, class: "form-label mb-1" %><br />
+    <%= f.label :attendance_type %><br />
     <p>
       <%= f.radio_button :attendance_type, "mixed_attendance" %>
       <%= f.label :attendance_type_mixed_attendance, t('mixed_attendance') %>

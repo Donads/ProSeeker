@@ -2,7 +2,7 @@ class ProjectProposal < ApplicationRecord
   belongs_to :project
   belongs_to :user
 
-  enum status: { pending: 10, approved: 20, rejected: 30 }
+  enum status: { pending: 10, approved: 20, rejected: 30, rated: 40 }
 
   validates :reason, :hourly_rate, :weekly_hours, :deadline, :status, presence: true
   validates :hourly_rate, :weekly_hours, numericality: { greater_than: 0 }

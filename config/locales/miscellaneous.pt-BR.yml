@@ -1,8 +1,10 @@
 pt-BR:
   buttons:
+    cancel_my_account: Cancelar minha conta
     go_back: Voltar
     login: Entrar
     signup: Registrar
+    update: Atualizar
   links:
     confirmation_instructions: Não recebeu as instruções de confirmação?
     close: Fechar
@@ -18,5 +20,6 @@ pt-BR:
     signup: Registrar
     forgot_your_password?: Esqueceu sua senha?
     unlock_instructions: Não recebeu as instruções de desbloqueio?
+    update: Atualizar
   messages:
     are_you_sure?: Tem certeza?

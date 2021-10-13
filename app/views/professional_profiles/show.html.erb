@@ -7,29 +7,31 @@
 <h1 class="display-5 mb-4">Perfil Completo</h1>
 
 <dl class="row">
-    <p>
-      <dt class="col-sm-3"><%= ProfessionalProfile.human_attribute_name(:full_name) %>:</dt>
-      <dd class="col-sm-9"><%= @professional_profile.full_name %></dd>
-    </p>
-    <p>
-      <dt class="col-sm-3"><%= ProfessionalProfile.human_attribute_name(:social_name) %>:</dt>
-      <dd class="col-sm-9"><%= @professional_profile.social_name %></dd>
-    </p>
-    <p>
-      <dt class="col-sm-3"><%= ProfessionalProfile.human_attribute_name(:description) %>:</dt>
-      <dd class="col-sm-9"><%= @professional_profile.description %></dd>
-    </p>
-    <p>
-      <dt class="col-sm-3"><%= ProfessionalProfile.human_attribute_name(:professional_qualification) %>:</dt>
-      <dd class="col-sm-9"><%= @professional_profile.professional_qualification %></dd>
-    </p>
-    <p>
-      <dt class="col-sm-3"><%= ProfessionalProfile.human_attribute_name(:professional_experience) %>:</dt>
-      <dd class="col-sm-9"><%= @professional_profile.professional_experience %></dd>
-    </p>
-    <p>
-      <dt class="col-sm-3"><%= ProfessionalProfile.human_attribute_name(:birth_date) %>:</dt>
-      <dd class="col-sm-9"><%= l @professional_profile.birth_date %></dd>
-    </p>
+  <p>
+    <dt class="col-sm-3"><%= ProfessionalProfile.human_attribute_name(:full_name) %>:</dt>
+    <dd class="col-sm-9"><%= @professional_profile.full_name %></dd>
+  </p>
+  <p>
+    <dt class="col-sm-3"><%= ProfessionalProfile.human_attribute_name(:social_name) %>:</dt>
+    <dd class="col-sm-9"><%= @professional_profile.social_name %></dd>
+  </p>
+  <p>
+    <dt class="col-sm-3"><%= ProfessionalProfile.human_attribute_name(:description) %>:</dt>
+    <dd class="col-sm-9"><%= @professional_profile.description %></dd>
+  </p>
+  <p>
+    <dt class="col-sm-3"><%= ProfessionalProfile.human_attribute_name(:professional_qualification) %>:</dt>
+    <dd class="col-sm-9"><%= @professional_profile.professional_qualification %></dd>
+  </p>
+  <p>
+    <dt class="col-sm-3"><%= ProfessionalProfile.human_attribute_name(:professional_experience) %>:</dt>
+    <dd class="col-sm-9"><%= @professional_profile.professional_experience %></dd>
+  </p>
+  <p>
+    <dt class="col-sm-3"><%= ProfessionalProfile.human_attribute_name(:birth_date) %>:</dt>
+    <dd class="col-sm-9"><%= l @professional_profile.birth_date %></dd>
+  </p>
 </dl>
 
+<%= link_to t('links.edit'), edit_professional_profile_path(@professional_profile), class: "btn btn-primary mt-3 mb-3" %>
+<%= link_to t('links.go_back'), :back, class: "btn btn-outline-primary mt-1 mb-1" %>

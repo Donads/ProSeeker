@@ -32,21 +32,29 @@
 </dl>
 
 <% if current_user&.professional? || current_user&.admin? %>
-  <% if @project_proposal.new_record? %>
+  <% if @project_proposal.new_record? && @project.currently_open? %>
     <div class="display-6 mb-3"><%= current_user.professional_profile.social_name %>, envie sua proposta para esse projeto preenchendo os campos abaixo:</div>
   <% else %>
     <div class="display-6 mb-3"><%= current_user.professional_profile.social_name %>, você enviou a seguinte proposta para esse projeto:</div>
   <% end %>
 
   <%= form_with model: [@project, @project_proposal] do |f| %>
-    <%= f.label :reason, class: "form-label mb-1" %>
-    <%= f.text_field :reason, class: "form-control mb-3" %>
-    <%= f.label :hourly_rate, class: "form-label mb-1" %>
-    <%= f.number_field :hourly_rate, class: "form-control mb-3" %>
-    <%= f.label :weekly_hours, class: "form-label mb-1" %>
-    <%= f.number_field :weekly_hours, class: "form-control mb-3" %>
-    <%= f.label :deadline, class: "form-label mb-1" %>
-    <%= f.date_field :deadline, class: "form-control mb-3" %>
+    <div class="form-floating mb-3">
+      <%= f.text_field :reason, placeholder: :reason, class: "form-control" %>
+      <%= f.label :reason %>
+    </div>
+    <div class="form-floating mb-3">
+      <%= f.number_field :hourly_rate, placeholder: :hourly_rate, class: "form-control" %>
+      <%= f.label :hourly_rate %>
+    </div>
+    <div class="form-floating mb-3">
+      <%= f.number_field :weekly_hours, placeholder: :weekly_hours, class: "form-control" %>
+      <%= f.label :weekly_hours %>
+    </div>
+    <div class="form-floating mb-3">
+      <%= f.date_field :deadline, placeholder: :deadline, class: "form-control" %>
+      <%= f.label :deadline %>
+    </div>
 
     <% if @project.currently_open? %>
       <%= f.submit class: "btn btn-primary mt-3 mb-3" %>
@@ -85,6 +93,7 @@
           <th><%= ProjectProposal.human_attribute_name(:deadline) %></th>
           <th></th>
           <th></th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -98,9 +107,9 @@
             <% case %>
             <% when pp.pending? %>
               <td class="approve-button"><%= button_to 'Aprovar', approve_project_proposal_path(pp),
-                      data: { confirm: t('messages.are_you_sure?') }, id: pp.id, class: "btn btn-outline-success btn-sm" %></td>
+                  data: { confirm: t('messages.are_you_sure?') }, id: pp.id, class: "btn btn-outline-success btn-sm" %></td>
               <td class="reject-button"><%= button_to 'Rejeitar', reject_project_proposal_path(pp),
-                      data: { confirm: t('messages.are_you_sure?') }, id: pp.id, class: "btn btn-outline-danger btn-sm" %></td>
+                  data: { confirm: t('messages.are_you_sure?') }, id: pp.id, class: "btn btn-outline-danger btn-sm" %></td>
             <% when pp.approved? %>
               <td class="approve-button"><%= button_to 'Aprovar', '#', id: pp.id, class: "btn btn-success disabled btn-sm" %></td>
               <td class="reject-button"><%= button_to 'Rejeitar', '#', id: pp.id, class: "btn btn-outline-danger disabled btn-sm" %></td>
@@ -108,9 +117,21 @@
               <td class="approve-button"><%= button_to 'Aprovar', '#', id: pp.id, class: "btn btn-outline-success disabled btn-sm" %></td>
               <td class="reject-button"><%= button_to 'Rejeitar', '#', id: pp.id, class: "btn btn-danger disabled btn-sm" %></td>
             <% end %>
+            <% if @project.finished? %>
+              <% if pp.rated? %>
+                <td class="feedback-button"><%= link_to 'Avaliar', '#', id: pp.id, class: "btn btn-info disabled btn-sm" %></td>
+              <% else %>
+                <td class="feedback-button"><%= link_to 'Avaliar', new_feedback_path(project: @project, feedback_receiver: pp.user),
+                    id: pp.id, class: "btn btn-outline-info btn-sm" %></td>
+              <% end %>
+            <% else %>
+              <td></td>
+            <% end %>
           </tr>
         <% end %>
       </tbody>
     </table>
   <% end %>
 <% end %>
+
+<%= link_to t('links.go_back'), :back, class: "btn btn-outline-primary mt-1 mb-1" %>

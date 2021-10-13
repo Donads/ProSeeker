@@ -67,10 +67,10 @@ class ProjectsController < ApplicationController
   end
 
   def require_user_login
-    unless current_user&.user? || current_user&.admin?
-      sign_out current_user
-      redirect_to new_user_session_path, notice: 'Acesso restrito a usuários autenticados.'
-    end
+    return if current_user&.user? || current_user&.admin?
+
+    sign_out current_user
+    redirect_to new_user_session_path, notice: 'Acesso restrito a usuários autenticados.'
   end
 
   def set_project

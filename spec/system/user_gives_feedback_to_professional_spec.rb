@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-describe 'User marks project as finished' do
-  context 'with approved proposals' do
+describe 'User gives feedback to professional' do
+  context 'after the project is finished' do
     it 'successfully' do
       birth_date = 30.years.ago.to_date
       future_date = 2.months.from_now.to_date
@@ -23,21 +23,29 @@ describe 'User marks project as finished' do
                                   professional_qualification: 'Ensino Superior',
                                   professional_experience: '15 anos trabalhando em projetos diversos',
                                   birth_date: birth_date, user: professional_2)
-      ProjectProposal.create!(reason: 'Gosto muito de trabalhar com e-commerces e tenho experiência',
-                              hourly_rate: 70.0, weekly_hours: 30, deadline: future_date, project: project,
-                              user: professional_1, status: :approved)
-      ProjectProposal.create!(reason: 'Domino o desenvolvimento de projetos web',
-                              hourly_rate: 80.0, weekly_hours: 40, deadline: future_date, project: project,
-                              user: professional_2, status: :approved)
-      project.closed!
+      proposal_1 = ProjectProposal.create!(reason: 'Gosto muito de trabalhar com e-commerces e tenho experiência',
+                                           hourly_rate: 70.0, weekly_hours: 30, deadline: future_date, project: project,
+                                           user: professional_1, status: :approved)
+      proposal_2 = ProjectProposal.create!(reason: 'Domino o desenvolvimento de projetos web',
+                                           hourly_rate: 80.0, weekly_hours: 40, deadline: future_date, project: project,
+                                           user: professional_2, status: :approved)
+      project.finished!
+      feedback = { score: 5, user_feedback: 'Profissional dedicado' }
 
       login_as user, scope: :user
       visit root_path
       click_link 'Projetos'
       click_link 'Projeto de E-commerce'
-      click_link 'Finalizar'
+      find('tr[project-proposal-id="2"]').click_link('Avaliar')
+      fill_in 'Avaliação do usuário', with: feedback[:user_feedback]
+      choose '4'
+      click_button 'Criar Avaliação'
 
       expect(current_path).to eq project_path(project)
+      expect(page).to have_css('div', text: 'Avaliação enviada com sucesso!')
+      expect(proposal_1.reload.status).to eq 'approved'
+      expect(proposal_2.reload.status).to eq 'rated'
+      expect(professional_2.reload.feedback.average_score?).to eq 4
       expect(page).to have_content('Situação: Finalizado')
       expect(page).to have_link('Ciclano da Silva')
       expect(page).to have_content('Gosto muito de trabalhar com e-commerces e tenho experiência')

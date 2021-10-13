@@ -3,7 +3,7 @@ class ProjectProposalsController < ApplicationController
   before_action :set_project, only: %i[update destroy approve reject]
 
   def create
-    @project_proposal = ProjectProposal.new(secure_params)
+    @project_proposal = ProjectProposal.new(project_proposal_params)
     @project = Project.find(params[:project_id])
     @project_proposal.project = @project
     @project_proposal.user = current_user
@@ -17,7 +17,7 @@ class ProjectProposalsController < ApplicationController
   end
 
   def update
-    if @project_proposal.update(secure_params)
+    if @project_proposal.update(project_proposal_params)
       redirect_to @project, success: 'Proposta atualizada com sucesso!'
     else
       # TODO: Find out why the flash error validation doesn't reach this part (update, create and maybe destroy)
@@ -55,7 +55,7 @@ class ProjectProposalsController < ApplicationController
 
   private
 
-  def secure_params
+  def project_proposal_params
     params.require(:project_proposal).permit(:reason, :hourly_rate, :weekly_hours, :deadline)
   end
 

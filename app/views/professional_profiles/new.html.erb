@@ -1,23 +1,5 @@
 <h1 class="display-5 mb-4">Preencha seu perfil profissional</h1>
 
-<%= form_with model: @professional_profile do |f| %>
-  <%= f.label :full_name, class: "form-label mb-1" %>
-  <%= f.text_field :full_name, class: "form-control mb-3" %>
+<%= render 'form' %>
 
-  <%= f.label :social_name, class: "form-label mb-1" %>
-  <%= f.text_field :social_name, class: "form-control mb-3" %>
-
-  <%= f.label :description, class: "form-label mb-1" %>
-  <%= f.text_field :description, class: "form-control mb-3" %>
-
-  <%= f.label :professional_qualification, class: "form-label mb-1" %>
-  <%= f.text_field :professional_qualification, class: "form-control mb-3" %>
-
-  <%= f.label :professional_experience, class: "form-label mb-1" %>
-  <%= f.text_field :professional_experience, class: "form-control mb-3" %>
-
-  <%= f.label :birth_date, class: "form-label mb-1" %>
-  <%= f.date_field :birth_date, class: "form-control mb-3" %>
-
-  <%= f.submit class: "btn btn-primary mt-3 mb-3" %>
-<% end %>
+<%= link_to t('links.go_back'), :back, class: "btn btn-outline-primary mt-1 mb-1" %>

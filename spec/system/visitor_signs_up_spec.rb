@@ -9,7 +9,7 @@ describe 'Visitor signs up' do
       click_link 'Registrar'
       within 'form' do
         fill_in 'E-mail', with: user[:email]
-        fill_in 'Senha', with: user[:password]
+        fill_in 'Senha (Mínimo', with: user[:password]
         fill_in 'Confirmação de Senha', with: user[:password]
         choose 'user_role_user'
         click_button 'Registrar'
@@ -31,7 +31,7 @@ describe 'Visitor signs up' do
       click_link 'Registrar'
       within 'form' do
         fill_in 'E-mail', with: professional[:email]
-        fill_in 'Senha', with: professional[:password]
+        fill_in 'Senha (Mínimo', with: professional[:password]
         fill_in 'Confirmação de Senha', with: professional[:password]
         choose 'user_role_professional'
         click_button 'Registrar'
@@ -54,7 +54,7 @@ describe 'Visitor signs up' do
     click_link 'Registrar'
     within 'form' do
       fill_in 'E-mail', with: invalid_user[:email]
-      fill_in 'Senha', with: invalid_user[:password]
+      fill_in 'Senha (Mínimo', with: invalid_user[:password]
       fill_in 'Confirmação de Senha', with: invalid_user[:password_confirmation]
       click_button 'Registrar'
     end

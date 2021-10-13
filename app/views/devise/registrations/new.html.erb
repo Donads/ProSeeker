@@ -3,22 +3,20 @@
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
   <%= render "devise/shared/error_messages", resource: resource %>
 
-  <div class="field">
-    <%= f.label :email, class: "form-label mb-1" %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control mb-3" %>
+  <div class="form-floating mb-3">
+    <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: :email, class: "form-control" %>
+    <%= f.label :email %><br />
   </div>
 
-  <div class="field">
-    <%= f.label :password, class: "form-label mb-1" %>
-    <% if @minimum_password_length %>
-    <em>(<%= @minimum_password_length %> characters minimum)</em>
-    <% end %><br />
-    <%= f.password_field :password, autocomplete: "new-password", class: "form-control mb-3" %>
+  <div class="form-floating mb-3">
+    <%= f.password_field :password, autocomplete: "new-password", placeholder: :password, class: "form-control" %>
+    <%= f.label :password, "#{User.human_attribute_name(:password)} \
+        (Mínimo de #{@minimum_password_length} caracteres)" if @minimum_password_length %><br />
   </div>
 
-  <div class="field">
-    <%= f.label :password_confirmation, class: "form-label mb-1" %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control mb-3" %>
+  <div class="form-floating mb-3">
+    <%= f.password_field :password_confirmation, autocomplete: "new-password", placeholder: :password_confirmation, class: "form-control" %>
+    <%= f.label :password_confirmation %><br />
   </div>
 
   <div class="field">
