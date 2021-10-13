@@ -36,10 +36,14 @@ describe 'User views project proposals' do
       click_link 'Projeto de E-commerce'
 
       expect(current_path).to eq project_path(project)
+      expect(page).to have_content('Situação: Aberto')
+      expect(page).to have_link('Editar')
+      expect(page).to have_link('Fechar')
       expect(page).to have_link('Ciclano da Silva')
       expect(page).to have_content('Gosto muito de trabalhar com e-commerces e tenho experiência')
       expect(page).to have_link('Antonio Nunes')
       expect(page).to have_content('Domino o desenvolvimento de projetos web')
+      expect(page).not_to have_link('Finalizar')
     end
 
     it 'and views the professional profile of the second proposal' do

@@ -9,6 +9,6 @@ class ProfessionalProfile < ApplicationRecord
   private
 
   def birth_date_must_be_in_the_past
-    errors.add(:birth_date, 'deve estar no passado') if birth_date && birth_date >= Date.today
+    errors.add(:birth_date, 'deve estar no passado') if birth_date && birth_date >= Date.current
   end
 end

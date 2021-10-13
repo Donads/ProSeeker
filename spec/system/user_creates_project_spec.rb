@@ -22,12 +22,16 @@ describe 'User creates project' do
 
     expect(current_path).to eq project_path(Project.last)
     expect(page).to have_content('Projeto cadastrado com sucesso!')
+    expect(page).to have_content('Situação: Aberto')
+    expect(page).to have_link('Editar')
+    expect(page).to have_link('Fechar')
     expect(page).to have_content(project[:title])
     expect(page).to have_content(project[:description])
     expect(page).to have_content(project[:skills])
     expect(page).to have_content("R$ #{project[:max_hourly_rate]}")
     expect(page).to have_content(I18n.l(future_date))
     expect(page).to have_content(I18n.t(project[:attendance_type]))
+    expect(page).not_to have_link('Finalizar')
     expect(current_path).not_to eq new_project_path
   end
 

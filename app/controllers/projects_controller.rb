@@ -1,7 +1,7 @@
 class ProjectsController < ApplicationController
   before_action :require_user_login, except: %i[index show]
   before_action :professional_must_fill_profile
-  before_action :set_project, only: %i[show edit update]
+  before_action :set_project, only: %i[show edit update close finish]
 
   def new
     @project = Project.new
@@ -38,6 +38,26 @@ class ProjectsController < ApplicationController
     else
       render :edit
     end
+  end
+
+  def close
+    unless @project.open?
+      return redirect_to @project,
+                         alert: 'Só é possível fechar projetos em aberto'
+    end
+
+    @project.closed!
+    redirect_to @project, success: 'Proposta fechada com sucesso!'
+  end
+
+  def finish
+    unless @project.closed?
+      return redirect_to @project,
+                         alert: 'Só é possível finalizar projetos fechados'
+    end
+
+    @project.finished!
+    redirect_to @project, success: 'Proposta finalizada com sucesso!'
   end
 
   private

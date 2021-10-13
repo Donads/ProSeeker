@@ -59,7 +59,7 @@ RSpec.describe Project, type: :model do
     end
   end
 
-  context 'open_until must be in the future' do
+  context 'open_until must not be in the past' do
     it 'and was in the past' do
       project = Project.new(open_until: Date.yesterday)
       project.valid?
@@ -67,9 +67,9 @@ RSpec.describe Project, type: :model do
     end
 
     it 'and was in the present' do
-      project = Project.new(open_until: Date.today)
+      project = Project.new(open_until: Date.current)
       project.valid?
-      expect(project.errors.full_messages_for(:open_until)).to include('Prazo para recebimento de propostas não pode estar no passado')
+      expect(project.errors.full_messages_for(:open_until)).to eq []
     end
 
     it 'and was in the future' do

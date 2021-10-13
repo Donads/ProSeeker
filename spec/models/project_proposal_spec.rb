@@ -91,7 +91,7 @@ RSpec.describe ProjectProposal, type: :model do
     end
 
     it 'and was in the present' do
-      proposal = ProjectProposal.new(deadline: Date.today)
+      proposal = ProjectProposal.new(deadline: Date.current)
       proposal.valid?
       expect(proposal.errors.full_messages_for(:deadline)).to include('Expectativa de conclusão não pode estar no passado')
     end
@@ -112,7 +112,7 @@ RSpec.describe ProjectProposal, type: :model do
     end
 
     it 'and was done during the closing day' do
-      project = Project.new(open_until: Date.today)
+      project = Project.new(open_until: Date.current)
       proposal = ProjectProposal.new(project: project)
       proposal.valid?
       expect(proposal.errors.full_messages_for(:project_id)).to eq []
@@ -123,6 +123,27 @@ RSpec.describe ProjectProposal, type: :model do
       proposal = ProjectProposal.new(project: project)
       proposal.valid?
       expect(proposal.errors.full_messages_for(:project_id)).to eq []
+    end
+
+    it 'and was done when open' do
+      project = Project.new(open_until: Date.tomorrow, status: :open)
+      proposal = ProjectProposal.new(project: project)
+      proposal.valid?
+      expect(proposal.errors.full_messages_for(:project_id)).to eq []
+    end
+
+    it 'and was done when closed' do
+      project = Project.new(open_until: Date.tomorrow, status: :closed)
+      proposal = ProjectProposal.new(project: project)
+      proposal.valid?
+      expect(proposal.errors.full_messages_for(:project_id)).to include('Projeto não está aberto')
+    end
+
+    it 'and was done when finished' do
+      project = Project.new(open_until: Date.tomorrow, status: :finished)
+      proposal = ProjectProposal.new(project: project)
+      proposal.valid?
+      expect(proposal.errors.full_messages_for(:project_id)).to include('Projeto não está aberto')
     end
   end
 

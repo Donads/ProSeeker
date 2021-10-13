@@ -11,9 +11,13 @@ class Project < ApplicationRecord
 
   validate :date_cannot_be_in_the_past
 
+  def currently_open?
+    open? && open_until >= Date.current
+  end
+
   private
 
   def date_cannot_be_in_the_past
-    errors.add(:open_until, 'não pode estar no passado') if open_until && open_until <= Date.today
+    errors.add(:open_until, 'não pode estar no passado') unless open_until && open_until >= Date.current
   end
 end

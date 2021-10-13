@@ -36,20 +36,18 @@ class ProjectProposalsController < ApplicationController
   end
 
   def approve
-    unless @project_proposal.pending?
-      redirect_to @project,
-                  alert: 'Situação da proposta não permite alterações' and return
-    end
+    return redirect_to @project, alert: 'Situação da proposta não permite alterações' unless @project_proposal.pending?
+
+    return redirect_with_alert unless @project_proposal.valid?
 
     @project_proposal.approved!
     redirect_to @project, success: 'Proposta aprovada com sucesso!'
   end
 
   def reject
-    unless @project_proposal.pending?
-      redirect_to @project,
-                  alert: 'Situação da proposta não permite alterações' and return
-    end
+    return redirect_to @project, alert: 'Situação da proposta não permite alterações' unless @project_proposal.pending?
+
+    return redirect_with_alert unless @project_proposal.valid?
 
     @project_proposal.rejected!
     redirect_to @project, success: 'Proposta rejeitada com sucesso!'
@@ -67,5 +65,9 @@ class ProjectProposalsController < ApplicationController
 
   def set_project
     @project = @project_proposal.project
+  end
+
+  def redirect_with_alert
+    redirect_to @project, alert: @project_proposal.errors.full_messages.first
   end
 end

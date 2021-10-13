@@ -47,7 +47,7 @@ RSpec.describe ProfessionalProfile, type: :model do
     end
 
     it 'and was in the present' do
-      profile = ProfessionalProfile.new(birth_date: Date.today)
+      profile = ProfessionalProfile.new(birth_date: Date.current)
       profile.valid?
       expect(profile.errors.full_messages_for(:birth_date)).to include('Data de Nascimento deve estar no passado')
     end

@@ -5,8 +5,10 @@ pt-BR:
     signup: Registrar
   links:
     confirmation_instructions: Não recebeu as instruções de confirmação?
+    close: Fechar
     destroy: Destruir
     edit: Editar
+    finish: Finalizar
     go_back: Voltar
     go_home: Voltar para a página inicial
     homepage: Página Inicial

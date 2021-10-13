@@ -5,6 +5,8 @@ Rails.application.routes.draw do
 
   resources :projects, only: %i[index new create show edit update] do
     resources :project_proposals, only: %i[index new create show] # shallow nesting breaks form_with on project show page
+    post 'close', on: :member
+    post 'finish', on: :member
   end
   resources :project_proposals, only: %i[edit update destroy] do
     post 'approve', on: :member
