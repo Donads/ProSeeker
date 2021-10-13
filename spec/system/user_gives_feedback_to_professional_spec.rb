@@ -45,7 +45,7 @@ describe 'User gives feedback to professional' do
       expect(page).to have_css('div', text: 'Avaliação enviada com sucesso!')
       expect(proposal_1.reload.status).to eq 'approved'
       expect(proposal_2.reload.status).to eq 'rated'
-      expect(professional_2.reload.feedback.average_score?).to eq 4
+      expect(professional_2.reload.average_score_received?).to eq 4
       expect(page).to have_content('Situação: Finalizado')
       expect(page).to have_link('Ciclano da Silva')
       expect(page).to have_content('Gosto muito de trabalhar com e-commerces e tenho experiência')

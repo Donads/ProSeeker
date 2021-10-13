@@ -34,6 +34,8 @@
     <%= f.label :project_feedback %>
   </div>
 
+  <%= f.hidden_field :project_proposal_id, value: @project_proposal.id %>
+
   <%= f.submit class: "btn btn-primary mt-3 mb-3" %>
 <% end %>
 

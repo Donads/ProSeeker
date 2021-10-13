@@ -19,6 +19,8 @@ class ProjectProposal < ApplicationRecord
   end
 
   def check_project_status
+    return if rated? && project.finished?
+
     errors.add(:project_id, 'não está aberto') if project && (project.open_until < Date.current || !project.open?)
   end
 

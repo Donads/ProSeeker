@@ -121,7 +121,7 @@
               <% if pp.rated? %>
                 <td class="feedback-button"><%= link_to 'Avaliar', '#', id: pp.id, class: "btn btn-info disabled btn-sm" %></td>
               <% else %>
-                <td class="feedback-button"><%= link_to 'Avaliar', new_feedback_path(project: @project, feedback_receiver: pp.user),
+                <td class="feedback-button"><%= link_to 'Avaliar', new_feedback_path(project_proposal_id: pp),
                     id: pp.id, class: "btn btn-outline-info btn-sm" %></td>
               <% end %>
             <% else %>
