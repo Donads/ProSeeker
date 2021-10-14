@@ -36,7 +36,10 @@ class FeedbacksController < ApplicationController
   end
 
   def set_project_proposal
-    @project_proposal = ProjectProposal.find(params[:project_proposal_id] || params[:feedback][:project_proposal_id])
+    project_proposal_id = params[:project_proposal_id] || params[:feedback][:project_proposal_id]
+    @project_proposal = ProjectProposal.find_by_id(project_proposal_id)
+
+    return redirect_to root_path, alert: 'Proposta não existe' if @project_proposal.nil?
   end
 
   def set_project
@@ -44,8 +47,9 @@ class FeedbacksController < ApplicationController
   end
 
   def check_authorization
-    redirect_to @project, alert: 'Situação do projeto não permite avaliação.' unless @project.finished?
-    redirect_to @project, alert: 'Situação da proposta não permite avaliação.' unless @project_proposal.approved?
+    return redirect_to @project, alert: 'Situação do projeto não permite avaliação.' unless @project.finished?
+
+    return redirect_to @project, alert: 'Situação da proposta não permite avaliação.' unless @project_proposal.approved?
 
     if current_user.user? && @project.user == current_user
       @feedback_creator = current_user

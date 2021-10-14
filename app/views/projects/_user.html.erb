@@ -1,0 +1,64 @@
+<% if @project.user == current_user %>
+  <div class="btn-group mt-1 mb-3" role="group" aria-label="Buttons related to the project">
+    <% if @project.open? %>
+      <%= link_to t('links.edit'), edit_project_path(@project), class: "btn btn-primary" %>
+      <%= link_to t('links.close'), close_project_path(@project), method: :post,
+          data: { confirm: t('messages.are_you_sure?') }, class: "btn btn-outline-primary" %>
+    <% elsif @project.closed? %>
+      <%= link_to t('links.finish'), finish_project_path(@project), method: :post,
+          data: { confirm: t('messages.are_you_sure?') }, class: "btn btn-outline-danger" %>
+    <% end %>
+  </div>
+<% end %>
+
+<% if @project_proposals.present? %>
+  <div class="display-6 mb-3">Propostas enviadas:</div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th><%= ProfessionalProfile.human_attribute_name(:social_name) %></th>
+        <th><%= ProjectProposal.human_attribute_name(:reason) %></th>
+        <th><%= ProjectProposal.human_attribute_name(:hourly_rate) %></th>
+        <th><%= ProjectProposal.human_attribute_name(:weekly_hours) %></th>
+        <th><%= ProjectProposal.human_attribute_name(:deadline) %></th>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @project_proposals.each do |pp| %>
+        <tr project-proposal-id="<%= pp.id %>">
+          <td class="social-name"><%= link_to pp.user.professional_profile.social_name, pp.user.professional_profile %></td>
+          <td class="reason"><%= pp.reason %></td>
+          <td class="hourly-rate"><%= pp.hourly_rate %></td>
+          <td class="weekly-hours"><%= pp.weekly_hours %></td>
+          <td class="deadline"><%= l pp.deadline %></td>
+          <% case %>
+          <% when pp.pending? %>
+            <td class="approve-button"><%= button_to 'Aprovar', approve_project_proposal_path(pp),
+                data: { confirm: t('messages.are_you_sure?') }, id: pp.id, class: "btn btn-outline-success btn-sm" %></td>
+            <td class="reject-button"><%= button_to 'Rejeitar', reject_project_proposal_path(pp),
+                data: { confirm: t('messages.are_you_sure?') }, id: pp.id, class: "btn btn-outline-danger btn-sm" %></td>
+          <% when pp.approved? %>
+            <td class="approve-button"><%= button_to 'Aprovar', '#', id: pp.id, class: "btn btn-success disabled btn-sm" %></td>
+            <td class="reject-button"><%= button_to 'Rejeitar', '#', id: pp.id, class: "btn btn-outline-danger disabled btn-sm" %></td>
+          <% when pp.rejected? %>
+            <td class="approve-button"><%= button_to 'Aprovar', '#', id: pp.id, class: "btn btn-outline-success disabled btn-sm" %></td>
+            <td class="reject-button"><%= button_to 'Rejeitar', '#', id: pp.id, class: "btn btn-danger disabled btn-sm" %></td>
+          <% end %>
+          <% if @project.finished? %>
+            <% if pp.rated? %>
+              <td class="feedback-button"><%= link_to t('buttons.rate'), '#', id: pp.id, class: "btn btn-info disabled btn-sm" %></td>
+            <% else %>
+              <td class="feedback-button"><%= link_to t('buttons.rate'), new_feedback_path(project_proposal_id: pp),
+                  id: pp.id, class: "btn btn-outline-info btn-sm" %></td>
+            <% end %>
+          <% else %>
+            <td></td>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>

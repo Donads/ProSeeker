@@ -170,4 +170,55 @@ RSpec.describe ProjectProposal, type: :model do
       expect(proposal.errors.full_messages_for(:hourly_rate)).to eq []
     end
   end
+
+  context 'professional tries to cancel proposal' do
+    it '2 days after it was approved' do
+      proposal = ProjectProposal.new(status: :approved)
+      proposal.status_date = 2.days.ago
+      proposal.valid?(:destroy)
+      expect(proposal.errors.full_messages_for(:status)).to eq []
+    end
+
+    it '3 days after it was approved' do
+      proposal = ProjectProposal.new(status: :approved)
+      proposal.status_date = 3.days.ago + 1.minute
+      proposal.valid?(:destroy)
+      expect(proposal.errors.full_messages_for(:status)).to eq []
+    end
+
+    it '3 days after it was approved' do
+      proposal = ProjectProposal.new(status: :approved)
+      proposal.status_date = 3.days.ago - 1.minute
+      proposal.valid?(:destroy)
+      expect(proposal.errors.full_messages_for(:status)).to include('Situação da proposta não permite cancelamento')
+    end
+
+    it '4 days after it was approved' do
+      proposal = ProjectProposal.new(status: :approved)
+      proposal.status_date = 4.days.ago
+      proposal.valid?(:destroy)
+      expect(proposal.errors.full_messages_for(:status)).to include('Situação da proposta não permite cancelamento')
+    end
+
+    it 'when it is pending' do
+      proposal = ProjectProposal.new(status: :pending)
+      proposal.status_date = 10.days.ago
+      proposal.valid?(:destroy)
+      expect(proposal.errors.full_messages_for(:status)).to eq []
+    end
+
+    it 'when it was rejected' do
+      proposal = ProjectProposal.new(status: :rejected)
+      proposal.status_date = 10.days.ago
+      proposal.valid?(:destroy)
+      expect(proposal.errors.full_messages_for(:status)).to eq []
+    end
+
+    it 'when it was rated' do
+      proposal = ProjectProposal.new(status: :rated)
+      proposal.status_date = 10.days.ago
+      proposal.valid?(:destroy)
+      expect(proposal.errors.full_messages_for(:status)).to include('Situação da proposta não permite cancelamento')
+    end
+  end
 end

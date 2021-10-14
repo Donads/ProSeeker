@@ -1,0 +1,41 @@
+<% if @project.finished? && @project_proposal.approved? %>
+  <div class="btn-group mt-1 mb-3" role="group" aria-label="Buttons related to the project">
+    <%= link_to t('buttons.rate'), new_feedback_path(project_proposal_id: @project_proposal), class: "btn btn-primary" %>
+  </div>
+<% end %>
+
+<% if @project_proposal.new_record? && @project.currently_open? %>
+  <div class="display-6 mb-3"><%= current_user.professional_profile.social_name %>, envie sua proposta para esse projeto preenchendo os campos abaixo:</div>
+<% else %>
+  <div class="display-6 mb-3"><%= current_user.professional_profile.social_name %>, você enviou a seguinte proposta para esse projeto:</div>
+<% end %>
+
+<% disable_field = !@project.currently_open? %>
+
+<%= form_with model: [@project, @project_proposal] do |f| %>
+  <div class="form-floating mb-3">
+    <%= f.text_field :reason, placeholder: :reason, disabled: disable_field, class: "form-control" %>
+    <%= f.label :reason %>
+  </div>
+  <div class="form-floating mb-3">
+    <%= f.number_field :hourly_rate, placeholder: :hourly_rate, disabled: disable_field, class: "form-control" %>
+    <%= f.label :hourly_rate %>
+  </div>
+  <div class="form-floating mb-3">
+    <%= f.number_field :weekly_hours, placeholder: :weekly_hours, disabled: disable_field, class: "form-control" %>
+    <%= f.label :weekly_hours %>
+  </div>
+  <div class="form-floating mb-3">
+    <%= f.date_field :deadline, placeholder: :deadline, disabled: disable_field, class: "form-control" %>
+    <%= f.label :deadline %>
+  </div>
+
+  <% if @project.currently_open? %>
+    <%= f.submit class: "btn btn-primary mt-3 mb-3" %>
+  <% end %>
+<% end %>
+
+<% unless @project_proposal.new_record? || !@project_proposal.can_be_canceled? %>
+  <%= button_to 'Cancelar Proposta', project_proposal_path(@project_proposal), data: { confirm: t('messages.are_you_sure?') },
+  method: :delete, class: "btn btn-outline-danger mt-3 mb-3" %>
+<% end %>
