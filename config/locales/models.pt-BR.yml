@@ -37,7 +37,6 @@ pt-BR:
         open_until: Prazo para recebimento de propostas
         skills: Habilidades desejadas
         status: Situação
-        statuses:
         title: Título
       project_proposal:
         deadline: Expectativa de conclusão
@@ -45,6 +44,7 @@ pt-BR:
         project_id: Projeto
         reason: Motivo
         status: Situação
+        status_date: Data da Situação
         weekly_hours: Disponibilidade de horas por semana
       user:
         email: E-mail
@@ -60,6 +60,7 @@ pt-BR:
   remote_attendance: Atuação Remota
   pending: Pendente
   approved: Aprovada
+  rated: Avaliada
   rejected: Recusada
   open: Aberto
   closed: Fechado

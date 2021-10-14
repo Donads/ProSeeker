@@ -16,6 +16,6 @@ class User < ApplicationRecord
   validates :role, presence: true
 
   def average_score_received?
-    feedbacks_received.average(:score)
+    feedbacks_received.average(:score) || 0
   end
 end

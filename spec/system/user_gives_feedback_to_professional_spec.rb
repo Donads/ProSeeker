@@ -38,14 +38,14 @@ describe 'User gives feedback to professional' do
       click_link 'Projeto de E-commerce'
       find('tr[project-proposal-id="2"]').click_link('Avaliar')
       fill_in 'Avaliação do usuário', with: feedback[:user_feedback]
-      choose '4'
+      choose feedback[:score].to_s
       click_button 'Criar Avaliação'
 
       expect(current_path).to eq project_path(project)
       expect(page).to have_css('div', text: 'Avaliação enviada com sucesso!')
       expect(proposal_1.reload.status).to eq 'approved'
       expect(proposal_2.reload.status).to eq 'rated'
-      expect(professional_2.reload.average_score_received?).to eq 4
+      expect(professional_2.reload.average_score_received?).to eq feedback[:score]
       expect(page).to have_content('Situação: Finalizado')
       expect(page).to have_link('Ciclano da Silva')
       expect(page).to have_content('Gosto muito de trabalhar com e-commerces e tenho experiência')

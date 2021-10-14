@@ -4,6 +4,7 @@ pt-BR:
     go_back: Voltar
     login: Entrar
     rate: Avaliar
+    rate_project: Avaliar Projeto
     signup: Registrar
     update: Atualizar
   links:
@@ -12,15 +13,19 @@ pt-BR:
     destroy: Destruir
     edit: Editar
     finish: Finalizar
+    forgot_your_password?: Esqueceu sua senha?
     go_back: Voltar
     go_home: Voltar para a página inicial
     homepage: Página Inicial
     login: Entrar
     login_with: Entrar com
+    rate: Avaliar
+    rate_project: Avaliar Projeto
     show: Exibir
     signup: Registrar
-    forgot_your_password?: Esqueceu sua senha?
     unlock_instructions: Não recebeu as instruções de desbloqueio?
     update: Atualizar
   messages:
     are_you_sure?: Tem certeza?
+  misc:
+    average_score: Nota média

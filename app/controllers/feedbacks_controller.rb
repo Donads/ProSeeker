@@ -49,7 +49,9 @@ class FeedbacksController < ApplicationController
   def check_authorization
     return redirect_to @project, alert: 'Situação do projeto não permite avaliação.' unless @project.finished?
 
-    return redirect_to @project, alert: 'Situação da proposta não permite avaliação.' unless @project_proposal.approved?
+    unless @project_proposal.approved? || @project_proposal.rated?
+      return redirect_to @project, alert: 'Situação da proposta não permite avaliação.'
+    end
 
     if current_user.user? && @project.user == current_user
       @feedback_creator = current_user

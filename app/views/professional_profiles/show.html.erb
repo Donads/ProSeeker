@@ -31,6 +31,10 @@
     <dt class="col-sm-3"><%= ProfessionalProfile.human_attribute_name(:birth_date) %>:</dt>
     <dd class="col-sm-9"><%= l @professional_profile.birth_date %></dd>
   </p>
+  <p>
+    <dt class="col-sm-3"><%= t('misc.average_score') %>:</dt>
+    <dd class="col-sm-9"><%= @professional_profile.user.average_score_received?.round(2) %></dd>
+  </p>
 </dl>
 
 <div>

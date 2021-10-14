@@ -4,6 +4,7 @@ class ProjectProposal < ApplicationRecord
 
   enum status: { pending: 10, approved: 20, rejected: 30, rated: 40 }
 
+  before_validation :change_status_date, on: %i[create update pending! approved! rejected! rated!]
   # before_validation :change_status_date, on: %i[new]
 
   validates :reason, :hourly_rate, :weekly_hours, :deadline, :status, presence: true

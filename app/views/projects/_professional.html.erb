@@ -1,6 +1,6 @@
-<% if @project.finished? && @project_proposal.approved? %>
+<% if @project.finished? && (@project_proposal.approved? || @project_proposal.rated?) %>
   <div class="btn-group mt-1 mb-3" role="group" aria-label="Buttons related to the project">
-    <%= link_to t('buttons.rate'), new_feedback_path(project_proposal_id: @project_proposal), class: "btn btn-primary" %>
+    <%= link_to t('links.rate_project'), new_feedback_path(project_proposal_id: @project_proposal), class: "btn btn-primary" %>
   </div>
 <% end %>
 
@@ -22,20 +22,36 @@
     <%= f.label :hourly_rate %>
   </div>
   <div class="form-floating mb-3">
-    <%= f.number_field :weekly_hours, placeholder: :weekly_hours, disabled: disable_field, class: "form-control" %>
+    <%= f.number_field :weekly_hours, placeholder: :weekly_hours, readonly: disable_field, class: "form-control" %>
     <%= f.label :weekly_hours %>
   </div>
   <div class="form-floating mb-3">
     <%= f.date_field :deadline, placeholder: :deadline, disabled: disable_field, class: "form-control" %>
     <%= f.label :deadline %>
   </div>
+  <% unless @project_proposal.new_record? %>
+    <div class="row mb-3">
+      <div class="col-sm-2 col-form-label">
+        <%= ProjectProposal.human_attribute_name(:status) %>:
+      </div>
+      <div class="col-sm-2 col-form-label">
+        <%= t(@project_proposal.status) %>
+      </div>
+      <div class="col-sm-2 col-form-label">
+        (<%= ProjectProposal.human_attribute_name(:status_date) %>:
+      </div>
+      <div class="col-sm-6 col-form-label">
+        <%= l(@project_proposal.status_date.in_time_zone('Brasilia'), format: :short) %>)
+      </div>
+    </div>
+  <% end %>
 
   <% if @project.currently_open? %>
     <%= f.submit class: "btn btn-primary mt-3 mb-3" %>
   <% end %>
 <% end %>
 
-<% unless @project_proposal.new_record? || !@project_proposal.can_be_canceled? %>
+<% if @project_proposal.can_be_canceled? && !@project_proposal.new_record? %>
   <%= button_to 'Cancelar Proposta', project_proposal_path(@project_proposal), data: { confirm: t('messages.are_you_sure?') },
   method: :delete, class: "btn btn-outline-danger mt-3 mb-3" %>
 <% end %>

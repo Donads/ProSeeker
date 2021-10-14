@@ -18,6 +18,8 @@ class ProjectProposalsController < ApplicationController
 
   def update
     if @project_proposal.update(project_proposal_params)
+      @project_proposal.pending!
+
       redirect_to @project, success: 'Proposta atualizada com sucesso!'
     else
       # TODO: Find out why the flash error validation doesn't reach this part (update, create and maybe destroy)
