@@ -32,6 +32,12 @@
 </dl>
 
 <% if current_user&.professional? || current_user&.admin? %>
+  <% if @project.finished? && @project_proposal.approved? %>
+    <div class="btn-group mt-1 mb-3" role="group" aria-label="Buttons related to the project">
+      <%= link_to t('buttons.rate'), new_feedback_path(project_proposal_id: @project_proposal), class: "btn btn-primary" %>
+    </div>
+  <% end %>
+
   <% if @project_proposal.new_record? && @project.currently_open? %>
     <div class="display-6 mb-3"><%= current_user.professional_profile.social_name %>, envie sua proposta para esse projeto preenchendo os campos abaixo:</div>
   <% else %>
@@ -73,8 +79,7 @@
         <%= link_to t('links.edit'), edit_project_path(@project), class: "btn btn-primary" %>
         <%= link_to t('links.close'), close_project_path(@project), method: :post,
             data: { confirm: t('messages.are_you_sure?') }, class: "btn btn-outline-primary" %>
-      <% end %>
-      <% if @project.closed? %>
+      <% elsif @project.closed? %>
         <%= link_to t('links.finish'), finish_project_path(@project), method: :post,
             data: { confirm: t('messages.are_you_sure?') }, class: "btn btn-outline-danger" %>
       <% end %>
@@ -119,9 +124,9 @@
             <% end %>
             <% if @project.finished? %>
               <% if pp.rated? %>
-                <td class="feedback-button"><%= link_to 'Avaliar', '#', id: pp.id, class: "btn btn-info disabled btn-sm" %></td>
+                <td class="feedback-button"><%= link_to t('buttons.rate'), '#', id: pp.id, class: "btn btn-info disabled btn-sm" %></td>
               <% else %>
-                <td class="feedback-button"><%= link_to 'Avaliar', new_feedback_path(project_proposal_id: pp),
+                <td class="feedback-button"><%= link_to t('buttons.rate'), new_feedback_path(project_proposal_id: pp),
                     id: pp.id, class: "btn btn-outline-info btn-sm" %></td>
               <% end %>
             <% else %>
@@ -134,4 +139,6 @@
   <% end %>
 <% end %>
 
-<%= link_to t('links.go_back'), :back, class: "btn btn-outline-primary mt-1 mb-1" %>
+<div>
+  <%= link_to t('links.go_back'), :back, class: "btn btn-outline-primary mt-1 mb-1" %>
+</div>

@@ -22,6 +22,7 @@ pt-BR:
         score: Nota
         user_feedback: Avaliação do usuário
         project_feedback: Avaliação do projeto
+        project_id: Projeto
       professional_profile:
         full_name: Nome Completo
         social_name: Nome Social

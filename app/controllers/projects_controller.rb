@@ -1,5 +1,5 @@
 class ProjectsController < ApplicationController
-  before_action :require_user_login, except: %i[index show]
+  before_action :require_user_login, except: %i[index show my_projects]
   before_action :professional_must_fill_profile
   before_action :set_project, only: %i[show edit update close finish]
 
@@ -20,6 +20,16 @@ class ProjectsController < ApplicationController
 
   def index
     @projects = Project.all
+  end
+
+  def my_projects
+    @projects = if current_user.professional?
+                  Project.joins(:project_proposals).where(project_proposals: { user: current_user })
+                else
+                  Project.where(user: current_user)
+                end
+
+    render :index
   end
 
   def show

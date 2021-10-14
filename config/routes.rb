@@ -7,6 +7,7 @@ Rails.application.routes.draw do
     resources :project_proposals, only: %i[index new create show] # shallow nesting breaks form_with on project show page
     post 'close', on: :member
     post 'finish', on: :member
+    get 'my_projects', on: :collection
   end
 
   resources :project_proposals, only: %i[edit update destroy] do

@@ -34,7 +34,7 @@ describe 'User gives feedback to professional' do
 
       login_as user, scope: :user
       visit root_path
-      click_link 'Projetos'
+      click_link 'Meus Projetos'
       click_link 'Projeto de E-commerce'
       find('tr[project-proposal-id="2"]').click_link('Avaliar')
       fill_in 'Avaliação do usuário', with: feedback[:user_feedback]
