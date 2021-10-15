@@ -2,6 +2,7 @@ class ProfessionalProfilesController < ApplicationController
   before_action :require_professional_login, except: %i[show]
   before_action :professional_must_fill_profile, except: %i[new create show]
   before_action :set_professional_profile, only: %i[edit show]
+  before_action :set_projects, only: %i[show]
 
   def new
     @professional_profile = ProfessionalProfile.new
@@ -41,5 +42,14 @@ class ProfessionalProfilesController < ApplicationController
 
   def set_professional_profile
     @professional_profile = ProfessionalProfile.find(params[:id])
+  end
+
+  def set_projects
+    # @projects = Project.joins(:project_proposals).where(project_proposals: { user: @professional_profile.user })
+    # @projects = Project.joins(:project_proposals).where(project_proposals: { user: @professional_profile.user }).select(
+    #   'projects.*, project_proposals.reason, project_proposals.status AS proposal_status'
+    # )
+    @projects = Project.joins(project_proposals: :feedbacks).where(project_proposals: { user:
+      @professional_profile.user }).select('projects.*, feedbacks.score AS score')
   end
 end

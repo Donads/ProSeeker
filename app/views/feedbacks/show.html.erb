@@ -1,0 +1,22 @@
+<h1 class="display-3">Avaliação</h1>
+
+<dl class="row">
+    <p>
+      <dt class="col-sm-3"><%= Feedback.human_attribute_name(:score) %>:</dt>
+      <dd class="col-sm-9"><%= @feedback.score %></dd>
+    </p>
+    <p>
+      <dt class="col-sm-3"><%= Feedback.human_attribute_name(:user_feedback) %>:</dt>
+      <dd class="col-sm-9"><%= @feedback.user_feedback %></dd>
+    </p>
+    <% if @feedback.project_feedback %>
+      <p>
+        <dt class="col-sm-3"><%= Feedback.human_attribute_name(:project_feedback) %>:</dt>
+        <dd class="col-sm-9"><%= @feedback.project_feedback %></dd>
+      </p>
+    <% end %>
+</dl>
+
+<div>
+  <%= link_to t('links.go_back'), :back, class: "btn btn-outline-primary mt-1 mb-1" %>
+</div>

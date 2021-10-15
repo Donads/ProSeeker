@@ -1,8 +1,8 @@
 class FeedbacksController < ApplicationController
   before_action :require_login
-  before_action :set_project_proposal, only: %i[new create]
-  before_action :set_project, only: %i[new create]
-  before_action :check_authorization, only: %i[new create]
+  before_action :set_project_proposal, only: %i[new create show]
+  before_action :set_project, only: %i[new create show]
+  before_action :check_authorization, only: %i[new create show]
 
   def new
     @feedback = Feedback.new(project_proposal: @project_proposal, feedback_creator: @feedback_creator,
@@ -15,13 +15,23 @@ class FeedbacksController < ApplicationController
     @feedback.feedback_creator = @feedback_creator
     @feedback.feedback_receiver = @feedback_receiver
 
+    @feedback.feedback_source = if @feedback_creator.user?
+                                  :from_user
+                                else
+                                  :from_professional
+                                end
+
     if @feedback.save
-      @project_proposal.rated!
+      @project_proposal.rated! if @feedback.from_user?
       redirect_to @project, success: 'Avaliação enviada com sucesso!'
     else
+      flash[:alert] = @feedback.errors.full_messages.first
+
       render :new
     end
   end
+
+  def show; end
 
   private
 
@@ -53,12 +63,15 @@ class FeedbacksController < ApplicationController
       return redirect_to @project, alert: 'Situação da proposta não permite avaliação.'
     end
 
+    @feedback = @project.feedback_from_professional(current_user)
+    return render :show if @project_feedback
+
+    @feedback_creator = current_user
+
     if current_user.user? && @project.user == current_user
-      @feedback_creator = current_user
       @feedback_receiver = @project_proposal.user
     elsif current_user.professional? && @project_proposal.user == current_user
-      @feedback_creator = @project.user
-      @feedback_receiver = current_user
+      @feedback_receiver = @project.user
     else
       redirect_to root_path, alert: 'Acesso restrito aos participantes.'
     end

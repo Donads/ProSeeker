@@ -15,6 +15,10 @@ class Project < ApplicationRecord
     open? && open_until >= Date.current
   end
 
+  def feedback_from_professional(professional)
+    Feedback.joins(:project_proposal).find_by(feedback_creator: professional, project_proposal: { project: self })
+  end
+
   private
 
   def date_cannot_be_in_the_past

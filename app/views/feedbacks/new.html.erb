@@ -1,5 +1,11 @@
 <h1 class="display-5 mb-4">Avaliação</h1>
-
+<% if @feedback.errors.any? %>
+  <ul>
+    <% @feedback.errors.full_messages.each do |error| %>
+      <li><%= error %></li>
+    <% end %>
+  </ul>
+<% end %>
 <%= form_with model: @feedback do |f| %>
   <div class="form-check-group mb-3">
   Escolha uma nota:

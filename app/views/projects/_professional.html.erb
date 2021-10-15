@@ -1,6 +1,10 @@
 <% if @project.finished? && (@project_proposal.approved? || @project_proposal.rated?) %>
   <div class="btn-group mt-1 mb-3" role="group" aria-label="Buttons related to the project">
-    <%= link_to t('links.rate_project'), new_feedback_path(project_proposal_id: @project_proposal), class: "btn btn-primary" %>
+    <% if @project_feedback %>
+      <%= link_to t('links.go_to_feedback'), feedback_path(project_proposal_id: @project_proposal), class: "btn btn-primary" %>
+    <% else %>
+      <%= link_to t('links.rate_project'), new_feedback_path(project_proposal_id: @project_proposal), class: "btn btn-primary" %>
+    <% end %>
   </div>
 <% end %>
 

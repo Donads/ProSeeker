@@ -3,6 +3,8 @@ class Feedback < ApplicationRecord
   belongs_to :feedback_creator, class_name: 'User'
   belongs_to :feedback_receiver, class_name: 'User'
 
+  enum feedback_source: { from_user: 10, from_professional: 20 }
+
   validates :score, :user_feedback, presence: true
   validates :score, numericality: { only_integer: true, greater_than_or_equal_to: 1, less_than_or_equal_to: 5 }
 

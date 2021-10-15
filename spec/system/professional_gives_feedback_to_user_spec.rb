@@ -20,7 +20,7 @@ describe 'Professional gives feedback to user' do
                                          hourly_rate: 80.0, weekly_hours: 40, deadline: future_date, project: project,
                                          user: professional, status: :approved)
       project.finished!
-      feedback = { score: 5, user_feedback: 'Gerente responsável' }
+      feedback = { score: 5, user_feedback: 'Gerente responsável', project_feedback: 'Projeto desafiador' }
 
       login_as professional, scope: :user
       visit root_path
@@ -28,15 +28,16 @@ describe 'Professional gives feedback to user' do
       click_link 'Projeto de E-commerce'
       click_link 'Avaliar Projeto'
       fill_in 'Avaliação do usuário', with: feedback[:user_feedback]
+      fill_in 'Avaliação do projeto', with: feedback[:project_feedback]
       choose feedback[:score].to_s
       click_button 'Criar Avaliação'
 
       expect(current_path).to eq project_path(project)
       expect(page).to have_css('div', text: 'Avaliação enviada com sucesso!')
-      expect(proposal.reload.status).to eq 'rated'
-      expect(professional.reload.average_score_received?).to eq feedback[:score]
+      expect(project.feedback_from_professional(professional).project_feedback).to include(feedback[:project_feedback])
+      expect(user.reload.average_score_received?).to eq feedback[:score]
       expect(page).to have_content('Situação: Finalizado')
-      expect(page).to have_link('Avaliar')
+      expect(page).to have_link('Avaliação')
       expect(page).not_to have_link('Editar')
       expect(page).not_to have_link('Fechar')
       expect(page).not_to have_link('Finalizar')

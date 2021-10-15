@@ -1,5 +1,6 @@
 class ProjectsController < ApplicationController
   before_action :require_user_login, except: %i[index show my_projects]
+  before_action :require_login, only: %i[index show my_projects]
   before_action :professional_must_fill_profile
   before_action :set_project, only: %i[show edit update close finish]
 
@@ -19,7 +20,14 @@ class ProjectsController < ApplicationController
   end
 
   def index
-    @projects = Project.all
+    @projects = case current_user.role
+                when 'user'
+                  @project = Project.all
+                when 'professional'
+                  @projects = Project.where(status: :open)
+                when 'admin'
+                  @projects = Project.all
+                end
   end
 
   def my_projects
@@ -33,9 +41,16 @@ class ProjectsController < ApplicationController
   end
 
   def show
-    @project_proposals = ProjectProposal.where(project: @project) if @project.user == current_user
+    if @project.user == current_user
+      @project_proposals = ProjectProposal.where(project: @project)
 
-    @project_proposal = ProjectProposal.find_by(project: @project, user: current_user) || ProjectProposal.new
+      @project_proposals = @project_proposals.where(status: %i[approved rated]) unless @project.open?
+    end
+
+    if current_user.professional? || current_user.admin?
+      @project_proposal = ProjectProposal.find_by(project: @project, user: current_user) || ProjectProposal.new
+      @project_feedback = @project.feedback_from_professional(current_user)
+    end
   end
 
   def edit

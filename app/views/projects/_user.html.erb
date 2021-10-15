@@ -21,9 +21,13 @@
         <th><%= ProjectProposal.human_attribute_name(:hourly_rate) %></th>
         <th><%= ProjectProposal.human_attribute_name(:weekly_hours) %></th>
         <th><%= ProjectProposal.human_attribute_name(:deadline) %></th>
-        <th></th>
-        <th></th>
-        <th></th>
+        <% if @project.finished? %>
+          <th></th>
+        <% elsif @project.open? %>
+          <th></th>
+          <th></th>
+          <th></th>
+        <% end %>
       </tr>
     </thead>
     <tbody>
@@ -34,28 +38,28 @@
           <td class="hourly-rate"><%= pp.hourly_rate %></td>
           <td class="weekly-hours"><%= pp.weekly_hours %></td>
           <td class="deadline"><%= l pp.deadline %></td>
-          <% case %>
-          <% when pp.pending? %>
-            <td class="approve-button"><%= button_to 'Aprovar', approve_project_proposal_path(pp),
-                data: { confirm: t('messages.are_you_sure?') }, id: pp.id, class: "btn btn-outline-success btn-sm" %></td>
-            <td class="reject-button"><%= button_to 'Rejeitar', reject_project_proposal_path(pp),
-                data: { confirm: t('messages.are_you_sure?') }, id: pp.id, class: "btn btn-outline-danger btn-sm" %></td>
-          <% when pp.approved? %>
-            <td class="approve-button"><%= button_to 'Aprovar', '#', id: pp.id, class: "btn btn-success disabled btn-sm" %></td>
-            <td class="reject-button"><%= button_to 'Rejeitar', '#', id: pp.id, class: "btn btn-outline-danger disabled btn-sm" %></td>
-          <% when pp.rejected? %>
-            <td class="approve-button"><%= button_to 'Aprovar', '#', id: pp.id, class: "btn btn-outline-success disabled btn-sm" %></td>
-            <td class="reject-button"><%= button_to 'Rejeitar', '#', id: pp.id, class: "btn btn-danger disabled btn-sm" %></td>
-          <% end %>
           <% if @project.finished? %>
             <% if pp.rated? %>
-              <td class="feedback-button"><%= link_to t('buttons.rate'), '#', id: pp.id, class: "btn btn-info disabled btn-sm" %></td>
+              <td class="feedback-button"><%= link_to t('links.go_to_feedback'), feedback_path(project_proposal_id: pp),
+                  id: pp.id, class: "btn btn-info btn-sm" %></td>
             <% else %>
               <td class="feedback-button"><%= link_to t('buttons.rate'), new_feedback_path(project_proposal_id: pp),
                   id: pp.id, class: "btn btn-outline-info btn-sm" %></td>
             <% end %>
-          <% else %>
-            <td></td>
+          <% elsif @project.open? %>
+            <% case %>
+            <% when pp.pending? %>
+              <td class="approve-button"><%= button_to 'Aprovar', approve_project_proposal_path(pp),
+                  data: { confirm: t('messages.are_you_sure?') }, id: pp.id, class: "btn btn-outline-success btn-sm" %></td>
+              <td class="reject-button"><%= button_to 'Rejeitar', reject_project_proposal_path(pp),
+                  data: { confirm: t('messages.are_you_sure?') }, id: pp.id, class: "btn btn-outline-danger btn-sm" %></td>
+            <% when pp.approved? %>
+              <td class="approve-button"><%= button_to 'Aprovar', '#', id: pp.id, class: "btn btn-success disabled btn-sm" %></td>
+              <td class="reject-button"><%= button_to 'Rejeitar', '#', id: pp.id, class: "btn btn-outline-danger disabled btn-sm" %></td>
+            <% when pp.rejected? %>
+              <td class="approve-button"><%= button_to 'Aprovar', '#', id: pp.id, class: "btn btn-outline-success disabled btn-sm" %></td>
+              <td class="reject-button"><%= button_to 'Rejeitar', '#', id: pp.id, class: "btn btn-danger disabled btn-sm" %></td>
+            <% end %>
           <% end %>
         </tr>
       <% end %>

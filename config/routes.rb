@@ -18,5 +18,5 @@ Rails.application.routes.draw do
   patch '/projects/:project_id/project_proposals/:id', to: 'project_proposals#update'
 
   resources :professional_profiles, only: %i[new create edit update show]
-  resources :feedbacks, only: %i[new create]
+  resources :feedbacks, only: %i[new create show]
 end

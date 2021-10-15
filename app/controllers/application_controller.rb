@@ -9,6 +9,12 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.permit(:sign_up, keys: [:role])
   end
 
+  def require_login
+    return if current_user
+
+    redirect_to root_path, alert: 'Usuário não autenticado'
+  end
+
   def professional_must_fill_profile
     return unless current_user&.professional?
 
