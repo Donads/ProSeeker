@@ -1,5 +1,5 @@
 class Feedback < ApplicationRecord
-  belongs_to :project
+  belongs_to :project_proposal
   belongs_to :feedback_creator, class_name: 'User'
   belongs_to :feedback_receiver, class_name: 'User'
 
@@ -25,6 +25,9 @@ class Feedback < ApplicationRecord
   end
 
   def check_project_status
-    errors.add(:project_id, 'deve estar finalizado') unless project&.finished?
+    unless project_proposal&.project&.finished?
+      errors.add(:project_proposal_id,
+                 'deve pertencer a um projeto finalizado')
+    end
   end
 end

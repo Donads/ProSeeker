@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_14_162018) do
+ActiveRecord::Schema.define(version: 2021_10_15_001609) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -44,12 +44,12 @@ ActiveRecord::Schema.define(version: 2021_10_14_162018) do
     t.float "score"
     t.string "user_feedback"
     t.string "project_feedback"
-    t.integer "project_id", null: false
     t.integer "feedback_creator_id", null: false
     t.integer "feedback_receiver_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["project_id"], name: "index_feedbacks_on_project_id"
+    t.integer "project_proposal_id", null: false
+    t.index ["project_proposal_id"], name: "index_feedbacks_on_project_proposal_id"
   end
 
   create_table "professional_profiles", force: :cascade do |t|
@@ -109,7 +109,7 @@ ActiveRecord::Schema.define(version: 2021_10_14_162018) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "feedbacks", "projects"
+  add_foreign_key "feedbacks", "project_proposals"
   add_foreign_key "feedbacks", "users", column: "feedback_creator_id"
   add_foreign_key "feedbacks", "users", column: "feedback_receiver_id"
   add_foreign_key "professional_profiles", "users"

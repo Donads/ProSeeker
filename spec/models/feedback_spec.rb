@@ -103,23 +103,29 @@ RSpec.describe Feedback, type: :model do
 
   context 'feedback can not be made when' do
     it 'project is open' do
-      feedback = Feedback.new(project: Project.new(status: :open))
+      project = Project.new(status: :open)
+      project_proposal = ProjectProposal.new(project: project)
+      feedback = Feedback.new(project_proposal: project_proposal)
       feedback.valid?
-      expect(feedback.errors.full_messages_for(:project_id)).to include('Projeto deve estar finalizado')
+      expect(feedback.errors.full_messages_for(:project_proposal_id)).to include('Proposta deve pertencer a um projeto finalizado')
     end
 
     it 'project is closed' do
-      feedback = Feedback.new(project: Project.new(status: :closed))
+      project = Project.new(status: :closed)
+      project_proposal = ProjectProposal.new(project: project)
+      feedback = Feedback.new(project_proposal: project_proposal)
       feedback.valid?
-      expect(feedback.errors.full_messages_for(:project_id)).to include('Projeto deve estar finalizado')
+      expect(feedback.errors.full_messages_for(:project_proposal_id)).to include('Proposta deve pertencer a um projeto finalizado')
     end
   end
 
   context 'feedback can only be made when' do
     it 'project is finished' do
-      feedback = Feedback.new(project: Project.new(status: :finished))
+      project = Project.new(status: :finished)
+      project_proposal = ProjectProposal.new(project: project)
+      feedback = Feedback.new(project_proposal: project_proposal)
       feedback.valid?
-      expect(feedback.errors.full_messages_for(:project_id)).to eq []
+      expect(feedback.errors.full_messages_for(:project_proposal_id)).to eq []
     end
   end
 end

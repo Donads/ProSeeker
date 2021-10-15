@@ -1,7 +1,6 @@
 class Project < ApplicationRecord
   belongs_to :user
   has_many :project_proposals
-  has_many :feedbacks
 
   enum status: { open: 10, closed: 20, finished: 30 },
        attendance_type: { mixed_attendance: 10, remote_attendance: 20, presential_attendance: 30 }

@@ -5,19 +5,19 @@ class FeedbacksController < ApplicationController
   before_action :check_authorization, only: %i[new create]
 
   def new
-    @feedback = Feedback.new(project: @project, feedback_creator: @feedback_creator,
+    @feedback = Feedback.new(project_proposal: @project_proposal, feedback_creator: @feedback_creator,
                              feedback_receiver: @feedback_receiver)
   end
 
   def create
     @feedback = Feedback.new(feedback_params)
-    @feedback.project = @project
+    @feedback.project_proposal = @project_proposal
     @feedback.feedback_creator = @feedback_creator
     @feedback.feedback_receiver = @feedback_receiver
 
     if @feedback.save
       @project_proposal.rated!
-      redirect_to @feedback.project, success: 'Avaliação enviada com sucesso!'
+      redirect_to @project, success: 'Avaliação enviada com sucesso!'
     else
       render :new
     end

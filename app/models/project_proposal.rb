@@ -1,6 +1,7 @@
 class ProjectProposal < ApplicationRecord
   belongs_to :project
   belongs_to :user
+  has_many :feedbacks
 
   enum status: { pending: 10, approved: 20, rejected: 30, rated: 40 }
 
