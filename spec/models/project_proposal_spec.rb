@@ -253,4 +253,18 @@ RSpec.describe ProjectProposal, type: :model do
       expect(proposal.errors.full_messages_for(:status)).to include('Situação da proposta não permite cancelamento')
     end
   end
+
+  context 'user tries to reject proposal' do
+    it 'with status_reason filled and succeeds' do
+      proposal = ProjectProposal.new(status: :rejected, status_reason: 'Motivo da rejeição')
+      proposal.valid?(:reject)
+      expect(proposal.errors.full_messages_for(:status_reason)).to eq []
+    end
+
+    it 'with status_reason empty and fails' do
+      proposal = ProjectProposal.new(status: :rejected, status_reason: '')
+      proposal.valid?(:reject)
+      expect(proposal.errors.full_messages_for(:status_reason)).to include('Motivo da Situação não pode ficar em branco')
+    end
+  end
 end

@@ -12,8 +12,9 @@ Rails.application.routes.draw do
 
   resources :project_proposals, only: %i[edit update destroy] do
     post 'approve', on: :member
-    post 'reject', on: :member
+    get 'cancel', on: :member
     get 'rate', on: :member
+    get 'reject', on: :member
   end
   patch '/projects/:project_id/project_proposals/:id', to: 'project_proposals#update'
 

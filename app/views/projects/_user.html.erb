@@ -51,8 +51,8 @@
             <% when pp.pending? %>
               <td class="approve-button"><%= button_to 'Aprovar', approve_project_proposal_path(pp),
                   data: { confirm: t('messages.are_you_sure?') }, id: pp.id, class: "btn btn-outline-success btn-sm" %></td>
-              <td class="reject-button"><%= button_to 'Rejeitar', reject_project_proposal_path(pp),
-                  data: { confirm: t('messages.are_you_sure?') }, id: pp.id, class: "btn btn-outline-danger btn-sm" %></td>
+              <td class="reject-button"><%= link_to 'Rejeitar', reject_project_proposal_path(pp, status_change: 'reject'),
+                  id: pp.id, class: "btn btn-outline-danger btn-sm" %></td>
             <% when pp.approved? %>
               <td class="approve-button"><%= button_to 'Aprovar', '#', id: pp.id, class: "btn btn-success disabled btn-sm" %></td>
               <td class="reject-button"><%= button_to 'Rejeitar', '#', id: pp.id, class: "btn btn-outline-danger disabled btn-sm" %></td>

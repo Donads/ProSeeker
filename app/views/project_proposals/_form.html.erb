@@ -1,0 +1,28 @@
+<%= render "shared/errors", resource: @project_proposal %>
+
+<%= form_with model: @project_proposal do |f| %>
+  <div class="form-floating mb-3">
+    <%= f.text_field :reason, placeholder: :reason, disabled: true, class: "form-control" %>
+    <%= f.label :reason %>
+  </div>
+  <div class="form-floating mb-3">
+    <%= f.number_field :hourly_rate, placeholder: :hourly_rate, disabled: true, class: "form-control" %>
+    <%= f.label :hourly_rate %>
+  </div>
+  <div class="form-floating mb-3">
+    <%= f.number_field :weekly_hours, placeholder: :weekly_hours, readonly: true, class: "form-control" %>
+    <%= f.label :weekly_hours %>
+  </div>
+  <div class="form-floating mb-3">
+    <%= f.date_field :deadline, placeholder: :deadline, disabled: true, class: "form-control" %>
+    <%= f.label :deadline %>
+  </div>
+  <div class="form-floating mb-3">
+    <%= f.text_field :status_reason, placeholder: :status_reason, class: "form-control" %>
+    <%= f.label :status_reason %>
+  </div>
+
+  <%= f.hidden_field :status_change, value: params[:status_change] %>
+
+  <%= f.submit class: "btn btn-primary mt-3 mb-3", data: { confirm: t('messages.are_you_sure?') } %>
+<% end %>

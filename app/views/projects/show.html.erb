@@ -25,7 +25,14 @@
     </p>
     <p>
       <dt class="col-sm-3"><%= User.model_name.human %> responsável:</dt>
-      <dd class="col-sm-9"><%= "#{@project.user.email} (#{t('misc.average_score')}: #{@project.user.average_score_received?.round(2)})" %></dd>
+      <dd class="col-sm-9">
+        <% nota_media = @project.user.average_score_received?.round(2) %>
+        <% if nota_media > 0 %>
+          <%= "#{@project.user.email} (#{t('misc.average_score')}: #{nota_media})" %>
+        <% else %>
+          <%= @project.user.email %>
+        <% end %>
+      </dd>
     </p>
     <p>
       <dt class="col-sm-3"><%= Project.human_attribute_name(:status) %>:</dt>

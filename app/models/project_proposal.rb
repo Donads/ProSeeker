@@ -3,12 +3,12 @@ class ProjectProposal < ApplicationRecord
   belongs_to :user
   has_many :feedbacks
 
-  enum status: { pending: 10, approved: 20, rejected: 30, rated: 40 }
+  enum status: { pending: 10, approved: 20, rejected: 30, rated: 40, canceled: 90 }
 
-  before_validation :change_status_date, on: %i[create update pending! approved! rejected! rated!]
-  # before_validation :change_status_date, on: %i[new]
+  before_validation :change_status_date, on: %i[create update]
 
   validates :reason, :hourly_rate, :weekly_hours, :deadline, :status, presence: true
+  validates :status_reason, presence: true, on: %i[cancel reject]
   validates :hourly_rate, :weekly_hours, numericality: { greater_than: 0 }
   validates :weekly_hours, numericality: { only_integer: true }
 
@@ -24,7 +24,11 @@ class ProjectProposal < ApplicationRecord
       status_date >= Time.current - 3.days
     when 'rated'
       false
-    else
+    when 'canceled'
+      false
+    when 'pending'
+      true
+    when 'rejected'
       true
     end
   end
@@ -57,5 +61,9 @@ class ProjectProposal < ApplicationRecord
 
   def can_not_be_canceled
     errors.add(:status, 'da proposta não permite cancelamento') unless can_be_canceled?
+  end
+
+  def can_not_be_rejected
+    errors.add(:status_reason, I18n.t('errors.messages.blank')) if status_reason.empty?
   end
 end

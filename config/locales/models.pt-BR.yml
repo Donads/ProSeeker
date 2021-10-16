@@ -46,6 +46,7 @@ pt-BR:
         reason: Motivo
         status: Situação
         status_date: Data da Situação
+        status_reason: Motivo da Situação
         weekly_hours: Disponibilidade de horas por semana
       user:
         email: E-mail
@@ -63,6 +64,7 @@ pt-BR:
   remote_attendance: Atuação Remota
   pending: Pendente
   approved: Aprovada
+  canceled: Cancelada
   rated: Avaliada
   rejected: Recusada
   open: Aberto
