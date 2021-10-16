@@ -5,13 +5,13 @@ describe 'Professional gives feedback to user' do
     it 'successfully' do
       birth_date = 30.years.ago.to_date
       future_date = 2.months.from_now.to_date
+      photo = fixture_file_upload('avatar_placeholder.png', 'image/png')
       user = User.create!(email: 'usuario1@teste.com.br', password: '123456', role: :user)
       project = Project.create!(title: 'Projeto de E-commerce', description: 'Desenvolver plataforma web',
                                 skills: 'Ruby on Rails', max_hourly_rate: 80, open_until: future_date,
                                 attendance_type: :remote_attendance, user: user)
       professional = User.create!(email: 'profissional2@teste.com.br', password: '123456',
                                   role: :professional)
-      photo = fixture_file_upload('avatar_placeholder.png', 'image/png')
       ProfessionalProfile.create!(full_name: 'George Washington', social_name: 'Antonio Nunes',
                                   description: 'Desenvolvedor com anos de experiência',
                                   professional_qualification: 'Ensino Superior',

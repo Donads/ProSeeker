@@ -17,13 +17,17 @@ RSpec.describe ProjectProposal, type: :model do
     it 'weekly_hours must be present' do
       proposal = ProjectProposal.new
       proposal.valid?
-      expect(proposal.errors.full_messages_for(:weekly_hours)).to include('Disponibilidade de horas por semana não pode ficar em branco')
+      expect(proposal.errors.full_messages_for(:weekly_hours)).to include(
+        'Disponibilidade de horas por semana não pode ficar em branco'
+      )
     end
 
     it 'deadline must be present' do
       proposal = ProjectProposal.new
       proposal.valid?
-      expect(proposal.errors.full_messages_for(:deadline)).to include('Expectativa de conclusão não pode ficar em branco')
+      expect(proposal.errors.full_messages_for(:deadline)).to include(
+        'Expectativa de conclusão não pode ficar em branco'
+      )
     end
   end
 
@@ -52,13 +56,17 @@ RSpec.describe ProjectProposal, type: :model do
       it 'and was lower than zero' do
         proposal = ProjectProposal.new(weekly_hours: -1)
         proposal.valid?
-        expect(proposal.errors.full_messages_for(:weekly_hours)).to include('Disponibilidade de horas por semana deve ser maior que 0')
+        expect(proposal.errors.full_messages_for(:weekly_hours)).to include(
+          'Disponibilidade de horas por semana deve ser maior que 0'
+        )
       end
 
       it 'and was equal to zero' do
         proposal = ProjectProposal.new(weekly_hours: 0)
         proposal.valid?
-        expect(proposal.errors.full_messages_for(:weekly_hours)).to include('Disponibilidade de horas por semana deve ser maior que 0')
+        expect(proposal.errors.full_messages_for(:weekly_hours)).to include(
+          'Disponibilidade de horas por semana deve ser maior que 0'
+        )
       end
 
       it 'and was greater than zero' do
@@ -72,7 +80,9 @@ RSpec.describe ProjectProposal, type: :model do
       it 'and was not an integer' do
         proposal = ProjectProposal.new(weekly_hours: 0.5)
         proposal.valid?
-        expect(proposal.errors.full_messages_for(:weekly_hours)).to include('Disponibilidade de horas por semana não é um número inteiro')
+        expect(proposal.errors.full_messages_for(:weekly_hours)).to include(
+          'Disponibilidade de horas por semana não é um número inteiro'
+        )
       end
 
       it 'and was an integer' do
@@ -87,19 +97,39 @@ RSpec.describe ProjectProposal, type: :model do
     it 'and was in the past' do
       proposal = ProjectProposal.new(deadline: Date.yesterday)
       proposal.valid?
-      expect(proposal.errors.full_messages_for(:deadline)).to include('Expectativa de conclusão não pode estar no passado')
+      expect(proposal.errors.full_messages_for(:deadline)).to include(
+        'Expectativa de conclusão não pode estar no passado'
+      )
     end
 
     it 'and was in the present' do
       proposal = ProjectProposal.new(deadline: Date.current)
       proposal.valid?
-      expect(proposal.errors.full_messages_for(:deadline)).to include('Expectativa de conclusão não pode estar no passado')
+      expect(proposal.errors.full_messages_for(:deadline)).to include(
+        'Expectativa de conclusão não pode estar no passado'
+      )
     end
 
     it 'and was in the future' do
       proposal = ProjectProposal.new(deadline: Date.tomorrow)
       proposal.valid?
       expect(proposal.errors.full_messages_for(:deadline)).to eq []
+    end
+  end
+
+  context 'deadline must be within one year' do
+    it 'and was before that' do
+      proposal = ProjectProposal.new(deadline: 1.year.from_now - 1.day)
+      proposal.valid?
+      expect(proposal.errors.full_messages_for(:deadline)).to eq []
+    end
+
+    it 'and was after that' do
+      proposal = ProjectProposal.new(deadline: 1.year.from_now + 1.day)
+      proposal.valid?
+      expect(proposal.errors.full_messages_for(:deadline)).to include(
+        'Expectativa de conclusão não pode passar de um ano'
+      )
     end
   end
 
@@ -155,7 +185,9 @@ RSpec.describe ProjectProposal, type: :model do
     it 'and is greater than the maximum' do
       proposal = ProjectProposal.new(project: @project, hourly_rate: 60)
       proposal.valid?
-      expect(proposal.errors.full_messages_for(:hourly_rate)).to include('Valor (R$/hora) não pode ser maior que o limite do projeto')
+      expect(proposal.errors.full_messages_for(:hourly_rate)).to include(
+        'Valor (R$/hora) não pode ser maior que o limite do projeto'
+      )
     end
 
     it 'and is equal to the maximum' do

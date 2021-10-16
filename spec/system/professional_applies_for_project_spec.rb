@@ -4,8 +4,8 @@ describe 'Professional applies for project' do
   it 'successfully' do
     birth_date = 30.years.ago.to_date
     future_date = 2.months.from_now.to_date
-    professional = User.create!(email: 'profissional@teste.com.br', password: '123456', role: :professional)
     photo = fixture_file_upload('avatar_placeholder.png', 'image/png')
+    professional = User.create!(email: 'profissional@teste.com.br', password: '123456', role: :professional)
     ProfessionalProfile.create!(full_name: 'Fulano de Tal', social_name: 'Ciclano da Silva',
                                 description: 'Busco projetos desafiadores',
                                 professional_qualification: 'Ensino Superior',
@@ -40,8 +40,8 @@ describe 'Professional applies for project' do
   it 'and edits it successfully' do
     birth_date = 30.years.ago.to_date
     future_date = 2.months.from_now.to_date
-    professional = User.create!(email: 'profissional@teste.com.br', password: '123456', role: :professional)
     photo = fixture_file_upload('avatar_placeholder.png', 'image/png')
+    professional = User.create!(email: 'profissional@teste.com.br', password: '123456', role: :professional)
     ProfessionalProfile.create!(full_name: 'Fulano de Tal', social_name: 'Ciclano da Silva',
                                 description: 'Busco projetos desafiadores',
                                 professional_qualification: 'Ensino Superior',
@@ -75,8 +75,8 @@ describe 'Professional applies for project' do
   it 'and removes their proposal' do
     birth_date = 30.years.ago.to_date
     future_date = 2.months.from_now.to_date
-    professional = User.create!(email: 'profissional@teste.com.br', password: '123456', role: :professional)
     photo = fixture_file_upload('avatar_placeholder.png', 'image/png')
+    professional = User.create!(email: 'profissional@teste.com.br', password: '123456', role: :professional)
     ProfessionalProfile.create!(full_name: 'Fulano de Tal', social_name: 'Ciclano da Silva',
                                 description: 'Busco projetos desafiadores',
                                 professional_qualification: 'Ensino Superior',

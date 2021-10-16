@@ -12,7 +12,8 @@ class ProjectProposal < ApplicationRecord
   validates :hourly_rate, :weekly_hours, numericality: { greater_than: 0 }
   validates :weekly_hours, numericality: { only_integer: true }
 
-  validate :date_cannot_be_in_the_past
+  validate :deadline_cannot_be_in_the_past
+  validate :deadline_must_be_within_limit
   validate :hourly_rate_cannot_exceed_maximum_allowed
   validate :check_project_status
   validate :can_not_be_canceled, on: %i[destroy]
@@ -34,8 +35,12 @@ class ProjectProposal < ApplicationRecord
     self.status_date = Time.current
   end
 
-  def date_cannot_be_in_the_past
+  def deadline_cannot_be_in_the_past
     errors.add(:deadline, 'não pode estar no passado') if deadline && deadline <= Date.current
+  end
+
+  def deadline_must_be_within_limit
+    errors.add(:deadline, 'não pode passar de um ano') unless deadline && deadline <= 1.year.from_now
   end
 
   def check_project_status
