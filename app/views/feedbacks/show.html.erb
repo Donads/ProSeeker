@@ -1,5 +1,7 @@
 <h1 class="display-3">Avaliação</h1>
 
+<%= render "shared/errors", resource: @feedback %>
+
 <dl class="row">
     <p>
       <dt class="col-sm-3"><%= Feedback.human_attribute_name(:score) %>:</dt>

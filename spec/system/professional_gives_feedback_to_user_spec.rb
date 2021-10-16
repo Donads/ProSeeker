@@ -21,28 +21,29 @@ describe 'Professional gives feedback to user' do
                                          hourly_rate: 80.0, weekly_hours: 40, deadline: future_date, project: project,
                                          user: professional, status: :approved)
       project.finished!
-      feedback = { score: 5, user_feedback: 'Gerente responsável', project_feedback: 'Projeto desafiador' }
+      feedback_params = { score: 5, user_feedback: 'Gerente responsável', project_feedback: 'Projeto desafiador' }
 
       login_as professional, scope: :user
       visit root_path
       click_link 'Meus Projetos'
       click_link 'Projeto de E-commerce'
       click_link 'Avaliar Projeto'
-      fill_in 'Avaliação do usuário', with: feedback[:user_feedback]
-      fill_in 'Avaliação do projeto', with: feedback[:project_feedback]
-      choose feedback[:score].to_s
+      fill_in 'Avaliação do usuário', with: feedback_params[:user_feedback]
+      fill_in 'Avaliação do projeto', with: feedback_params[:project_feedback]
+      choose feedback_params[:score].to_s
       click_button 'Criar Avaliação'
 
+      feedback = project.feedback_from_professional(professional)
       expect(current_path).to eq project_path(project)
       expect(page).to have_css('div', text: 'Avaliação enviada com sucesso!')
-      expect(project.feedback_from_professional(professional).project_feedback).to include(feedback[:project_feedback])
-      expect(user.reload.average_score_received?).to eq feedback[:score]
+      expect(feedback.project_feedback).to include(feedback_params[:project_feedback])
+      expect(user.reload.average_score_received?).to eq feedback_params[:score]
       expect(page).to have_content('Usuário responsável: usuario1@teste.com.br (Nota média: 5.0)')
       expect(page).to have_content('Situação: Finalizado')
-      expect(page).to have_link('Avaliação')
-      expect(page).not_to have_link('Editar')
-      expect(page).not_to have_link('Fechar')
-      expect(page).not_to have_link('Finalizar')
+      expect(page).to have_link('Avaliação', href: feedback_path(feedback, project_proposal_id: proposal))
+      expect(page).to have_no_link('Editar')
+      expect(page).to have_no_link('Fechar')
+      expect(page).to have_no_link('Finalizar')
     end
   end
 end

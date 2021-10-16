@@ -17,9 +17,9 @@ describe 'Visitor signs up' do
 
       expect(page).to have_content('Login efetuado com sucesso.')
       expect(page).to have_content("Logado como '#{user[:email]}' (Usuário)")
-      expect(page).to have_link('Sair')
-      expect(page).not_to have_link('Entrar')
-      expect(page).not_to have_link('Registrar')
+      expect(page).to have_link('Sair', href: destroy_user_session_path)
+      expect(page).to have_no_link('Entrar')
+      expect(page).to have_no_link('Registrar')
     end
   end
 
@@ -41,9 +41,9 @@ describe 'Visitor signs up' do
       expect(page).to have_css('div',
                                text: 'Profissionais devem preencher o perfil por completo antes de terem acesso às funcionalidades da plataforma.')
       expect(page).to have_content("Logado como '#{professional[:email]}' (Profissional)")
-      expect(page).to have_link('Sair')
-      expect(page).not_to have_link('Entrar')
-      expect(page).not_to have_link('Registrar')
+      expect(page).to have_link('Sair', href: destroy_user_session_path)
+      expect(page).to have_no_link('Entrar')
+      expect(page).to have_no_link('Registrar')
     end
   end
 
@@ -64,8 +64,8 @@ describe 'Visitor signs up' do
     expect(page).to have_content('Confirmação de Senha não é igual a Senha')
     expect(page).to have_content('Senha é muito curto (mínimo: 6 caracteres)')
     expect(page).to have_content('Função não pode ficar em branco')
-    expect(page).to have_link('Entrar')
-    expect(page).to have_link('Registrar')
-    expect(page).not_to have_link('Sair')
+    expect(page).to have_link('Entrar', href: new_user_session_path)
+    expect(page).to have_link('Registrar', href: new_user_registration_path)
+    expect(page).to have_no_link('Sair')
   end
 end

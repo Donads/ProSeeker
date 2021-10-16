@@ -1,5 +1,7 @@
 <h1 class="display-5 mb-4">Perfil Completo</h1>
 
+<%= render "shared/errors", resource: @professional_profile %>
+
 <% if @professional_profile.profile_photo.attached? %>
   <%= image_tag @professional_profile.profile_photo, size: "250x250", class: "rounded float-end" %>
 <% end %>
@@ -40,28 +42,30 @@
 <%= link_to t('links.edit'), edit_professional_profile_path(@professional_profile), class: "btn btn-primary mt-3 mb-3" %>
 </div>
 
- <table class="table">
- <thead>
-    <tr>
-      <th><%= Project.human_attribute_name(:title) %></th>
-      <th><%= Project.human_attribute_name(:description) %></th>
-      <th><%= Project.human_attribute_name(:attendance_type) %></th>
-      <th><%= Project.human_attribute_name(:status) %></th>
-      <th><%= Feedback.human_attribute_name(:score) %></th>
-    </tr>
-  </thead>
-  <tbody>
-  <% @projects.each do |pr| %>
-    <tr project-id="<%= pr.id %>">
-      <td class="title"><%= link_to pr.title, project_path(pr) %></td>
-      <td class="description"><%= pr.description %></td>
-      <td class="attendance-type"><%= t(pr.attendance_type) %></td>
-      <td class="status-type"><%= t(pr.status) %></td>
-      <td class="score"><%= pr.score %></td>
-    </tr>
-  <% end %>
-  </tbody>
-</table>
+<% if @projects.present? %>
+  <table class="table">
+    <thead>
+      <tr>
+        <th><%= Project.human_attribute_name(:title) %></th>
+        <th><%= Project.human_attribute_name(:description) %></th>
+        <th><%= Project.human_attribute_name(:attendance_type) %></th>
+        <th><%= Project.human_attribute_name(:status) %></th>
+        <th><%= Feedback.human_attribute_name(:score) %></th>
+      </tr>
+    </thead>
+    <tbody>
+    <% @projects.each do |pr| %>
+      <tr project-id="<%= pr.id %>">
+        <td class="title"><%= link_to pr.title, project_path(pr) %></td>
+        <td class="description"><%= pr.description %></td>
+        <td class="attendance-type"><%= t(pr.attendance_type) %></td>
+        <td class="status-type"><%= t(pr.status) %></td>
+        <td class="score"><%= pr.score %></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+<% end %>
 
 <div>
   <%= link_to t('links.go_back'), :back, class: "btn btn-outline-primary mt-1 mb-1" %>

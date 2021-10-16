@@ -20,8 +20,6 @@ class FeedbacksController < ApplicationController
       @project_proposal.rated! if @feedback.from_user?
       redirect_to @project, success: 'Avaliação enviada com sucesso!'
     else
-      flash[:alert] = @feedback.errors.full_messages.first
-
       render :new
     end
   end

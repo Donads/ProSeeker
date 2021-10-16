@@ -41,15 +41,15 @@ class ProjectsController < ApplicationController
   end
 
   def show
-    if @project.user == current_user
-      @project_proposals = ProjectProposal.where(project: @project)
-
-      @project_proposals = @project_proposals.where(status: %i[approved rated]) unless @project.open?
-    end
-
     if current_user.professional? || current_user.admin?
       @project_proposal = ProjectProposal.find_by(project: @project, user: current_user) || ProjectProposal.new
       @project_feedback = @project.feedback_from_professional(current_user)
+    end
+
+    if @project.user == current_user || (!@project.open? && (@project_proposal.approved? || @project_proposal.rated?))
+      @project_proposals = ProjectProposal.where(project: @project)
+
+      @project_proposals = @project_proposals.where(status: %i[approved rated]) unless @project.open?
     end
   end
 

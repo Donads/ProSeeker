@@ -1,5 +1,7 @@
 <h1 class="display-5 mb-4"><%= "#{Feedback.model_name.human} #{t(@feedback_source)}" %></h1>
 
+<%= render "shared/errors", resource: @feedback %>
+
 <div class="mb-4">
 <% if @feedback_source == :from_user %>
   Você está avaliando a atuação de '<%= @feedback_receiver.professional_profile.social_name %>'' no projeto '<%= @project.title %>'.

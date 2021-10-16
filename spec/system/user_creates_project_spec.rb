@@ -20,19 +20,20 @@ describe 'User creates project' do
       click_button 'Criar Projeto'
     end
 
+    generated_project = Project.last
     expect(current_path).to eq project_path(Project.last)
     expect(page).to have_content('Projeto cadastrado com sucesso!')
     expect(page).to have_content('Situação: Aberto')
-    expect(page).to have_link('Editar')
-    expect(page).to have_link('Fechar')
+    expect(page).to have_link('Editar', href: edit_project_path(generated_project))
+    expect(page).to have_link('Fechar', href: close_project_path(generated_project))
     expect(page).to have_content(project[:title])
     expect(page).to have_content(project[:description])
     expect(page).to have_content(project[:skills])
     expect(page).to have_content("R$ #{project[:max_hourly_rate]}")
     expect(page).to have_content(I18n.l(future_date))
     expect(page).to have_content(I18n.t(project[:attendance_type]))
-    expect(page).not_to have_link('Finalizar')
-    expect(current_path).not_to eq new_project_path
+    expect(page).to have_no_link('Finalizar')
+    expect(current_path).to_not eq new_project_path
   end
 
   it 'and fails due to failed validations' do

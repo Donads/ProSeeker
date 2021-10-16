@@ -1,10 +1,4 @@
-<% if @project.errors.any? %>
-  <ul>
-    <% @project.errors.full_messages.each do |error| %>
-      <li><%= error %></li>
-    <% end %>
-  </ul>
-<% end %>
+<%= render "shared/errors", resource: @project %>
 
 <%= form_with model: @project do |f| %>
   <div class="form-floating mb-3">

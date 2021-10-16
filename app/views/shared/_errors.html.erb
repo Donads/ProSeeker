@@ -1,0 +1,9 @@
+<% if resource.respond_to?(:errors) && resource.errors.any? %>
+  <div class="alert alert-warning" role="alert">
+    <ul>
+      <% resource.errors.full_messages.each do |error| %>
+        <li><%= error %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>

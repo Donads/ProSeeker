@@ -1,5 +1,7 @@
 <h1 class="display-3"><%= @project.title %></h1>
 
+<%= render "shared/errors", resource: @project %>
+
 <dl class="row">
     <p>
       <dt class="col-sm-3"><%= Project.human_attribute_name(:description) %>:</dt>

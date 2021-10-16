@@ -59,3 +59,27 @@
   <%= button_to 'Cancelar Proposta', project_proposal_path(@project_proposal), data: { confirm: t('messages.are_you_sure?') },
   method: :delete, class: "btn btn-outline-danger mt-3 mb-3" %>
 <% end %>
+
+<% if !@project.open? && (@project_proposal.approved? || @project_proposal.rated?) %>
+  <div class="display-6 mb-3">Time do projeto:</div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th><%= ProfessionalProfile.human_attribute_name(:social_name) %></th>
+        <th><%= ProjectProposal.human_attribute_name(:reason) %></th>
+        <th><%= ProjectProposal.human_attribute_name(:weekly_hours) %></th>
+        <th><%= ProjectProposal.human_attribute_name(:deadline) %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @project_proposals.each do |pp| %>
+        <tr project-proposal-id="<%= pp.id %>">
+          <td class="social-name"><%= link_to pp.user.professional_profile.social_name, pp.user.professional_profile %></td>
+          <td class="reason"><%= pp.reason %></td>
+          <td class="weekly-hours"><%= pp.weekly_hours %></td>
+          <td class="deadline"><%= l pp.deadline %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
