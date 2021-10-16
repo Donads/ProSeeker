@@ -11,18 +11,19 @@ describe 'User views project proposals' do
                                 attendance_type: :remote_attendance, user: user)
       professional_1 = User.create!(email: 'profissional1@teste.com.br', password: '123456',
                                     role: :professional)
+      photo = fixture_file_upload('avatar_placeholder.png', 'image/png')
       ProfessionalProfile.create!(full_name: 'Fulano de Tal', social_name: 'Ciclano da Silva',
                                   description: 'Busco projetos desafiadores',
                                   professional_qualification: 'Ensino Superior',
                                   professional_experience: '6 anos trabalhando em projetos diversos',
-                                  birth_date: birth_date, user: professional_1)
+                                  birth_date: birth_date, user: professional_1, profile_photo: photo)
       professional_2 = User.create!(email: 'profissional2@teste.com.br', password: '123456',
                                     role: :professional)
       ProfessionalProfile.create!(full_name: 'George Washington', social_name: 'Antonio Nunes',
                                   description: 'Desenvolvedor com anos de experiência',
                                   professional_qualification: 'Ensino Superior',
                                   professional_experience: '15 anos trabalhando em projetos diversos',
-                                  birth_date: birth_date, user: professional_2)
+                                  birth_date: birth_date, user: professional_2, profile_photo: photo)
       ProjectProposal.create!(reason: 'Gosto muito de trabalhar com e-commerces e tenho experiência',
                               hourly_rate: 70.0, weekly_hours: 30, deadline: future_date, project: project,
                               user: professional_1)
@@ -55,18 +56,19 @@ describe 'User views project proposals' do
                                   attendance_type: :remote_attendance, user: user_1)
       professional_1 = User.create!(email: 'profissional1@teste.com.br', password: '123456',
                                     role: :professional)
+      photo = fixture_file_upload('avatar_placeholder.png', 'image/png')
       ProfessionalProfile.create!(full_name: 'Fulano de Tal', social_name: 'Ciclano da Silva',
                                   description: 'Busco projetos desafiadores',
                                   professional_qualification: 'Ensino Superior',
                                   professional_experience: '6 anos trabalhando em projetos diversos',
-                                  birth_date: birth_date, user: professional_1)
+                                  birth_date: birth_date, user: professional_1, profile_photo: photo)
       professional_2 = User.create!(email: 'profissional2@teste.com.br', password: '123456',
                                     role: :professional)
       ProfessionalProfile.create!(full_name: 'George Washington', social_name: 'Antonio Nunes',
                                   description: 'Desenvolvedor com anos de experiência',
                                   professional_qualification: 'Ensino Superior',
                                   professional_experience: '15 anos trabalhando em projetos diversos',
-                                  birth_date: birth_date, user: professional_2)
+                                  birth_date: birth_date, user: professional_2, profile_photo: photo)
       ProjectProposal.create!(reason: 'Gosto muito de trabalhar com e-commerces e tenho experiência',
                               hourly_rate: 70.0, weekly_hours: 30, deadline: future_date, project: project_1,
                               user: professional_1)
@@ -100,11 +102,12 @@ describe 'User views project proposals' do
                                 attendance_type: :presential_attendance, user: user_2)
       professional = User.create!(email: 'profissional1@teste.com.br', password: '123456',
                                   role: :professional)
+      photo = fixture_file_upload('avatar_placeholder.png', 'image/png')
       ProfessionalProfile.create!(full_name: 'Fulano de Tal', social_name: 'Ciclano da Silva',
                                   description: 'Busco projetos desafiadores',
                                   professional_qualification: 'Ensino Superior',
                                   professional_experience: '6 anos trabalhando em projetos diversos',
-                                  birth_date: birth_date, user: professional)
+                                  birth_date: birth_date, user: professional, profile_photo: photo)
       ProjectProposal.create!(reason: 'Sou especialista em atendimento presencial',
                               hourly_rate: 40.0, weekly_hours: 20, deadline: future_date, project: project,
                               user: professional)
@@ -133,18 +136,19 @@ describe 'User views project proposals' do
                                 attendance_type: :remote_attendance, user: user)
       professional_1 = User.create!(email: 'profissional1@teste.com.br', password: '123456',
                                     role: :professional)
+      photo = fixture_file_upload('avatar_placeholder.png', 'image/png')
       ProfessionalProfile.create!(full_name: 'Fulano de Tal', social_name: 'Ciclano da Silva',
                                   description: 'Busco projetos desafiadores',
                                   professional_qualification: 'Ensino Superior',
                                   professional_experience: '6 anos trabalhando em projetos diversos',
-                                  birth_date: birth_date, user: professional_1)
+                                  birth_date: birth_date, user: professional_1, profile_photo: photo)
       professional_2 = User.create!(email: 'profissional2@teste.com.br', password: '123456',
                                     role: :professional)
       ProfessionalProfile.create!(full_name: 'George Washington', social_name: 'Antonio Nunes',
                                   description: 'Desenvolvedor com anos de experiência',
                                   professional_qualification: 'Ensino Superior',
                                   professional_experience: '15 anos trabalhando em projetos diversos',
-                                  birth_date: birth_date, user: professional_2)
+                                  birth_date: birth_date, user: professional_2, profile_photo: photo)
       proposal_1 = ProjectProposal.create!(reason: 'Gosto muito de trabalhar com e-commerces e tenho experiência',
                                            hourly_rate: 70.0, weekly_hours: 30, deadline: future_date, project: project,
                                            user: professional_1)
@@ -179,18 +183,19 @@ describe 'User views project proposals' do
                                 attendance_type: :remote_attendance, user: user)
       professional_1 = User.create!(email: 'profissional1@teste.com.br', password: '123456',
                                     role: :professional)
+      photo = fixture_file_upload('avatar_placeholder.png', 'image/png')
       ProfessionalProfile.create!(full_name: 'Fulano de Tal', social_name: 'Ciclano da Silva',
                                   description: 'Busco projetos desafiadores',
                                   professional_qualification: 'Ensino Superior',
                                   professional_experience: '6 anos trabalhando em projetos diversos',
-                                  birth_date: birth_date, user: professional_1)
+                                  birth_date: birth_date, user: professional_1, profile_photo: photo)
       professional_2 = User.create!(email: 'profissional2@teste.com.br', password: '123456',
                                     role: :professional)
       ProfessionalProfile.create!(full_name: 'George Washington', social_name: 'Antonio Nunes',
                                   description: 'Desenvolvedor com anos de experiência',
                                   professional_qualification: 'Ensino Superior',
                                   professional_experience: '15 anos trabalhando em projetos diversos',
-                                  birth_date: birth_date, user: professional_2)
+                                  birth_date: birth_date, user: professional_2, profile_photo: photo)
       proposal_1 = ProjectProposal.create!(reason: 'Gosto muito de trabalhar com e-commerces e tenho experiência',
                                            hourly_rate: 70.0, weekly_hours: 30, deadline: future_date, project: project,
                                            user: professional_1)

@@ -1,11 +1,13 @@
-<h1 class="display-5 mb-4">Avaliação</h1>
-<% if @feedback.errors.any? %>
-  <ul>
-    <% @feedback.errors.full_messages.each do |error| %>
-      <li><%= error %></li>
-    <% end %>
-  </ul>
+<h1 class="display-5 mb-4"><%= "#{Feedback.model_name.human} #{t(@feedback_source)}" %></h1>
+
+<div class="mb-4">
+<% if @feedback_source == :from_user %>
+  Você está avaliando a atuação de '<%= @feedback_receiver.professional_profile.social_name %>'' no projeto '<%= @project.title %>'.
+<% else %>
+  Você está avaliando o projeto '<%= @project.title %>' e seu responsável '<%= @feedback_receiver.email %>'.
 <% end %>
+</div>
+
 <%= form_with model: @feedback do |f| %>
   <div class="form-check-group mb-3">
   Escolha uma nota:
@@ -35,10 +37,12 @@
     <%= f.text_field :user_feedback, placeholder: :user_feedback, class: "form-control" %>
     <%= f.label :user_feedback %>
   </div>
-  <div class="form-floating mb-3">
-    <%= f.text_field :project_feedback, placeholder: :project_feedback, class: "form-control" %>
-    <%= f.label :project_feedback %>
-  </div>
+  <% if current_user.professional? %>
+    <div class="form-floating mb-3">
+      <%= f.text_field :project_feedback, placeholder: :project_feedback, class: "form-control" %>
+      <%= f.label :project_feedback %>
+    </div>
+  <% end %>
 
   <%= f.hidden_field :project_proposal_id, value: @project_proposal.id %>
 

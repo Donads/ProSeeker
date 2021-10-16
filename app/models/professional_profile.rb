@@ -1,7 +1,8 @@
 class ProfessionalProfile < ApplicationRecord
   belongs_to :user, optional: true
+  has_one_attached :profile_photo
 
-  validates :full_name, :social_name, :description, :professional_qualification,
+  validates :profile_photo, :full_name, :social_name, :description, :professional_qualification,
             :professional_experience, :birth_date, presence: true
 
   validate :birth_date_must_be_in_the_past

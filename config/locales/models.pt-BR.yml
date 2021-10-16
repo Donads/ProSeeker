@@ -28,8 +28,9 @@ pt-BR:
         social_name: Nome Social
         description: Descrição
         birth_date: Data de Nascimento
-        professional_qualification: Qualificação Profissional
         professional_experience: Experiência Profissional
+        professional_qualification: Qualificação Profissional
+        profile_photo: Foto de Perfil
       project:
         attendance_type: Tipo de atuação
         description: Descrição
@@ -55,6 +56,8 @@ pt-BR:
   admin: Administrador
   professional: Profissional
   user: Usuário
+  from_professional: De Profissional Para Usuário
+  from_user: De Usuário Para Profissional
   mixed_attendance: Atuação Mista
   presential_attendance: Atuação Presencial
   remote_attendance: Atuação Remota

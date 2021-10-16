@@ -23,6 +23,13 @@
     <%= f.date_field :birth_date, placeholder: :birth_date, class: "form-control" %>
     <%= f.label :birth_date %>
   </div>
+  
+  <div class="mb-3 row">
+    <%= f.label :profile_photo, class: "col-sm-2 col-form-label" %>
+    <div class="col-sm-10">
+    <%= f.file_field :profile_photo, class: "form-control" %>
+    </div>
+  </div>
 
   <%= f.submit class: "btn btn-primary mt-3 mb-3" %>
 <% end %>

@@ -11,11 +11,12 @@ describe 'Professional gives feedback to user' do
                                 attendance_type: :remote_attendance, user: user)
       professional = User.create!(email: 'profissional2@teste.com.br', password: '123456',
                                   role: :professional)
+      photo = fixture_file_upload('avatar_placeholder.png', 'image/png')
       ProfessionalProfile.create!(full_name: 'George Washington', social_name: 'Antonio Nunes',
                                   description: 'Desenvolvedor com anos de experiência',
                                   professional_qualification: 'Ensino Superior',
                                   professional_experience: '15 anos trabalhando em projetos diversos',
-                                  birth_date: birth_date, user: professional)
+                                  birth_date: birth_date, user: professional, profile_photo: photo)
       proposal = ProjectProposal.create!(reason: 'Domino o desenvolvimento de projetos web',
                                          hourly_rate: 80.0, weekly_hours: 40, deadline: future_date, project: project,
                                          user: professional, status: :approved)
@@ -36,6 +37,7 @@ describe 'Professional gives feedback to user' do
       expect(page).to have_css('div', text: 'Avaliação enviada com sucesso!')
       expect(project.feedback_from_professional(professional).project_feedback).to include(feedback[:project_feedback])
       expect(user.reload.average_score_received?).to eq feedback[:score]
+      expect(page).to have_content('Usuário responsável: usuario1@teste.com.br (Nota média: 5.0)')
       expect(page).to have_content('Situação: Finalizado')
       expect(page).to have_link('Avaliação')
       expect(page).not_to have_link('Editar')

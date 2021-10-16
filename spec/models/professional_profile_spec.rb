@@ -37,6 +37,12 @@ RSpec.describe ProfessionalProfile, type: :model do
       profile.valid?
       expect(profile.errors.full_messages_for(:birth_date)).to include('Data de Nascimento não pode ficar em branco')
     end
+
+    it 'profile_photo must be present' do
+      profile = ProfessionalProfile.new
+      profile.valid?
+      expect(profile.errors.full_messages_for(:profile_photo)).to include('Foto de Perfil não pode ficar em branco')
+    end
   end
 
   context 'birth_date must be in the past' do

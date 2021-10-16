@@ -27,6 +27,7 @@ describe 'Professional must fill profile' do
         fill_in 'Qualificação Profissional', with: 'Ensino Superior'
         fill_in 'Experiência Profissional', with: '6 anos trabalhando em projetos diversos'
         fill_in 'Data de Nascimento', with: birth_date
+        attach_file 'professional_profile[profile_photo]', 'spec/fixtures/files/avatar_placeholder.png'
         click_button 'Criar Perfil Profissional'
       end
 

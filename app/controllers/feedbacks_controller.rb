@@ -14,12 +14,7 @@ class FeedbacksController < ApplicationController
     @feedback.project_proposal = @project_proposal
     @feedback.feedback_creator = @feedback_creator
     @feedback.feedback_receiver = @feedback_receiver
-
-    @feedback.feedback_source = if @feedback_creator.user?
-                                  :from_user
-                                else
-                                  :from_professional
-                                end
+    @feedback.feedback_source = @feedback_source
 
     if @feedback.save
       @project_proposal.rated! if @feedback.from_user?
@@ -70,8 +65,10 @@ class FeedbacksController < ApplicationController
 
     if current_user.user? && @project.user == current_user
       @feedback_receiver = @project_proposal.user
+      @feedback_source = :from_user
     elsif current_user.professional? && @project_proposal.user == current_user
       @feedback_receiver = @project.user
+      @feedback_source = :from_professional
     else
       redirect_to root_path, alert: 'Acesso restrito aos participantes.'
     end
