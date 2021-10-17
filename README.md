@@ -6,7 +6,7 @@ ProSeeker is a platform that connects professionals and users that need professi
 
 ### Prerequisites
 
-You must have both Ruby and Rails installed. For more information, check [Tools used during development](#Tools-used-during-development:)
+You must have both Ruby and Rails installed. For more information, check the section [Tools used during development](#Tools-used-during-development)
 
 ### Installing
 
@@ -17,6 +17,23 @@ bin/setup
 ```
 
 ### Running
+
+*OPTIONAL:* If you wish to populate the database with a few examples, you can run the following commands,
+which will then create several records which will allow you to navigate through the project with ease
+```
+rails db:reset
+rails dev:populate_database
+```
+This will also create the following users:
+```
+```
+
+If instead you want to have a clean start, you could just run the following commands to seed the database
+with records that would otherwise need to be created by an admin:
+```
+rails db:reset
+rails dev:create_knowledge_fields
+```
 
 Running the following command will start the server, which will then be accessible through http://localhost:3000
 ```
@@ -30,7 +47,7 @@ Tests can be run using the following command
 rspec
 ```
 
-## Tools used during development:
+## Tools used during development
 
 - [Ruby](https://github.com/ruby/ruby) - 3.0.0
 

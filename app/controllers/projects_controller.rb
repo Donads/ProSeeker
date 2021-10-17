@@ -47,21 +47,21 @@ class ProjectsController < ApplicationController
     end
 
     if @project.user == current_user
-      @project_proposals = if @project.finished?
-                             ProjectProposal.left_outer_joins(:feedbacks).where(
-                               project: @project, feedbacks: { feedback_source: [:from_user, nil] }
-                             ).select('project_proposals.*, feedbacks.id AS feedback_id')
-                           else
-                             ProjectProposal.where(project: @project)
-                           end
-    elsif !@project.open? && (@project_proposal.approved? || @project_proposal.rated?)
       @project_proposals = ProjectProposal.where(project: @project)
-    end
 
-    if @project_proposals && !@project.open?
-      @project_proposals = @project_proposals.where(
-        status: %i[approved rated]
-      )
+      if @project_proposals && !@project.open?
+        @project_proposals = @project_proposals.where(
+          status: %i[approved rated]
+        )
+      end
+
+      if @project.finished?
+        @project_proposals = @project_proposals.joins('LEFT JOIN feedbacks ON feedbacks.project_proposal_id = project_proposals.id').where(
+          'feedbacks.feedback_source != ? OR feedbacks.feedback_source IS NULL', 'from_user'
+        ).select('project_proposals.*, feedbacks.id AS feedback_id').uniq
+      end
+    elsif !@project.open? && (@project_proposal.approved? || @project_proposal.rated?)
+      @project_proposals = ProjectProposal.where(project: @project, status: %i[approved rated])
     end
   end
 

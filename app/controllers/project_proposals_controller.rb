@@ -29,6 +29,7 @@ class ProjectProposalsController < ApplicationController
     end
 
     if @project_proposal.update(project_proposal_params)
+      @project_proposal.status_reason = ''
       @project_proposal.pending!
 
       redirect_to @project, success: 'Proposta atualizada com sucesso!'
