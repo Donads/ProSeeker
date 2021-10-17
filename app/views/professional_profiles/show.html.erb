@@ -27,6 +27,11 @@
     <dd class="col-sm-9"><%= @professional_profile.professional_experience %></dd>
   </p>
   <p>
+    <dt class="col-sm-3"><%= KnowledgeField.model_name.human %>:</dt>
+    <%# byebug %>
+    <dd class="col-sm-9"><%= @professional_profile.knowledge_field.title %></dd>
+  </p>
+  <p>
     <dt class="col-sm-3"><%= ProfessionalProfile.human_attribute_name(:birth_date) %>:</dt>
     <dd class="col-sm-9"><%= l @professional_profile.birth_date %></dd>
   </p>

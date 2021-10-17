@@ -39,12 +39,14 @@ describe 'Visitor signs in' do
   context 'as a professional' do
     it 'successfully and has filled their profile' do
       photo = fixture_file_upload('avatar_placeholder.png', 'image/png')
+      knowledge_field = KnowledgeField.create!(title: 'Desenvolvedor')
       professional = User.create!(email: 'profissional@teste.com.br', password: '123456', role: :professional)
       profile = ProfessionalProfile.create!(full_name: 'Fulano de Tal', social_name: 'Ciclano da Silva',
                                             description: 'Busco projetos desafiadores',
                                             professional_qualification: 'Ensino Superior',
                                             professional_experience: '6 anos trabalhando em projetos diversos',
-                                            birth_date: '1990-12-31', user: professional, profile_photo: photo)
+                                            birth_date: '1990-12-31',
+                                            user: professional, knowledge_field: knowledge_field, profile_photo: photo)
 
       visit root_path
       click_link 'Entrar'

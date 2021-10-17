@@ -6,6 +6,7 @@ describe 'User views project proposals' do
       birth_date = 30.years.ago.to_date
       future_date = 2.months.from_now.to_date
       photo = fixture_file_upload('avatar_placeholder.png', 'image/png')
+      knowledge_field = KnowledgeField.create!(title: 'Desenvolvedor')
       user = User.create!(email: 'usuario1@teste.com.br', password: '123456', role: :user)
       project = Project.create!(title: 'Projeto de E-commerce', description: 'Desenvolver plataforma web',
                                 skills: 'Ruby on Rails', max_hourly_rate: 80, open_until: future_date,
@@ -16,14 +17,14 @@ describe 'User views project proposals' do
                                               description: 'Busco projetos desafiadores',
                                               professional_qualification: 'Ensino Superior',
                                               professional_experience: '6 anos trabalhando em projetos diversos',
-                                              birth_date: birth_date, user: professional_1, profile_photo: photo)
+                                              birth_date: birth_date, user: professional_1, knowledge_field: knowledge_field, profile_photo: photo)
       professional_2 = User.create!(email: 'profissional2@teste.com.br', password: '123456',
                                     role: :professional)
       profile_2 = ProfessionalProfile.create!(full_name: 'George Washington', social_name: 'Antonio Nunes',
                                               description: 'Desenvolvedor com anos de experiência',
                                               professional_qualification: 'Ensino Superior',
                                               professional_experience: '15 anos trabalhando em projetos diversos',
-                                              birth_date: birth_date, user: professional_2, profile_photo: photo)
+                                              birth_date: birth_date, user: professional_2, knowledge_field: knowledge_field, profile_photo: photo)
       proposal_1 = ProjectProposal.create!(reason: 'Gosto muito de trabalhar com e-commerces e tenho experiência',
                                            hourly_rate: 70.0, weekly_hours: 30, deadline: future_date, project: project,
                                            user: professional_1)
@@ -53,6 +54,7 @@ describe 'User views project proposals' do
       birth_date = 30.years.ago.to_date
       future_date = 2.months.from_now.to_date
       photo = fixture_file_upload('avatar_placeholder.png', 'image/png')
+      knowledge_field = KnowledgeField.create!(title: 'Desenvolvedor')
       user_1 = User.create!(email: 'usuario1@teste.com.br', password: '123456', role: :user)
       project_1 = Project.create!(title: 'Projeto de E-commerce', description: 'Desenvolver plataforma web',
                                   skills: 'Ruby on Rails', max_hourly_rate: 80, open_until: future_date,
@@ -63,14 +65,14 @@ describe 'User views project proposals' do
                                   description: 'Busco projetos desafiadores',
                                   professional_qualification: 'Ensino Superior',
                                   professional_experience: '6 anos trabalhando em projetos diversos',
-                                  birth_date: birth_date, user: professional_1, profile_photo: photo)
+                                  birth_date: birth_date, user: professional_1, knowledge_field: knowledge_field, profile_photo: photo)
       professional_2 = User.create!(email: 'profissional2@teste.com.br', password: '123456',
                                     role: :professional)
       ProfessionalProfile.create!(full_name: 'George Washington', social_name: 'Antonio Nunes',
                                   description: 'Desenvolvedor com anos de experiência',
                                   professional_qualification: 'Ensino Superior',
                                   professional_experience: '15 anos trabalhando em projetos diversos',
-                                  birth_date: birth_date, user: professional_2, profile_photo: photo)
+                                  birth_date: birth_date, user: professional_2, knowledge_field: knowledge_field, profile_photo: photo)
       ProjectProposal.create!(reason: 'Gosto muito de trabalhar com e-commerces e tenho experiência',
                               hourly_rate: 70.0, weekly_hours: 30, deadline: future_date, project: project_1,
                               user: professional_1)
@@ -98,6 +100,7 @@ describe 'User views project proposals' do
       birth_date = 30.years.ago.to_date
       future_date = 2.months.from_now.to_date
       photo = fixture_file_upload('avatar_placeholder.png', 'image/png')
+      knowledge_field = KnowledgeField.create!(title: 'Desenvolvedor')
       user_1 = User.create!(email: 'usuario1@teste.com.br', password: '123456', role: :user)
       user_2 = User.create!(email: 'usuario2@teste.com.br', password: '123456', role: :user)
       project = Project.create!(title: 'Desenvolvimento no cliente', description: 'Desenvolver customizações em sistema',
@@ -109,7 +112,7 @@ describe 'User views project proposals' do
                                   description: 'Busco projetos desafiadores',
                                   professional_qualification: 'Ensino Superior',
                                   professional_experience: '6 anos trabalhando em projetos diversos',
-                                  birth_date: birth_date, user: professional, profile_photo: photo)
+                                  birth_date: birth_date, user: professional, knowledge_field: knowledge_field, profile_photo: photo)
       ProjectProposal.create!(reason: 'Sou especialista em atendimento presencial',
                               hourly_rate: 40.0, weekly_hours: 20, deadline: future_date, project: project,
                               user: professional)
@@ -133,6 +136,7 @@ describe 'User views project proposals' do
       birth_date = 30.years.ago.to_date
       future_date = 2.months.from_now.to_date
       photo = fixture_file_upload('avatar_placeholder.png', 'image/png')
+      knowledge_field = KnowledgeField.create!(title: 'Desenvolvedor')
       user = User.create!(email: 'usuario1@teste.com.br', password: '123456', role: :user)
       project = Project.create!(title: 'Projeto de E-commerce', description: 'Desenvolver plataforma web',
                                 skills: 'Ruby on Rails', max_hourly_rate: 80, open_until: future_date,
@@ -143,14 +147,14 @@ describe 'User views project proposals' do
                                               description: 'Busco projetos desafiadores',
                                               professional_qualification: 'Ensino Superior',
                                               professional_experience: '6 anos trabalhando em projetos diversos',
-                                              birth_date: birth_date, user: professional_1, profile_photo: photo)
+                                              birth_date: birth_date, user: professional_1, knowledge_field: knowledge_field, profile_photo: photo)
       professional_2 = User.create!(email: 'profissional2@teste.com.br', password: '123456',
                                     role: :professional)
       profile_2 = ProfessionalProfile.create!(full_name: 'George Washington', social_name: 'Antonio Nunes',
                                               description: 'Desenvolvedor com anos de experiência',
                                               professional_qualification: 'Ensino Superior',
                                               professional_experience: '15 anos trabalhando em projetos diversos',
-                                              birth_date: birth_date, user: professional_2, profile_photo: photo)
+                                              birth_date: birth_date, user: professional_2, knowledge_field: knowledge_field, profile_photo: photo)
       proposal_1 = ProjectProposal.create!(reason: 'Gosto muito de trabalhar com e-commerces e tenho experiência',
                                            hourly_rate: 70.0, weekly_hours: 30, deadline: future_date, project: project,
                                            user: professional_1)
@@ -180,6 +184,7 @@ describe 'User views project proposals' do
       birth_date = 30.years.ago.to_date
       future_date = 2.months.from_now.to_date
       photo = fixture_file_upload('avatar_placeholder.png', 'image/png')
+      knowledge_field = KnowledgeField.create!(title: 'Desenvolvedor')
       user = User.create!(email: 'usuario1@teste.com.br', password: '123456', role: :user)
       project = Project.create!(title: 'Projeto de E-commerce', description: 'Desenvolver plataforma web',
                                 skills: 'Ruby on Rails', max_hourly_rate: 80, open_until: future_date,
@@ -190,14 +195,14 @@ describe 'User views project proposals' do
                                               description: 'Busco projetos desafiadores',
                                               professional_qualification: 'Ensino Superior',
                                               professional_experience: '6 anos trabalhando em projetos diversos',
-                                              birth_date: birth_date, user: professional_1, profile_photo: photo)
+                                              birth_date: birth_date, user: professional_1, knowledge_field: knowledge_field, profile_photo: photo)
       professional_2 = User.create!(email: 'profissional2@teste.com.br', password: '123456',
                                     role: :professional)
       profile_2 = ProfessionalProfile.create!(full_name: 'George Washington', social_name: 'Antonio Nunes',
                                               description: 'Desenvolvedor com anos de experiência',
                                               professional_qualification: 'Ensino Superior',
                                               professional_experience: '15 anos trabalhando em projetos diversos',
-                                              birth_date: birth_date, user: professional_2, profile_photo: photo)
+                                              birth_date: birth_date, user: professional_2, knowledge_field: knowledge_field, profile_photo: photo)
       proposal_1 = ProjectProposal.create!(reason: 'Gosto muito de trabalhar com e-commerces e tenho experiência',
                                            hourly_rate: 70.0, weekly_hours: 30, deadline: future_date, project: project,
                                            user: professional_1)
@@ -227,6 +232,7 @@ describe 'User views project proposals' do
       birth_date = 30.years.ago.to_date
       future_date = 2.months.from_now.to_date
       photo = fixture_file_upload('avatar_placeholder.png', 'image/png')
+      knowledge_field = KnowledgeField.create!(title: 'Desenvolvedor')
       user = User.create!(email: 'usuario1@teste.com.br', password: '123456', role: :user)
       project = Project.create!(title: 'Projeto de E-commerce', description: 'Desenvolver plataforma web',
                                 skills: 'Ruby on Rails', max_hourly_rate: 80, open_until: future_date,
@@ -237,14 +243,14 @@ describe 'User views project proposals' do
                                               description: 'Busco projetos desafiadores',
                                               professional_qualification: 'Ensino Superior',
                                               professional_experience: '6 anos trabalhando em projetos diversos',
-                                              birth_date: birth_date, user: professional_1, profile_photo: photo)
+                                              birth_date: birth_date, user: professional_1, knowledge_field: knowledge_field, profile_photo: photo)
       professional_2 = User.create!(email: 'profissional2@teste.com.br', password: '123456',
                                     role: :professional)
       profile_2 = ProfessionalProfile.create!(full_name: 'George Washington', social_name: 'Antonio Nunes',
                                               description: 'Desenvolvedor com anos de experiência',
                                               professional_qualification: 'Ensino Superior',
                                               professional_experience: '15 anos trabalhando em projetos diversos',
-                                              birth_date: birth_date, user: professional_2, profile_photo: photo)
+                                              birth_date: birth_date, user: professional_2, knowledge_field: knowledge_field, profile_photo: photo)
       proposal_1 = ProjectProposal.create!(reason: 'Gosto muito de trabalhar com e-commerces e tenho experiência',
                                            hourly_rate: 70.0, weekly_hours: 30, deadline: future_date, project: project,
                                            user: professional_1)

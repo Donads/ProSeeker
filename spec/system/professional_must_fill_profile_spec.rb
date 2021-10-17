@@ -17,6 +17,7 @@ describe 'Professional must fill profile' do
     it 'gets redirected and fills it successfully' do
       birth_date = 30.years.ago.to_date
       professional = User.create!(email: 'profissional@teste.com.br', password: '123456', role: :professional)
+      knowledge_field = KnowledgeField.create!(title: 'Desenvolvedor')
 
       login_as professional, scope: :user
       visit root_path
@@ -26,6 +27,7 @@ describe 'Professional must fill profile' do
         fill_in 'Descrição', with: 'Busco projetos desafiadores'
         fill_in 'Qualificação Profissional', with: 'Ensino Superior'
         fill_in 'Experiência Profissional', with: '6 anos trabalhando em projetos diversos'
+        select 'Desenvolvedor', from: 'Área de Conhecimento'
         fill_in 'Data de Nascimento', with: birth_date
         attach_file 'professional_profile[profile_photo]', 'spec/fixtures/files/avatar_placeholder.png'
         click_button 'Criar Perfil Profissional'

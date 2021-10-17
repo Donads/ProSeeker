@@ -20,6 +20,11 @@
     <%= f.label :professional_experience %>
   </div>
   <div class="form-floating mb-3">
+    <%# byebug %>
+    <%= f.collection_select :knowledge_field_id, KnowledgeField.order(:title), :id, :title, {}, class: "form-select" %>
+    <%= f.label :knowledge_field_id, KnowledgeField.model_name.human %>
+  </div>
+  <div class="form-floating mb-3">
     <%= f.date_field :birth_date, placeholder: :birth_date, class: "form-control" %>
     <%= f.label :birth_date %>
   </div>

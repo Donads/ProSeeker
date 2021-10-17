@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_17_170541) do
+ActiveRecord::Schema.define(version: 2021_10_17_225814) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -69,6 +69,8 @@ ActiveRecord::Schema.define(version: 2021_10_17_170541) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "user_id", null: false
+    t.integer "knowledge_field_id", null: false
+    t.index ["knowledge_field_id"], name: "index_professional_profiles_on_knowledge_field_id"
     t.index ["user_id"], name: "index_professional_profiles_on_user_id"
   end
 
@@ -120,6 +122,7 @@ ActiveRecord::Schema.define(version: 2021_10_17_170541) do
   add_foreign_key "feedbacks", "project_proposals"
   add_foreign_key "feedbacks", "users", column: "feedback_creator_id"
   add_foreign_key "feedbacks", "users", column: "feedback_receiver_id"
+  add_foreign_key "professional_profiles", "knowledge_fields"
   add_foreign_key "professional_profiles", "users"
   add_foreign_key "project_proposals", "projects"
   add_foreign_key "project_proposals", "users"

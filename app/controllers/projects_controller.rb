@@ -56,8 +56,10 @@ class ProjectsController < ApplicationController
       end
 
       if @project.finished?
-        @project_proposals = @project_proposals.joins('LEFT JOIN feedbacks ON feedbacks.project_proposal_id = project_proposals.id').where(
-          'feedbacks.feedback_source != ? OR feedbacks.feedback_source IS NULL', 'from_user'
+        from_user = Feedback.feedback_sources[:from_user].to_s
+
+        @project_proposals = @project_proposals.joins(
+          'LEFT JOIN feedbacks ON feedbacks.project_proposal_id = project_proposals.id AND feedbacks.feedback_source = ' + from_user
         ).select('project_proposals.*, feedbacks.id AS feedback_id').uniq
       end
     elsif !@project.open? && (@project_proposal.approved? || @project_proposal.rated?)

@@ -36,7 +36,7 @@ class ProfessionalProfilesController < ApplicationController
 
   def professional_profile_params
     params.require(:professional_profile).permit(:profile_photo, :full_name, :social_name, :description, :birth_date,
-                                                 :professional_qualification, :professional_experience)
+                                                 :professional_qualification, :professional_experience, :knowledge_field_id)
   end
 
   def require_professional_login

@@ -53,18 +53,21 @@ namespace :dev do
     professional_1 = User.find_by(email: 'profissional1@teste.com.br')
     professional_2 = User.find_by(email: 'profissional2@teste.com.br')
     professional_3 = User.find_by(email: 'profissional3@teste.com.br')
+    knowledge_field_1 = KnowledgeField.find_by(title: 'Desenvolvedor Full Stack')
+    knowledge_field_2 = KnowledgeField.find_by(title: 'Desenvolvedor Full Stack')
+    knowledge_field_3 = KnowledgeField.find_by(title: 'Desenvolvedor Back-End')
     birth_date = 40.years.ago
 
     professional_profiles = [
       { full_name: 'João da Silva', social_name: 'João da Silva', description: 'Essa é a descrição do meu perfil',
         birth_date: birth_date, professional_qualification: 'Essas são minhas qualificações profissionais',
-        professional_experience: 'Essa é minha experiência profissional', user: professional_1 },
+        professional_experience: 'Essa é minha experiência profissional', knowledge_field: knowledge_field_1, user: professional_1 },
       { full_name: 'Alessando Oliveira', social_name: 'Marcia Oliveira', description: 'Essa é a descrição do meu perfil',
         birth_date: birth_date, professional_qualification: 'Essas são minhas qualificações profissionais',
-        professional_experience: 'Essa é minha experiência profissional', user: professional_2 },
+        professional_experience: 'Essa é minha experiência profissional', knowledge_field: knowledge_field_2, user: professional_2 },
       { full_name: 'Maria Eduarda', social_name: 'Maria Eduarda', description: 'Essa é a descrição do meu perfil',
         birth_date: birth_date, professional_qualification: 'Essas são minhas qualificações profissionais',
-        professional_experience: 'Essa é minha experiência profissional', user: professional_3 }
+        professional_experience: 'Essa é minha experiência profissional', knowledge_field: knowledge_field_3, user: professional_3 }
     ]
 
     professional_profiles.each do |profile|

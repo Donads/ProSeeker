@@ -5,12 +5,13 @@ describe 'Professional applies for project' do
     birth_date = 30.years.ago.to_date
     future_date = 2.months.from_now.to_date
     photo = fixture_file_upload('avatar_placeholder.png', 'image/png')
+    knowledge_field = KnowledgeField.create!(title: 'Desenvolvedor')
     professional = User.create!(email: 'profissional@teste.com.br', password: '123456', role: :professional)
     ProfessionalProfile.create!(full_name: 'Fulano de Tal', social_name: 'Ciclano da Silva',
                                 description: 'Busco projetos desafiadores',
                                 professional_qualification: 'Ensino Superior',
                                 professional_experience: '6 anos trabalhando em projetos diversos',
-                                birth_date: birth_date, user: professional, profile_photo: photo)
+                                birth_date: birth_date, user: professional, knowledge_field: knowledge_field, profile_photo: photo)
     user = User.create!(email: 'usuario@teste.com.br', password: '123456', role: :user)
     project = Project.create!(title: 'Projeto de E-commerce', description: 'Desenvolver plataforma web',
                               skills: 'Ruby on Rails', max_hourly_rate: 80, open_until: future_date,
@@ -42,12 +43,13 @@ describe 'Professional applies for project' do
     birth_date = 30.years.ago.to_date
     future_date = 2.months.from_now.to_date
     photo = fixture_file_upload('avatar_placeholder.png', 'image/png')
+    knowledge_field = KnowledgeField.create!(title: 'Desenvolvedor')
     professional = User.create!(email: 'profissional@teste.com.br', password: '123456', role: :professional)
     ProfessionalProfile.create!(full_name: 'Fulano de Tal', social_name: 'Ciclano da Silva',
                                 description: 'Busco projetos desafiadores',
                                 professional_qualification: 'Ensino Superior',
                                 professional_experience: '6 anos trabalhando em projetos diversos',
-                                birth_date: birth_date, user: professional, profile_photo: photo)
+                                birth_date: birth_date, user: professional, knowledge_field: knowledge_field, profile_photo: photo)
     user = User.create!(email: 'usuario@teste.com.br', password: '123456', role: :user)
     project = Project.create!(title: 'Projeto de E-commerce', description: 'Desenvolver plataforma web',
                               skills: 'Ruby on Rails', max_hourly_rate: 80, open_until: future_date,
@@ -78,12 +80,13 @@ describe 'Professional applies for project' do
     birth_date = 30.years.ago.to_date
     future_date = 2.months.from_now.to_date
     photo = fixture_file_upload('avatar_placeholder.png', 'image/png')
+    knowledge_field = KnowledgeField.create!(title: 'Desenvolvedor')
     professional = User.create!(email: 'profissional@teste.com.br', password: '123456', role: :professional)
     ProfessionalProfile.create!(full_name: 'Fulano de Tal', social_name: 'Ciclano da Silva',
                                 description: 'Busco projetos desafiadores',
                                 professional_qualification: 'Ensino Superior',
                                 professional_experience: '6 anos trabalhando em projetos diversos',
-                                birth_date: birth_date, user: professional, profile_photo: photo)
+                                birth_date: birth_date, user: professional, knowledge_field: knowledge_field, profile_photo: photo)
     user = User.create!(email: 'usuario@teste.com.br', password: '123456', role: :user)
     project = Project.create!(title: 'Projeto de E-commerce', description: 'Desenvolver plataforma web',
                               skills: 'Ruby on Rails', max_hourly_rate: 80, open_until: future_date,
@@ -107,12 +110,13 @@ describe 'Professional applies for project' do
     birth_date = 30.years.ago.to_date
     future_date = 2.months.from_now.to_date
     photo = fixture_file_upload('avatar_placeholder.png', 'image/png')
+    knowledge_field = KnowledgeField.create!(title: 'Desenvolvedor')
     professional = User.create!(email: 'profissional@teste.com.br', password: '123456', role: :professional)
     ProfessionalProfile.create!(full_name: 'Fulano de Tal', social_name: 'Ciclano da Silva',
                                 description: 'Busco projetos desafiadores',
                                 professional_qualification: 'Ensino Superior',
                                 professional_experience: '6 anos trabalhando em projetos diversos',
-                                birth_date: birth_date, user: professional, profile_photo: photo)
+                                birth_date: birth_date, user: professional, knowledge_field: knowledge_field, profile_photo: photo)
     user = User.create!(email: 'usuario@teste.com.br', password: '123456', role: :user)
     project = Project.create!(title: 'Projeto de E-commerce', description: 'Desenvolver plataforma web',
                               skills: 'Ruby on Rails', max_hourly_rate: 80, open_until: future_date,
@@ -140,12 +144,13 @@ describe 'Professional applies for project' do
     birth_date = 30.years.ago.to_date
     future_date = 2.months.from_now.to_date
     photo = fixture_file_upload('avatar_placeholder.png', 'image/png')
+    knowledge_field = KnowledgeField.create!(title: 'Desenvolvedor')
     professional = User.create!(email: 'profissional@teste.com.br', password: '123456', role: :professional)
     ProfessionalProfile.create!(full_name: 'Fulano de Tal', social_name: 'Ciclano da Silva',
                                 description: 'Busco projetos desafiadores',
                                 professional_qualification: 'Ensino Superior',
                                 professional_experience: '6 anos trabalhando em projetos diversos',
-                                birth_date: birth_date, user: professional, profile_photo: photo)
+                                birth_date: birth_date, user: professional, knowledge_field: knowledge_field, profile_photo: photo)
     user = User.create!(email: 'usuario@teste.com.br', password: '123456', role: :user)
     project = Project.create!(title: 'Projeto de E-commerce', description: 'Desenvolver plataforma web',
                               skills: 'Ruby on Rails', max_hourly_rate: 80, open_until: future_date,
@@ -173,12 +178,13 @@ describe 'Professional applies for project' do
     birth_date = 30.years.ago.to_date
     future_date = 2.months.from_now.to_date
     photo = fixture_file_upload('avatar_placeholder.png', 'image/png')
+    knowledge_field = KnowledgeField.create!(title: 'Desenvolvedor')
     professional = User.create!(email: 'profissional@teste.com.br', password: '123456', role: :professional)
     ProfessionalProfile.create!(full_name: 'Fulano de Tal', social_name: 'Ciclano da Silva',
                                 description: 'Busco projetos desafiadores',
                                 professional_qualification: 'Ensino Superior',
                                 professional_experience: '6 anos trabalhando em projetos diversos',
-                                birth_date: birth_date, user: professional, profile_photo: photo)
+                                birth_date: birth_date, user: professional, knowledge_field: knowledge_field, profile_photo: photo)
     user = User.create!(email: 'usuario@teste.com.br', password: '123456', role: :user)
     project = Project.create!(title: 'Projeto de E-commerce', description: 'Desenvolver plataforma web',
                               skills: 'Ruby on Rails', max_hourly_rate: 80, open_until: future_date,

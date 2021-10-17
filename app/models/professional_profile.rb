@@ -1,5 +1,6 @@
 class ProfessionalProfile < ApplicationRecord
   belongs_to :user, optional: true
+  belongs_to :knowledge_field
   has_one_attached :profile_photo
 
   validates :profile_photo, :full_name, :social_name, :description, :professional_qualification,

@@ -19,13 +19,25 @@ bin/setup
 ### Running
 
 *OPTIONAL:* If you wish to populate the database with a few examples, you can run the following commands,
-which will then create several records which will allow you to navigate through the project with ease
+which will then create several records which will allow you to navigate through the project with ease in the development environment
 ```
 rails db:reset
 rails dev:populate_database
 ```
 This will also create the following users:
 ```
+Admin:
+email: 'admin@teste.com.br', password: '123456'
+
+Users:
+email: 'usuario1@teste.com.br', password: '123456'
+email: 'usuario2@teste.com.br', password: '123456'
+email: 'usuario3@teste.com.br', password: '123456'
+
+Professionals:
+email: 'profissional1@teste.com.br', password: '123456'
+email: 'profissional2@teste.com.br', password: '123456'
+email: 'profissional3@teste.com.br', password: '123456'
 ```
 
 If instead you want to have a clean start, you could just run the following commands to seed the database

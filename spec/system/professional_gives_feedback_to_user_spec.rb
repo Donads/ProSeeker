@@ -6,6 +6,7 @@ describe 'Professional gives feedback to user' do
       birth_date = 30.years.ago.to_date
       future_date = 2.months.from_now.to_date
       photo = fixture_file_upload('avatar_placeholder.png', 'image/png')
+      knowledge_field = KnowledgeField.create!(title: 'Desenvolvedor')
       user = User.create!(email: 'usuario1@teste.com.br', password: '123456', role: :user)
       project = Project.create!(title: 'Projeto de E-commerce', description: 'Desenvolver plataforma web',
                                 skills: 'Ruby on Rails', max_hourly_rate: 80, open_until: future_date,
@@ -16,7 +17,7 @@ describe 'Professional gives feedback to user' do
                                   description: 'Desenvolvedor com anos de experiência',
                                   professional_qualification: 'Ensino Superior',
                                   professional_experience: '15 anos trabalhando em projetos diversos',
-                                  birth_date: birth_date, user: professional, profile_photo: photo)
+                                  birth_date: birth_date, user: professional, knowledge_field: knowledge_field, profile_photo: photo)
       proposal = ProjectProposal.create!(reason: 'Domino o desenvolvimento de projetos web',
                                          hourly_rate: 80.0, weekly_hours: 40, deadline: future_date, project: project,
                                          user: professional, status: :approved)
