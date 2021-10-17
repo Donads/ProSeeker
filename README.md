@@ -1,24 +1,49 @@
-# README
+# ProSeeker
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+ProSeeker is a platform that connects professionals and users that need professionals to work on their projects.
 
-Things you may want to cover:
+## Getting Started
 
-* Ruby version
+### Prerequisites
 
-* System dependencies
+You must have both Ruby and Rails installed. For more information, check [Tools used during development](#Tools-used-during-development:)
 
-* Configuration
+### Installing
 
-* Database creation
+Clone the project
+Navigate to the root folder of the project and then run
+```
+bin/setup
+```
 
-* Database initialization
+### Running
 
-* How to run the test suite
+Running the following command will start the server, which will then be accessible through http://localhost:3000
+```
+rails server
+```
 
-* Services (job queues, cache servers, search engines, etc.)
+## Test Suite
 
-* Deployment instructions
+Tests can be run using the following command
+```
+rspec
+```
 
-* ...
+## Tools used during development:
+
+- [Ruby](https://github.com/ruby/ruby) - 3.0.0
+
+- [Rails](https://github.com/rails/rails) - 6.1.4
+
+- SQLite3 - 1.4.2
+
+- [RSpec](https://github.com/rspec/rspec-rails) - 3.10
+
+- [Capybara](https://github.com/teamcapybara/capybara) - 3.35.3
+
+- [Devise](https://github.com/heartcombo/devise) - 4.8.0
+
+- [Bootstrap](https://github.com/twbs/bootstrap) - 5.1
+
+- [SolarGraph](https://github.com/castwide/solargraph) - 0.44.0

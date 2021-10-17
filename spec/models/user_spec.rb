@@ -22,14 +22,19 @@ RSpec.describe User, type: :model do
       expect(user.errors.full_messages_for(:role)).to eq []
     end
 
-    it 'admin is valid' do
-      user = User.new(role: :professional)
+    it 'admin is not valid on create' do
+      user = User.new(role: :admin)
       user.valid?
-      expect(user.errors.full_messages_for(:role)).to eq []
+      expect(user.errors.full_messages_for(:role)).to include('Função não está incluído na lista')
+      expect(user.errors.full_messages_for(:role)).to include('Função não está disponível')
     end
 
-    it 'others are not valid' do
-      # TODO: Implement validation that doesn't raise ArgumentError
+    it 'admin is not valid on create' do
+      user = User.create!(email: 'admin@admin.com', password: '123456', role: :user)
+      user.admin!
+      user.valid?
+      expect(user.role).to eq 'admin'
+      expect(user.errors.full_messages_for(:role)).to eq []
     end
   end
 end

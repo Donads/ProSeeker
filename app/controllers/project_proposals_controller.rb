@@ -14,7 +14,6 @@ class ProjectProposalsController < ApplicationController
       redirect_to @project_proposal.project, success: 'Proposta enviada com sucesso!'
     else
       redirect_to @project, warning: 'Erro ao inserir a proposta!'
-      # render 'projects/show'
     end
   end
 
@@ -34,9 +33,7 @@ class ProjectProposalsController < ApplicationController
 
       redirect_to @project, success: 'Proposta atualizada com sucesso!'
     else
-      # TODO: Find out why the flash error validation doesn't reach this part (update, create and maybe destroy)
       redirect_to @project, warning: 'Erro ao atualizar a proposta!'
-      # render 'projects/show'
     end
   end
 
@@ -45,7 +42,6 @@ class ProjectProposalsController < ApplicationController
       redirect_to @project, success: 'Proposta cancelada com sucesso!'
     else
       redirect_to @project, warning: 'Erro ao cancelar a proposta!'
-      # render 'projects/show'
     end
   end
 

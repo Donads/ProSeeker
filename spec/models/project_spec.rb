@@ -123,9 +123,5 @@ RSpec.describe Project, type: :model do
       project.valid?
       expect(project.errors.full_messages_for(:attendance_type)).to eq []
     end
-
-    it 'other are not valid' do
-      # TODO: Implement validation that doesn't raise ArgumentError
-    end
   end
 end
