@@ -1,0 +1,26 @@
+<h1 class="display-5 mb-4">Avaliações Recebidas</h1>
+
+<%= render "shared/errors", resource: @feedbacks %>
+
+<% if @feedbacks.present? %>
+  <table class="table">
+    <thead>
+      <tr>
+        <th><%= Project.human_attribute_name(:title) %></th>
+        <th><%= Feedback.human_attribute_name(:score) %></th>
+      </tr>
+    </thead>
+    <tbody>
+    <% @feedbacks.each do |f| %>
+      <tr project-id="<%= f.id %>">
+        <td class="title"><%= link_to f.user_feedback, feedback_path(f) %></td>
+        <td class="score"><%= f.score %></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+<% end %>
+
+<div>
+  <%= link_to t('links.go_back'), :back, class: "btn btn-outline-primary mt-1 mb-1" %>
+</div>

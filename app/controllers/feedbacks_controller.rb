@@ -1,8 +1,9 @@
 class FeedbacksController < ApplicationController
   before_action :require_login
-  before_action :set_project_proposal, only: %i[new create show]
-  before_action :set_project, only: %i[new create show]
-  before_action :check_authorization, only: %i[new create show]
+  before_action :set_feedback, only: %i[show]
+  before_action :set_project_proposal, only: %i[new create]
+  before_action :set_project, only: %i[new create]
+  before_action :check_authorization, only: %i[new create]
 
   def new
     @feedback = Feedback.new(project_proposal: @project_proposal, feedback_creator: @feedback_creator,
@@ -26,6 +27,11 @@ class FeedbacksController < ApplicationController
 
   def show; end
 
+  def feedbacks_received
+    @user = User.find(params[:user_id])
+    @feedbacks = Feedback.where(feedback_receiver: @user)
+  end
+
   private
 
   def feedback_params
@@ -38,9 +44,17 @@ class FeedbacksController < ApplicationController
     redirect_to new_user_session_path, notice: 'Acesso restrito a usuários/profissionais autenticados.'
   end
 
+  def set_feedback
+    @feedback = Feedback.find(params[:id])
+  end
+
   def set_project_proposal
-    project_proposal_id = params[:project_proposal_id] || params[:feedback][:project_proposal_id]
-    @project_proposal = ProjectProposal.find_by_id(project_proposal_id)
+    if @feedback
+      @project_proposal = @feedback.project_proposal
+    else
+      project_proposal_id = params[:project_proposal_id] || params[:feedback][:project_proposal_id]
+      @project_proposal = ProjectProposal.find_by_id(project_proposal_id)
+    end
 
     return redirect_to root_path, alert: 'Proposta não existe' if @project_proposal.nil?
   end
@@ -55,9 +69,6 @@ class FeedbacksController < ApplicationController
     unless @project_proposal.approved? || @project_proposal.rated?
       return redirect_to @project, alert: 'Situação da proposta não permite avaliação.'
     end
-
-    @feedback = @project.feedback_from_professional(current_user)
-    return render :show if @project_feedback
 
     @feedback_creator = current_user
 

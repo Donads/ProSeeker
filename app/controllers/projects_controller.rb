@@ -43,13 +43,25 @@ class ProjectsController < ApplicationController
   def show
     if current_user.professional? || current_user.admin?
       @project_proposal = ProjectProposal.find_by(project: @project, user: current_user) || ProjectProposal.new
-      @project_feedback = @project.feedback_from_professional(current_user)
+      @feedback = @project.feedback_from_professional(current_user)
     end
 
-    if @project.user == current_user || (!@project.open? && (@project_proposal.approved? || @project_proposal.rated?))
+    if @project.user == current_user
+      @project_proposals = if @project.finished?
+                             ProjectProposal.left_outer_joins(:feedbacks).where(
+                               project: @project, feedbacks: { feedback_source: [:from_user, nil] }
+                             ).select('project_proposals.*, feedbacks.id AS feedback_id')
+                           else
+                             ProjectProposal.where(project: @project)
+                           end
+    elsif !@project.open? && (@project_proposal.approved? || @project_proposal.rated?)
       @project_proposals = ProjectProposal.where(project: @project)
+    end
 
-      @project_proposals = @project_proposals.where(status: %i[approved rated]) unless @project.open?
+    if @project_proposals && !@project.open?
+      @project_proposals = @project_proposals.where(
+        status: %i[approved rated]
+      )
     end
   end
 
@@ -72,7 +84,7 @@ class ProjectsController < ApplicationController
     end
 
     @project.closed!
-    redirect_to @project, success: 'Proposta fechada com sucesso!'
+    redirect_to @project, success: 'Projeto fechado com sucesso!'
   end
 
   def finish
@@ -82,7 +94,7 @@ class ProjectsController < ApplicationController
     end
 
     @project.finished!
-    redirect_to @project, success: 'Proposta finalizada com sucesso!'
+    redirect_to @project, success: 'Projeto finalizado com sucesso!'
   end
 
   private

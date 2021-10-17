@@ -54,7 +54,7 @@ describe 'User gives feedback to professional' do
       expect(page).to have_link('Antonio Nunes', href: professional_profile_path(profile_2))
       expect(page).to have_content('Domino o desenvolvimento de projetos web')
       expect(page).to have_link('Avaliar', href: new_feedback_path(project_proposal_id: proposal_1))
-      expect(page).to have_link('Avaliação', href: feedback_path(generated_feedback, project_proposal_id: proposal_2))
+      expect(page).to have_link('Avaliação', href: feedback_path(generated_feedback))
       expect(page).to have_no_link('Editar')
       expect(page).to have_no_link('Fechar')
       expect(page).to have_no_link('Finalizar')

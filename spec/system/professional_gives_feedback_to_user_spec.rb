@@ -38,9 +38,9 @@ describe 'Professional gives feedback to user' do
       expect(page).to have_css('div', text: 'Avaliação enviada com sucesso!')
       expect(feedback.project_feedback).to include(feedback_params[:project_feedback])
       expect(user.reload.average_score_received?).to eq feedback_params[:score]
-      expect(page).to have_content('Usuário responsável: usuario1@teste.com.br (Nota média: 5.0)')
+      expect(page).to have_link('usuario1@teste.com.br (Nota média: 5.0)', href: received_feedbacks_path(user))
       expect(page).to have_content('Situação: Finalizado')
-      expect(page).to have_link('Avaliação', href: feedback_path(feedback, project_proposal_id: proposal))
+      expect(page).to have_link('Avaliação', href: feedback_path(feedback))
       expect(page).to have_no_link('Editar')
       expect(page).to have_no_link('Fechar')
       expect(page).to have_no_link('Finalizar')

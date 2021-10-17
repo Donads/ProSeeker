@@ -59,11 +59,12 @@ describe 'Visitor signs up' do
       click_button 'Registrar'
     end
 
-    expect(page).to have_content('Não foi possível salvar usuário: 4 erros')
+    expect(page).to have_content('Não foi possível salvar usuário: 5 erros')
     expect(page).to have_content('E-mail não é válido')
     expect(page).to have_content('Confirmação de Senha não é igual a Senha')
     expect(page).to have_content('Senha é muito curto (mínimo: 6 caracteres)')
     expect(page).to have_content('Função não pode ficar em branco')
+    expect(page).to have_content('Função não está incluído na lista')
     expect(page).to have_link('Entrar', href: new_user_session_path)
     expect(page).to have_link('Registrar', href: new_user_registration_path)
     expect(page).to have_no_link('Sair')

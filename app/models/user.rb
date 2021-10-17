@@ -13,6 +13,8 @@ class User < ApplicationRecord
   enum role: { admin: 0, user: 10, professional: 20 }
 
   validates :role, presence: true
+  validates :role, inclusion: %w[user professional], on: %i[create]
+  validates :role, exclusion: %w[admin], on: %i[create]
 
   def average_score_received?
     feedbacks_received.average(:score) || 0

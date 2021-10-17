@@ -28,7 +28,7 @@
       <dd class="col-sm-9">
         <% nota_media = @project.user.average_score_received?.round(2) %>
         <% if nota_media > 0 %>
-          <%= "#{@project.user.email} (#{t('misc.average_score')}: #{nota_media})" %>
+          <%= link_to "#{@project.user.email} (#{t('misc.average_score')}: #{nota_media})", received_feedbacks_path(@project.user) %>
         <% else %>
           <%= @project.user.email %>
         <% end %>

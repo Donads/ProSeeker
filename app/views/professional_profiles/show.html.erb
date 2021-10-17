@@ -39,7 +39,12 @@
 </dl>
 
 <div>
-<%= link_to t('links.edit'), edit_professional_profile_path(@professional_profile), class: "btn btn-primary mt-3 mb-3" %>
+  <div class="btn-group mt-1 mb-3" role="group" aria-label="Buttons related to the project">
+    <%= link_to t('links.go_to_feedbacks'), received_feedbacks_path(@professional_profile.user), class: "btn btn-primary mt-3 mb-3" %>
+    <% if current_user == @professional_profile.user %>
+      <%= link_to t('links.edit'), edit_professional_profile_path(@professional_profile), class: "btn btn-outline-primary mt-3 mb-3" %>
+    <% end %>
+  </div>
 </div>
 
 <% if @projects.present? %>

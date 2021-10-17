@@ -37,7 +37,7 @@ describe 'User marks project as finished' do
       click_link 'Projetos'
       click_link 'Projeto de E-commerce'
       click_link 'Finalizar'
-
+      # save_page
       expect(current_path).to eq project_path(project)
       expect(page).to have_content('Situação: Finalizado')
       expect(page).to have_link('Ciclano da Silva', href: professional_profile_path(profile_1))
