@@ -1,0 +1,9 @@
+<%= render "shared/errors", resource: @knowledge_field %>
+
+<%= form_with model: @knowledge_field do |f| %>
+  <div class="form-floating mb-3">
+    <%= f.text_field :title, placeholder: :title, class: "form-control" %>
+    <%= f.label :title %>
+
+  <%= f.submit class: "btn btn-primary mt-3 mb-3" %>
+<% end %>

@@ -1,0 +1,9 @@
+<h1 class="display-5 mb-4">Cadastro de <%= KnowledgeField.model_name.human(count: 2) %></h1>
+
+<%= render "shared/errors", resource: @knowledge_fields %>
+
+<%= render 'form' %>
+
+<div>
+  <%= link_to t('links.go_back'), :back, class: "btn btn-outline-primary mt-1 mb-1" %>
+</div>

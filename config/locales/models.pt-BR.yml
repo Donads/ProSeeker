@@ -5,6 +5,9 @@ pt-BR:
       feedback:
         one: Avaliação
         other: Avaliações
+      knowledge_field:
+        one: Área de Conhecimento
+        other: Áreas de Conhecimento
       professional_profile:
         one: Perfil Profissional
         other: Perfis Profissionais
@@ -23,6 +26,8 @@ pt-BR:
         user_feedback: Avaliação do usuário
         project_feedback: Avaliação do projeto
         project_proposal_id: Proposta
+      knowledge_field:
+        title: Título
       professional_profile:
         full_name: Nome Completo
         social_name: Nome Social

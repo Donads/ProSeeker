@@ -23,4 +23,10 @@ Rails.application.routes.draw do
   resources :feedbacks, only: %i[new create show] do
     get 'received/:user_id', on: :collection, to: 'feedbacks#feedbacks_received', as: :received
   end
+
+  resources :knowledge_fields, only: %i[index new create]
+
+  scope '/admin' do
+    get 'manage_records', to: 'admin#manage_records'
+  end
 end

@@ -40,7 +40,7 @@
     </p>
 </dl>
 
-<% if current_user&.professional? || current_user&.admin? %>
+<% if current_user&.professional? %>
   <%= render 'professional' %>
 <% end %>
 

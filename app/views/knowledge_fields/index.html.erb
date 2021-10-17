@@ -1,0 +1,26 @@
+<h1 class="display-3"><%= KnowledgeField.model_name.human(count: 2) %></h1>
+
+<%= render "shared/errors", resource: @knowledge_fields %>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th><%= KnowledgeField.human_attribute_name(:title) %></th>
+    </tr>
+  </thead>
+  <tbody>
+  <% @knowledge_fields.each do |kf| %>
+    <tr project-id="<%= kf.id %>">
+      <td class="title"><%= kf.title %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<div>
+  <%= link_to t('links.new'), new_knowledge_field_path, class: "btn btn-primary mt-1 mb-1" %>
+</div>
+
+<div>
+  <%= link_to t('links.go_back'), :back, class: "btn btn-outline-primary mt-1 mb-1" %>
+</div>
