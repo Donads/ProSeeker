@@ -1,4 +1,4 @@
-<h1 class="display-3 mb-5">Justifique a rejeição da proposta de <%= @project_proposal.user.professional_profile.social_name %></h1>
+<h1 class="display-3 mb-5"><%= t('messages.reject_proposal', social_name: @project_proposal.user.professional_profile.social_name) %></h1>
 
 <%= render "form" %>
 

@@ -1,4 +1,4 @@
-<h1 class="display-5 mb-4">Perfil Completo</h1>
+<h1 class="display-5 mb-4"><%= ProfessionalProfile.model_name.human %></h1>
 
 <%= render "shared/errors", resource: @professional_profile %>
 
@@ -28,7 +28,6 @@
   </p>
   <p>
     <dt class="col-sm-3"><%= KnowledgeField.model_name.human %>:</dt>
-    <%# byebug %>
     <dd class="col-sm-9"><%= @professional_profile.knowledge_field.title %></dd>
   </p>
   <p>

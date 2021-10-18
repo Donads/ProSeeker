@@ -87,7 +87,7 @@ describe 'User views project proposals' do
       click_link 'Antonio Nunes'
 
       expect(current_path).to eq professional_profile_path(professional_2.professional_profile)
-      expect(page).to have_content('Perfil Completo')
+      expect(page).to have_content('Perfil Profissional')
       expect(page).to have_content('Nome Completo')
       expect(page).to have_content('George Washington')
       expect(page).to have_content('Nome Social')

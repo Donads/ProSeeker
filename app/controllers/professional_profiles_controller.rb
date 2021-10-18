@@ -4,6 +4,7 @@ class ProfessionalProfilesController < ApplicationController
   before_action :set_professional_profile, only: %i[edit update show]
   before_action :set_projects, only: %i[show]
   before_action :check_authorization, only: %i[edit update]
+  before_action :can_only_have_one_profile, only: %i[new create]
 
   def new
     @professional_profile = ProfessionalProfile.new
@@ -60,5 +61,11 @@ class ProfessionalProfilesController < ApplicationController
     user = @professional_profile.user
     @projects = Project.joins(project_proposals: :feedbacks).where(project_proposals: { user:
       user }, feedbacks: { feedback_receiver: user }).select('projects.*, feedbacks.score AS score')
+  end
+
+  def can_only_have_one_profile
+    return unless current_user.professional_profile
+
+    redirect_to current_user.professional_profile, alert: 'Você já possui um perfil cadastrado'
   end
 end

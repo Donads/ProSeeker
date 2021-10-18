@@ -17,7 +17,7 @@ namespace :dev do
     end
   end
 
-  desc 'TODO'
+  desc 'Creates some records for the KnowledgeField model'
   task create_knowledge_fields: :environment do
     knowledge_fields = [
       { title: 'Administrador de Banco de Dados' },
@@ -31,7 +31,7 @@ namespace :dev do
     knowledge_fields.each { |knowledge_field| KnowledgeField.find_or_create_by!(knowledge_field) }
   end
 
-  desc 'TODO'
+  desc 'Creates some users with varying roles'
   task create_users: :environment do
     users = [
       { email: 'admin@teste.com.br', password: '123456', role: 'user' },
@@ -48,7 +48,7 @@ namespace :dev do
     admin.admin!
   end
 
-  desc 'TODO'
+  desc 'Creates some records for the KnowledgeField model'
   task create_professional_profiles: :environment do
     professional_1 = User.find_by(email: 'profissional1@teste.com.br')
     professional_2 = User.find_by(email: 'profissional2@teste.com.br')
@@ -76,7 +76,7 @@ namespace :dev do
     end
   end
 
-  desc 'TODO'
+  desc 'Creates some records for the Project model'
   task create_projects: :environment do
     user_1 = User.find_by(email: 'usuario1@teste.com.br')
     user_2 = User.find_by(email: 'usuario2@teste.com.br')
@@ -101,7 +101,7 @@ namespace :dev do
     projects.each { |project| Project.find_or_create_by!(project) }
   end
 
-  desc 'TODO'
+  desc 'Creates some records for the ProjectProposal model'
   task create_project_proposals: :environment do
     project_1 = Project.find_by(title: 'Desenvolvimento de API')
     project_2 = Project.find_by(title: 'Desenvolvimento no cliente')

@@ -30,5 +30,16 @@ pt-BR:
     update: Atualizar
   messages:
     are_you_sure?: Tem certeza?
+    cancel_proposal: Justifique o cancelamento da proposta para o projeto %{project_title}
+    reject_proposal: Justifique a rejeição da proposta de %{social_name}
+    giving_feedback_to_user: Você está avaliando a atuação de '%{social_name}' no projeto '%{project_title}'.
+    giving_feedback_to_professional: Você está avaliando o projeto '%{project_title}' e seu responsável '%{user_email}'.
+    homepage: Página Inicial
+    homepage_text: Essa é uma plataforma onde profissionais e usuários que precisam de seus serviços podem se conectar para trabalhar em diferentes projetos.
   misc:
     average_score: Nota média
+    choose_a_score: Escolha uma nota
+    create: Criar
+    edit: Editar
+    received_feedbacks: Avaliações Recebidas
+    register: Registrar

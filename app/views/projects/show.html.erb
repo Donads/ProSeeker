@@ -26,9 +26,9 @@
     <p>
       <dt class="col-sm-3"><%= User.model_name.human %> responsável:</dt>
       <dd class="col-sm-9">
-        <% nota_media = @project.user.average_score_received?.round(2) %>
-        <% if nota_media > 0 %>
-          <%= link_to "#{@project.user.email} (#{t('misc.average_score')}: #{nota_media})", received_feedbacks_path(@project.user) %>
+        <% average_score = @project.user.average_score_received?.round(2) %>
+        <% if average_score > 0 %>
+          <%= link_to "#{@project.user.email} (#{t('misc.average_score')}: #{average_score})", received_feedbacks_path(@project.user) %>
         <% else %>
           <%= @project.user.email %>
         <% end %>

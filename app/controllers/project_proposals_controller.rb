@@ -1,4 +1,5 @@
 class ProjectProposalsController < ApplicationController
+  before_action :professional_must_fill_profile
   before_action :set_project_proposal, only: %i[update destroy approve reject cancel]
   before_action :set_project, only: %i[update destroy approve reject cancel]
   before_action :check_project_creator, only: %i[approve reject]

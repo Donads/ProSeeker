@@ -15,6 +15,12 @@ class ApplicationController < ActionController::Base
     redirect_to root_path, alert: 'Usuário não autenticado'
   end
 
+  def require_admin_login
+    return if current_user&.admin?
+
+    redirect_to root_path, alert: 'Acesso restrito a Administradores'
+  end
+
   def professional_must_fill_profile
     return unless current_user&.professional?
 

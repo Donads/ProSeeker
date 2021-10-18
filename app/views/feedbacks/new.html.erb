@@ -4,14 +4,14 @@
 
 <div class="mb-4">
 <% if @feedback_source == :from_user %>
-  Você está avaliando a atuação de '<%= @feedback_receiver.professional_profile.social_name %>'' no projeto '<%= @project.title %>'.
+  <%= t('messages.giving_feedback_to_user', social_name: @feedback_receiver.professional_profile.social_name, project_title: @project.title) %>
 <% else %>
-  Você está avaliando o projeto '<%= @project.title %>' e seu responsável '<%= @feedback_receiver.email %>'.
+  <%= t('messages.giving_feedback_to_professional', project_title: @project.title, user_email: @feedback_receiver.email) %>
 <% end %>
 </div>
 
 <%= form_with model: @feedback do |f| %>
-  <p>Escolha uma nota:</p>
+  <p><%= t('misc.choose_a_score') %>:</p>
   <div class="btn-group mb-3" role="group">
       <%= f.radio_button :score, "1", class: "btn-check" %>
       <%= f.label :score_1, "1", class: "btn btn-outline-primary" %>

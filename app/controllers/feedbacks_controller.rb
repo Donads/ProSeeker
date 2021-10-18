@@ -1,5 +1,6 @@
 class FeedbacksController < ApplicationController
   before_action :require_login
+  before_action :professional_must_fill_profile
   before_action :set_feedback, only: %i[show]
   before_action :set_project_proposal, only: %i[new create]
   before_action :set_project, only: %i[new create]
@@ -36,12 +37,6 @@ class FeedbacksController < ApplicationController
 
   def feedback_params
     params.require(:feedback).permit(:score, :user_feedback, :project_feedback)
-  end
-
-  def require_login
-    return if current_user
-
-    redirect_to new_user_session_path, notice: 'Acesso restrito a usuários/profissionais autenticados.'
   end
 
   def set_feedback

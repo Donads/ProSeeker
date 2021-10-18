@@ -11,7 +11,7 @@ describe 'Professional must fill profile' do
       expect(current_path).to eq new_professional_profile_path
       expect(page).to have_css('div',
                                text: 'Profissionais devem preencher o perfil por completo antes de terem acesso às funcionalidades da plataforma.')
-      expect(page).to have_content('Preencha seu perfil profissional')
+      expect(page).to have_content('Criar Perfil Profissional')
     end
 
     it 'gets redirected and fills it successfully' do
@@ -64,7 +64,7 @@ describe 'Professional must fill profile' do
         click_button 'Criar Perfil Profissional'
       end
 
-      expect(page).to have_content('Preencha seu perfil profissional')
+      expect(page).to have_content('Criar Perfil Profissional')
       expect(page).to have_content('Foto de Perfil não pode ficar em branco')
       expect(page).to have_content('Nome Completo não pode ficar em branco')
       expect(page).to have_content('Nome Social não pode ficar em branco')

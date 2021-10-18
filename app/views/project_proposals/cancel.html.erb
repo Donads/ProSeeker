@@ -1,4 +1,4 @@
-<h1 class="display-3 mb-5">Justifique o cancelamento da proposta para o projeto <%= @project.title %></h1>
+<h1 class="display-3 mb-5"><%= t('messages.cancel_proposal', project_title: @project.title) %></h1>
 
 <%= render "form" %>
 

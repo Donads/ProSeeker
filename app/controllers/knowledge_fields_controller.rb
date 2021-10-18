@@ -24,10 +24,4 @@ class KnowledgeFieldsController < ApplicationController
   def knowledge_field_params
     params.require(:knowledge_field).permit(:title)
   end
-
-  def require_admin_login
-    return if current_user&.admin?
-
-    redirect_to root_path, alert: 'Acesso restrito a Administradores'
-  end
 end

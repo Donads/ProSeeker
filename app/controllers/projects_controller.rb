@@ -22,7 +22,7 @@ class ProjectsController < ApplicationController
   def index
     @projects = case current_user.role
                 when 'user'
-                  @project = Project.all
+                  @projects = Project.where(status: :open)
                 when 'professional'
                   @projects = Project.where(status: :open)
                 when 'admin'
@@ -32,7 +32,10 @@ class ProjectsController < ApplicationController
 
   def my_projects
     @projects = if current_user.professional?
-                  Project.joins(:project_proposals).where(project_proposals: { user: current_user })
+                  Project.joins(:project_proposals).where(status: :open, project_proposals: { user: current_user }).or(
+                    Project.joins(:project_proposals).where(project_proposals: { user: current_user,
+                                                                                 status: %i[approved rated] })
+                  )
                 else
                   Project.where(user: current_user)
                 end
