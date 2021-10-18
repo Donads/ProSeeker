@@ -1,0 +1,30 @@
+<% if @projects.present? %>
+  <table class="table">
+    <thead>
+      <tr>
+        <th><%= Project.human_attribute_name(:title) %></th>
+        <th><%= Project.human_attribute_name(:description) %></th>
+        <th><%= Project.human_attribute_name(:max_hourly_rate) %></th>
+        <th><%= Project.human_attribute_name(:open_until) %></th>
+        <th><%= Project.human_attribute_name(:attendance_type) %></th>
+        <th><%= Project.human_attribute_name(:status) %></th>
+      </tr>
+    </thead>
+    <tbody>
+    <% @projects.each do |pr| %>
+      <tr project-id="<%= pr.id %>">
+        <td class="title"><%= link_to pr.title, project_path(pr) %></td>
+        <td class="description"><%= pr.description %></td>
+        <td class="max-hourly-rate"><%= pr.max_hourly_rate %></td>
+        <td class="open-until"><%= l pr.open_until %></td>
+        <td class="attendance-type"><%= t(pr.attendance_type) %></td>
+        <td class="status-type"><%= t(pr.status) %></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <div class="alert alert-info" role="alert">
+    Nenhum projeto encontrado
+  </div>
+<% end %>

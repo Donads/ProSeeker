@@ -20,6 +20,11 @@ class Project < ApplicationRecord
     Feedback.joins(:project_proposal).find_by(feedback_creator: professional, project_proposal: { project: self })
   end
 
+  def self.search(search_term)
+    search_term = "%#{search_term}%"
+    Project.where('title LIKE :title OR description LIKE :description', title: search_term, description: search_term)
+  end
+
   private
 
   def open_until_cannot_be_in_the_past

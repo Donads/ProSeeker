@@ -1,10 +1,12 @@
 pt-BR:
   buttons:
     cancel_my_account: Cancelar minha conta
+    clean_filters: Limpar Filtros
     go_back: Voltar
     login: Entrar
     rate: Avaliar
     rate_project: Avaliar Projeto
+    search: Buscar
     signup: Registrar
     update: Atualizar
   links:
@@ -36,6 +38,8 @@ pt-BR:
     giving_feedback_to_professional: Você está avaliando o projeto '%{project_title}' e seu responsável '%{user_email}'.
     homepage: Página Inicial
     homepage_text: Essa é uma plataforma onde profissionais e usuários que precisam de seus serviços podem se conectar para trabalhar em diferentes projetos.
+    my_projects: Meus Projetos
+    search_by_title_or_description: Buscar por Título ou Descrição
   alerts:
     access_restricted_to_admins: Acesso restrito a Administradores.
     access_restricted_to_participants: Acesso restrito aos participantes.

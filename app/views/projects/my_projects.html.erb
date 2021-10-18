@@ -1,8 +1,8 @@
-<h1 class="display-4 mb-4"><%= Project.model_name.human(count: 2) %></h1>
+<h1 class="display-4 mb-4"><%= t('messages.my_projects') %></h1>
 
 <%= render "shared/errors", resource: @projects %>
 
-<%= form_with url: projects_path, method: :get do |f| %>
+<%= form_with url: my_projects_projects_path, method: :get do |f| %>
   <div class="col-6 mb-3">
     <div class="input-group">
       <%= f.text_field :query, placeholder: t('messages.search_by_title_or_description'), class: "form-control col-auto" %>
@@ -11,7 +11,7 @@
   </div>
 <% end %>
 <% if params[:query].present? %>
-  <%= button_to t('buttons.clean_filters'), projects_path, method: :get, class: "btn btn-outline-secondary mb-3" %>
+  <%= button_to t('buttons.clean_filters'), my_projects_projects_path, method: :get, class: "btn btn-outline-secondary mb-3" %>
 <% end %>
 
 <%= render 'project_list' %>

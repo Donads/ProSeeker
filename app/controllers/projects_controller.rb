@@ -20,27 +20,27 @@ class ProjectsController < ApplicationController
   end
 
   def index
-    @projects = case current_user.role
-                when 'user'
-                  Project.where(status: :open)
-                when 'professional'
-                  Project.where(status: :open)
-                when 'admin'
-                  Project.all
-                end
+    @projects = Project.search(params[:query]) if params[:query] && params[:commit] == I18n.t('buttons.search')
+    @projects ||= Project.all
+
+    @projects = @projects.where(status: :open) unless current_user.admin?
   end
 
   def my_projects
+    @projects = Project.search(params[:query]) if params[:query] && params[:commit] == I18n.t('buttons.search')
+    @projects ||= Project.all
+
     @projects = if current_user.professional?
-                  Project.joins(:project_proposals).where(status: :open, project_proposals: { user: current_user }).or(
-                    Project.joins(:project_proposals).where(project_proposals: { user: current_user,
-                                                                                 status: %i[approved rated] })
+                  @projects.joins(:project_proposals).where(
+                    status: :open, project_proposals: { user: current_user }
+                  ).or(
+                    @projects.joins(:project_proposals).where(
+                      project_proposals: { user: current_user, status: %i[approved rated] }
+                    )
                   )
                 else
-                  Project.where(user: current_user)
+                  @projects.where(user: current_user)
                 end
-
-    render :index
   end
 
   def show
