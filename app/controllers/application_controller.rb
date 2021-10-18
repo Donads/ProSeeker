@@ -12,13 +12,13 @@ class ApplicationController < ActionController::Base
   def require_login
     return if current_user
 
-    redirect_to root_path, alert: 'Usuário não autenticado'
+    redirect_to root_path, alert: I18n.t('alerts.user_not_authenticated')
   end
 
   def require_admin_login
     return if current_user&.admin?
 
-    redirect_to root_path, alert: 'Acesso restrito a Administradores'
+    redirect_to root_path, alert: I18n.t('alerts.access_restricted_to_admins')
   end
 
   def professional_must_fill_profile
@@ -26,8 +26,7 @@ class ApplicationController < ActionController::Base
 
     return if current_user&.professional_profile
 
-    flash[:notice] =
-      'Profissionais devem preencher o perfil por completo antes de terem acesso às funcionalidades da plataforma.'
+    flash[:notice] = I18n.t('alerts.professionals_need_to_fill_profile')
     redirect_to new_professional_profile_path
   end
 end

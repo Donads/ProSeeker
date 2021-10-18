@@ -22,11 +22,11 @@ class ProjectsController < ApplicationController
   def index
     @projects = case current_user.role
                 when 'user'
-                  @projects = Project.where(status: :open)
+                  Project.where(status: :open)
                 when 'professional'
-                  @projects = Project.where(status: :open)
+                  Project.where(status: :open)
                 when 'admin'
-                  @projects = Project.all
+                  Project.all
                 end
   end
 

@@ -20,7 +20,7 @@ class FeedbacksController < ApplicationController
 
     if @feedback.save
       @project_proposal.rated! if @feedback.from_user?
-      redirect_to @project, success: 'Avaliação enviada com sucesso!'
+      redirect_to @project, success: I18n.t('alerts.feedback_sent_successfully')
     else
       render :new
     end
@@ -51,7 +51,7 @@ class FeedbacksController < ApplicationController
       @project_proposal = ProjectProposal.find_by_id(project_proposal_id)
     end
 
-    return redirect_to root_path, alert: 'Proposta não existe' if @project_proposal.nil?
+    return redirect_to root_path, alert: I18n.t('alerts.proposal_does_not_exist') if @project_proposal.nil?
   end
 
   def set_project
@@ -59,10 +59,12 @@ class FeedbacksController < ApplicationController
   end
 
   def check_authorization
-    return redirect_to @project, alert: 'Situação do projeto não permite avaliação.' unless @project.finished?
+    unless @project.finished?
+      return redirect_to @project, alert: I18n.t('alerts.project_situation_does_not_allow_feedbacks')
+    end
 
     unless @project_proposal.approved? || @project_proposal.rated?
-      return redirect_to @project, alert: 'Situação da proposta não permite avaliação.'
+      return redirect_to @project, alert: I18n.t('alerts.proposal_situation_does_not_allow_feedbacks')
     end
 
     @feedback_creator = current_user
@@ -74,7 +76,7 @@ class FeedbacksController < ApplicationController
       @feedback_receiver = @project.user
       @feedback_source = :from_professional
     else
-      redirect_to root_path, alert: 'Acesso restrito aos participantes.'
+      redirect_to root_path, alert: I18n.t('alerts.access_restricted_to_participants')
     end
   end
 end

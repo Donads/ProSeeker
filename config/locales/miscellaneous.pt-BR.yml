@@ -36,6 +36,15 @@ pt-BR:
     giving_feedback_to_professional: Você está avaliando o projeto '%{project_title}' e seu responsável '%{user_email}'.
     homepage: Página Inicial
     homepage_text: Essa é uma plataforma onde profissionais e usuários que precisam de seus serviços podem se conectar para trabalhar em diferentes projetos.
+  alerts:
+    access_restricted_to_admins: Acesso restrito a Administradores.
+    access_restricted_to_participants: Acesso restrito aos participantes.
+    feedback_sent_successfully: Avaliação enviada com sucesso!
+    professionals_need_to_fill_profile: Profissionais devem preencher o perfil por completo antes de terem acesso às funcionalidades da plataforma.
+    project_situation_does_not_allow_feedbacks: Situação do projeto não permite avaliação.
+    proposal_does_not_exist: Proposta não existe
+    proposal_situation_does_not_allow_feedbacks: Situação da proposta não permite avaliação.
+    user_not_authenticated: Usuário não autenticado
   misc:
     average_score: Nota média
     choose_a_score: Escolha uma nota
