@@ -39,6 +39,7 @@ pt-BR:
     homepage: Página Inicial
     homepage_text: Essa é uma plataforma onde profissionais e usuários que precisam de seus serviços podem se conectar para trabalhar em diferentes projetos.
     my_projects: Meus Projetos
+    no_projects_found: Nenhum Projeto Encontrado
     search_by_title_or_description: Buscar por Título ou Descrição
   alerts:
     access_restricted_to_admins: Acesso restrito a Administradores.
