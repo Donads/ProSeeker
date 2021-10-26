@@ -133,6 +133,22 @@ RSpec.describe ProjectProposal, type: :model do
     end
   end
 
+  context 'professional can only have one active proposal for each project' do
+    it 'and tries to submit a second one' do
+      user = User.create!(email: 'usuario@teste.com.br', password: '123456', role: :user)
+      professional = User.create!(email: 'profissional@teste.com.br', password: '123456', role: :professional)
+      project = Project.new(open_until: Date.tomorrow, attendance_type: :mixed_attendance, user: user)
+      project.save(validate: false)
+      proposal1 = ProjectProposal.new(project: project, user: professional)
+      proposal1.save(validate: false)
+
+      proposal2 = ProjectProposal.new(project: project, user: professional)
+      proposal2.valid?
+
+      expect(proposal2.errors.full_messages_for(:base)).to include('Proposta já existe pra esse projeto')
+    end
+  end
+
   context 'proposal must be done while project is open' do
     it 'and was done after the closing day' do
       project = Project.new(open_until: Date.yesterday)

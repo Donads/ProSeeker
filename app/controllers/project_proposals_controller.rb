@@ -86,13 +86,13 @@ class ProjectProposalsController < ApplicationController
   end
 
   def check_project_creator
-    return if current_user == @project.user
+    return if @project.creator?(current_user)
 
     redirect_to @project, alert: 'Somente o dono do projeto pode realizar essa ação.'
   end
 
   def check_proposal_creator
-    return if current_user == @project_proposal.user
+    return if @project_proposal.creator?(current_user)
 
     redirect_to @project, alert: 'Somente o próprio profissional pode realizar essa ação.'
   end

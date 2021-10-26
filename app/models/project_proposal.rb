@@ -17,6 +17,7 @@ class ProjectProposal < ApplicationRecord
   validate :hourly_rate_cannot_exceed_maximum_allowed
   validate :check_project_status
   validate :can_not_be_canceled, on: %i[destroy]
+  validate :proposal_must_be_unique_for_each_project, on: %i[create]
 
   def can_be_canceled?
     case status
@@ -31,6 +32,10 @@ class ProjectProposal < ApplicationRecord
     when 'rejected'
       true
     end
+  end
+
+  def creator?(user_param)
+    user == user_param
   end
 
   private
@@ -54,16 +59,18 @@ class ProjectProposal < ApplicationRecord
   end
 
   def hourly_rate_cannot_exceed_maximum_allowed
-    if hourly_rate && project&.max_hourly_rate && hourly_rate > project.max_hourly_rate
-      errors.add(:hourly_rate, 'não pode ser maior que o limite do projeto')
-    end
+    return unless hourly_rate && project&.max_hourly_rate && hourly_rate > project.max_hourly_rate
+
+    errors.add(:hourly_rate, 'não pode ser maior que o limite do projeto')
   end
 
   def can_not_be_canceled
     errors.add(:status, 'da proposta não permite cancelamento') unless can_be_canceled?
   end
 
-  def can_not_be_rejected
-    errors.add(:status_reason, I18n.t('errors.messages.blank')) if status_reason.empty?
+  def proposal_must_be_unique_for_each_project
+    return unless ProjectProposal.find_by(project: project, user: user)
+
+    errors.add(:base, 'Proposta já existe pra esse projeto')
   end
 end

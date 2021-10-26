@@ -52,6 +52,7 @@ pt-BR:
     user_not_authenticated: Usuário não autenticado
   misc:
     average_score: Nota média
+    cancel_param: Cancelar %{param}
     choose_a_score: Escolha uma nota
     create: Criar
     edit: Editar

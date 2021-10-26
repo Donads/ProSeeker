@@ -104,4 +104,95 @@ describe 'Professional must fill profile' do
       expect(page).to have_no_content('Logado como')
     end
   end
+
+  context 'professional edits their profile' do
+    it 'successfully' do
+      birth_date = 30.years.ago.to_date
+      photo = fixture_file_upload('avatar_placeholder.png', 'image/png')
+      knowledge_field = KnowledgeField.create!(title: 'Desenvolvedor')
+      professional = User.create!(email: 'profissional1@teste.com.br', password: '123456',
+                                  role: :professional)
+      ProfessionalProfile.create!(full_name: 'Fulano de Tal', social_name: 'Ciclano da Silva',
+                                  description: 'Busco projetos desafiadores',
+                                  professional_qualification: 'Ensino Superior',
+                                  professional_experience: '6 anos trabalhando em projetos diversos',
+                                  birth_date: birth_date, user: professional, knowledge_field: knowledge_field,
+                                  profile_photo: photo)
+
+      login_as professional, scope: :user
+      visit root_path
+      click_link 'Meu Perfil'
+      click_link 'Editar'
+      fill_in 'Descrição', with: 'Desenvolvedor experiente em busca de novos desafios'
+      click_button 'Atualizar Perfil Profissional'
+
+      expect(current_path).to eq professional_profile_path(professional)
+      expect(page).to have_css('div', text: 'Perfil atualizado com sucesso!')
+      expect(page).to have_content('Desenvolvedor experiente em busca de novos desafios')
+    end
+
+    it 'and fails due to invalid fields' do
+      birth_date = 30.years.ago.to_date
+      photo = fixture_file_upload('avatar_placeholder.png', 'image/png')
+      knowledge_field = KnowledgeField.create!(title: 'Desenvolvedor')
+      professional = User.create!(email: 'profissional1@teste.com.br', password: '123456',
+                                  role: :professional)
+      ProfessionalProfile.create!(full_name: 'Fulano de Tal', social_name: 'Ciclano da Silva',
+                                  description: 'Busco projetos desafiadores',
+                                  professional_qualification: 'Ensino Superior',
+                                  professional_experience: '6 anos trabalhando em projetos diversos',
+                                  birth_date: birth_date, user: professional, knowledge_field: knowledge_field,
+                                  profile_photo: photo)
+
+      login_as professional, scope: :user
+      visit root_path
+      click_link 'Meu Perfil'
+      click_link 'Editar'
+      within 'form' do
+        fill_in 'Nome Completo', with: ''
+        fill_in 'Nome Social', with: ''
+        fill_in 'Descrição', with: ''
+        fill_in 'Qualificação Profissional', with: ''
+        fill_in 'Experiência Profissional', with: ''
+        fill_in 'Data de Nascimento', with: ''
+        click_button 'Atualizar Perfil Profissional'
+      end
+
+      expect(current_path).to eq professional_profile_path(professional)
+      expect(page).to have_css('div', text: 'Nome Completo não pode ficar em branco')
+      expect(page).to have_css('div', text: 'Nome Social não pode ficar em branco')
+      expect(page).to have_css('div', text: 'Descrição não pode ficar em branco')
+      expect(page).to have_css('div', text: 'Qualificação Profissional não pode ficar em branco')
+      expect(page).to have_css('div', text: 'Experiência Profissional não pode ficar em branco')
+      expect(page).to have_css('div', text: 'Data de Nascimento não pode ficar em branco')
+    end
+
+    it 'and fails due to not being their profile' do
+      birth_date = 30.years.ago.to_date
+      photo = fixture_file_upload('avatar_placeholder.png', 'image/png')
+      knowledge_field = KnowledgeField.create!(title: 'Desenvolvedor')
+      professional_1 = User.create!(email: 'profissional1@teste.com.br', password: '123456',
+                                    role: :professional)
+      ProfessionalProfile.create!(full_name: 'Fulano de Tal', social_name: 'Ciclano da Silva',
+                                  description: 'Busco projetos desafiadores',
+                                  professional_qualification: 'Ensino Superior',
+                                  professional_experience: '6 anos trabalhando em projetos diversos',
+                                  birth_date: birth_date, user: professional_1, knowledge_field: knowledge_field,
+                                  profile_photo: photo)
+      professional_2 = User.create!(email: 'profissional2@teste.com.br', password: '123456',
+                                    role: :professional)
+      ProfessionalProfile.create!(full_name: 'George Washington', social_name: 'Antonio Nunes',
+                                  description: 'Desenvolvedor com anos de experiência',
+                                  professional_qualification: 'Ensino Superior',
+                                  professional_experience: '15 anos trabalhando em projetos diversos',
+                                  birth_date: birth_date, user: professional_2, knowledge_field: knowledge_field,
+                                  profile_photo: photo)
+
+      login_as professional_1, scope: :user
+      visit edit_professional_profile_path(professional_2)
+
+      expect(current_path).to eq professional_profile_path(professional_2)
+      expect(page).to have_css('div', text: 'Somente o usuário pode atualizar o próprio perfil.')
+    end
+  end
 end

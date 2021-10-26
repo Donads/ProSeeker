@@ -12,6 +12,10 @@ class Project < ApplicationRecord
   validate :open_until_cannot_be_in_the_past
   validate :open_until_must_be_within_limit
 
+  def creator?(user_param)
+    user == user_param
+  end
+
   def currently_open?
     open? && open_until >= Date.current
   end

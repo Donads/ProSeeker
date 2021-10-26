@@ -67,9 +67,9 @@
 
 <% if @project_proposal.can_be_canceled? && !@project_proposal.new_record? && !@project.finished? %>
   <% if @project_proposal.approved? %>
-    <%= link_to 'Cancelar Proposta', cancel_project_proposal_path(@project_proposal, status_change: 'cancel'), class: "btn btn-outline-danger mt-3 mb-3" %>
+    <%= link_to t('misc.cancel_param', param: ProjectProposal.model_name.human), cancel_project_proposal_path(@project_proposal, status_change: 'cancel'), class: "btn btn-outline-danger mt-3 mb-3" %>
   <% else %>
-    <%= button_to 'Cancelar Proposta', project_proposal_path(@project_proposal), data: { confirm: t('messages.are_you_sure?') },
+    <%= button_to t('misc.cancel_param', param: ProjectProposal.model_name.human), project_proposal_path(@project_proposal), data: { confirm: t('messages.are_you_sure?') },
         method: :delete, class: "btn btn-outline-danger mt-3 mb-3" %>
   <% end %>
 <% end %>

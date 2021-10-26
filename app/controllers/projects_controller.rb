@@ -1,6 +1,6 @@
 class ProjectsController < ApplicationController
+  before_action :require_login
   before_action :require_user_login, except: %i[index show my_projects]
-  before_action :require_login, only: %i[index show my_projects]
   before_action :professional_must_fill_profile
   before_action :set_project, only: %i[show edit update close finish]
 
@@ -49,7 +49,7 @@ class ProjectsController < ApplicationController
       @feedback = @project.feedback_from_professional(current_user)
     end
 
-    if @project.user == current_user
+    if @project.creator?(current_user)
       @project_proposals = ProjectProposal.where(project: @project)
 
       if @project_proposals && !@project.open?
@@ -71,7 +71,7 @@ class ProjectsController < ApplicationController
   end
 
   def edit
-    redirect_to @project, alert: 'Somente o autor do projeto pode editá-lo' unless @project.user == current_user
+    redirect_to @project, alert: 'Somente o autor do projeto pode editá-lo' unless @project.creator?(current_user)
   end
 
   def update

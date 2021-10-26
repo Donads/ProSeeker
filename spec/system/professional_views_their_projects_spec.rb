@@ -15,11 +15,12 @@ describe 'Professional views their projects' do
                                 attendance_type: :presential_attendance, user: user)
     professional = User.create!(email: 'profissional1@teste.com.br', password: '123456',
                                 role: :professional)
-    profile_1 = ProfessionalProfile.create!(full_name: 'Fulano de Tal', social_name: 'Ciclano da Silva',
-                                            description: 'Busco projetos desafiadores',
-                                            professional_qualification: 'Ensino Superior',
-                                            professional_experience: '6 anos trabalhando em projetos diversos',
-                                            birth_date: birth_date, user: professional, knowledge_field: knowledge_field, profile_photo: photo)
+    ProfessionalProfile.create!(full_name: 'Fulano de Tal', social_name: 'Ciclano da Silva',
+                                description: 'Busco projetos desafiadores',
+                                professional_qualification: 'Ensino Superior',
+                                professional_experience: '6 anos trabalhando em projetos diversos',
+                                birth_date: birth_date, user: professional, knowledge_field: knowledge_field,
+                                profile_photo: photo)
     proposal_1 = ProjectProposal.create!(reason: 'Gosto muito de trabalhar com e-commerces e tenho experiência',
                                          hourly_rate: 70.0, weekly_hours: 30, deadline: future_date, project: project_1,
                                          user: professional, status: :approved)
@@ -52,11 +53,12 @@ describe 'Professional views their projects' do
                                 attendance_type: :presential_attendance, user: user)
     professional = User.create!(email: 'profissional1@teste.com.br', password: '123456',
                                 role: :professional)
-    profile_1 = ProfessionalProfile.create!(full_name: 'Fulano de Tal', social_name: 'Ciclano da Silva',
-                                            description: 'Busco projetos desafiadores',
-                                            professional_qualification: 'Ensino Superior',
-                                            professional_experience: '6 anos trabalhando em projetos diversos',
-                                            birth_date: birth_date, user: professional, knowledge_field: knowledge_field, profile_photo: photo)
+    ProfessionalProfile.create!(full_name: 'Fulano de Tal', social_name: 'Ciclano da Silva',
+                                description: 'Busco projetos desafiadores',
+                                professional_qualification: 'Ensino Superior',
+                                professional_experience: '6 anos trabalhando em projetos diversos',
+                                birth_date: birth_date, user: professional, knowledge_field: knowledge_field,
+                                profile_photo: photo)
     proposal_1 = ProjectProposal.create!(reason: 'Gosto muito de trabalhar com e-commerces e tenho experiência',
                                          hourly_rate: 70.0, weekly_hours: 30, deadline: future_date, project: project_1,
                                          user: professional, status: :approved)

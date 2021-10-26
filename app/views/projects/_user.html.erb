@@ -1,4 +1,4 @@
-<% if @project.user == current_user %>
+<% if @project.creator?(current_user) %>
   <div class="btn-group mt-1 mb-3" role="group" aria-label="Buttons related to the project">
     <% if @project.open? %>
       <%= link_to t('links.edit'), edit_project_path(@project), class: "btn btn-primary" %>

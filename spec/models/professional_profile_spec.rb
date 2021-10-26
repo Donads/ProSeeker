@@ -64,4 +64,22 @@ RSpec.describe ProfessionalProfile, type: :model do
       expect(profile.errors.full_messages_for(:birth_date)).to include('Data de Nascimento deve estar no passado')
     end
   end
+
+  context 'professional can only have one profile' do
+    it 'and tries to create a second one' do
+      birth_date = 30.years.ago.to_date
+      photo = fixture_file_upload('avatar_placeholder.png', 'image/png')
+      knowledge_field = KnowledgeField.create!(title: 'Desenvolvedor')
+      professional = User.create!(email: 'profissional@teste.com.br', password: '123456', role: :professional)
+      ProfessionalProfile.create!(full_name: 'Fulano de Tal', social_name: 'Ciclano da Silva',
+                                  description: 'Busco projetos desafiadores',
+                                  professional_qualification: 'Ensino Superior',
+                                  professional_experience: '6 anos trabalhando em projetos diversos',
+                                  birth_date: birth_date, user: professional, knowledge_field: knowledge_field,
+                                  profile_photo: photo)
+      new_profile = ProfessionalProfile.new(user: professional)
+      new_profile.valid?
+      expect(new_profile.errors.full_messages_for(:base)).to include('Perfil já existe pra esse usuário')
+    end
+  end
 end

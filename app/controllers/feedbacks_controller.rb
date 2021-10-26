@@ -69,10 +69,10 @@ class FeedbacksController < ApplicationController
 
     @feedback_creator = current_user
 
-    if current_user.user? && @project.user == current_user
+    if current_user.user? && @project.creator?(current_user)
       @feedback_receiver = @project_proposal.user
       @feedback_source = :from_user
-    elsif current_user.professional? && @project_proposal.user == current_user
+    elsif current_user.professional? && @project_proposal.creator?(current_user)
       @feedback_receiver = @project.user
       @feedback_source = :from_professional
     else
