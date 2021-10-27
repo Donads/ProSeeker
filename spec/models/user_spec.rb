@@ -1,40 +1,29 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  context 'validates presence' do
-    it 'role must be present' do
-      user = User.new
-      user.valid?
-      expect(user.errors.full_messages_for(:role)).to include('Função não pode ficar em branco')
-    end
+  describe 'associations' do
+    it { should have_one(:professional_profile) }
+    it { should have_many(:projects) }
+    it { should have_many(:project_proposals) }
+    it { should have_many(:feedbacks_created).class_name('Feedback').with_foreign_key(:feedback_creator_id) }
+    it { should have_many(:feedbacks_received).class_name('Feedback').with_foreign_key(:feedback_receiver_id) }
   end
 
-  context 'validates role' do
-    it 'user is valid' do
-      user = User.new(role: :user)
-      user.valid?
-      expect(user.errors.full_messages_for(:role)).to eq []
-    end
+  describe 'define_enum' do
+    it { should define_enum_for(:role).with_values(user: 10, professional: 20, admin: 900) }
+  end
 
-    it 'professional is valid' do
-      user = User.new(role: :professional)
-      user.valid?
-      expect(user.errors.full_messages_for(:role)).to eq []
-    end
+  describe 'presence' do
+    it { should validate_presence_of(:role) }
+    it { should validate_presence_of(:email) }
+  end
 
-    it 'admin is not valid on create' do
-      user = User.new(role: :admin)
-      user.valid?
-      expect(user.errors.full_messages_for(:role)).to include('Função não está incluído na lista')
-      expect(user.errors.full_messages_for(:role)).to include('Função não está disponível')
-    end
+  describe 'allow_values' do
+    it { should allow_values(:user, :professional).for(:role) }
+  end
 
-    it 'admin is not valid on create' do
-      user = User.create!(email: 'admin@admin.com', password: '123456', role: :user)
-      user.admin!
-      user.valid?
-      expect(user.role).to eq 'admin'
-      expect(user.errors.full_messages_for(:role)).to eq []
-    end
+  describe 'admin restriction' do
+    it { should allow_values(:admin).for(:role).on(:update) }
+    it { should_not allow_values(:admin).for(:role).on(:create) }
   end
 end

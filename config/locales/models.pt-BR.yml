@@ -36,6 +36,7 @@ pt-BR:
         professional_experience: Experiência Profissional
         professional_qualification: Qualificação Profissional
         profile_photo: Foto de Perfil
+        user_id: Usuário
       project:
         attendance_type: Tipo de atuação
         description: Descrição
@@ -52,6 +53,7 @@ pt-BR:
         status: Situação
         status_date: Data da Situação
         status_reason: Motivo da Situação
+        user_id: Usuário
         weekly_hours: Disponibilidade de horas por semana
       user:
         email: E-mail

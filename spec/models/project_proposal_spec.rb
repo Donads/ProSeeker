@@ -1,286 +1,152 @@
 require 'rails_helper'
 
 RSpec.describe ProjectProposal, type: :model do
-  context 'validates presence' do
-    it 'reason must be present' do
-      proposal = ProjectProposal.new
-      proposal.valid?
-      expect(proposal.errors.full_messages_for(:reason)).to include('Motivo não pode ficar em branco')
-    end
-
-    it 'hourly_rate must be present' do
-      proposal = ProjectProposal.new
-      proposal.valid?
-      expect(proposal.errors.full_messages_for(:hourly_rate)).to include('Valor (R$/hora) não pode ficar em branco')
-    end
-
-    it 'weekly_hours must be present' do
-      proposal = ProjectProposal.new
-      proposal.valid?
-      expect(proposal.errors.full_messages_for(:weekly_hours)).to include(
-        'Disponibilidade de horas por semana não pode ficar em branco'
-      )
-    end
-
-    it 'deadline must be present' do
-      proposal = ProjectProposal.new
-      proposal.valid?
-      expect(proposal.errors.full_messages_for(:deadline)).to include(
-        'Expectativa de conclusão não pode ficar em branco'
-      )
-    end
+  describe 'associations' do
+    it { should belong_to(:project) }
+    it { should belong_to(:user) }
+    it { should have_many(:feedbacks) }
   end
 
-  context 'validates numericality' do
-    context 'hourly_rate must be greater than zero' do
-      it 'and was lower than zero' do
-        proposal = ProjectProposal.new(hourly_rate: -0.1)
-        proposal.valid?
-        expect(proposal.errors.full_messages_for(:hourly_rate)).to include('Valor (R$/hora) deve ser maior que 0')
-      end
-
-      it 'and was equal to zero' do
-        proposal = ProjectProposal.new(hourly_rate: 0)
-        proposal.valid?
-        expect(proposal.errors.full_messages_for(:hourly_rate)).to include('Valor (R$/hora) deve ser maior que 0')
-      end
-
-      it 'and was greater than zero' do
-        proposal = ProjectProposal.new(hourly_rate: 0.1)
-        proposal.valid?
-        expect(proposal.errors.full_messages_for(:hourly_rate)).to eq []
-      end
-    end
-
-    context 'weekly_hours must be greater than zero' do
-      it 'and was lower than zero' do
-        proposal = ProjectProposal.new(weekly_hours: -1)
-        proposal.valid?
-        expect(proposal.errors.full_messages_for(:weekly_hours)).to include(
-          'Disponibilidade de horas por semana deve ser maior que 0'
-        )
-      end
-
-      it 'and was equal to zero' do
-        proposal = ProjectProposal.new(weekly_hours: 0)
-        proposal.valid?
-        expect(proposal.errors.full_messages_for(:weekly_hours)).to include(
-          'Disponibilidade de horas por semana deve ser maior que 0'
-        )
-      end
-
-      it 'and was greater than zero' do
-        proposal = ProjectProposal.new(weekly_hours: 1)
-        proposal.valid?
-        expect(proposal.errors.full_messages_for(:weekly_hours)).to eq []
-      end
-    end
-
-    context 'weekly_hours must be an integer' do
-      it 'and was not an integer' do
-        proposal = ProjectProposal.new(weekly_hours: 0.5)
-        proposal.valid?
-        expect(proposal.errors.full_messages_for(:weekly_hours)).to include(
-          'Disponibilidade de horas por semana não é um número inteiro'
-        )
-      end
-
-      it 'and was an integer' do
-        proposal = ProjectProposal.new(weekly_hours: 1)
-        proposal.valid?
-        expect(proposal.errors.full_messages_for(:weekly_hours)).to eq []
-      end
-    end
+  describe 'define_enum' do
+    it { should define_enum_for(:status).with_values(pending: 10, approved: 20, rejected: 30, rated: 40, canceled: 90) }
   end
 
-  context 'deadline must be in the future' do
-    it 'and was in the past' do
-      proposal = ProjectProposal.new(deadline: Date.yesterday)
-      proposal.valid?
-      expect(proposal.errors.full_messages_for(:deadline)).to include(
-        'Expectativa de conclusão não pode estar no passado'
-      )
-    end
-
-    it 'and was in the present' do
-      proposal = ProjectProposal.new(deadline: Date.current)
-      proposal.valid?
-      expect(proposal.errors.full_messages_for(:deadline)).to include(
-        'Expectativa de conclusão não pode estar no passado'
-      )
-    end
-
-    it 'and was in the future' do
-      proposal = ProjectProposal.new(deadline: Date.tomorrow)
-      proposal.valid?
-      expect(proposal.errors.full_messages_for(:deadline)).to eq []
-    end
+  describe 'presence' do
+    it { should validate_presence_of(:reason) }
+    it { should validate_presence_of(:hourly_rate) }
+    it { should validate_presence_of(:weekly_hours) }
+    it { should validate_presence_of(:deadline) }
+    it { should validate_presence_of(:status_reason).on(:cancel) }
+    it { should validate_presence_of(:status_reason).on(:reject) }
   end
 
-  context 'deadline must be within one year' do
-    it 'and was before that' do
-      proposal = ProjectProposal.new(deadline: 1.year.from_now - 1.day)
-      proposal.valid?
-      expect(proposal.errors.full_messages_for(:deadline)).to eq []
-    end
-
-    it 'and was after that' do
-      proposal = ProjectProposal.new(deadline: 1.year.from_now + 1.day)
-      proposal.valid?
-      expect(proposal.errors.full_messages_for(:deadline)).to include(
-        'Expectativa de conclusão não pode passar de um ano'
-      )
-    end
+  describe 'numericality' do
+    it { should validate_numericality_of(:hourly_rate).is_greater_than(0) }
+    it { should validate_numericality_of(:weekly_hours).only_integer.is_greater_than(0) }
   end
 
-  context 'professional can only have one active proposal for each project' do
-    it 'and tries to submit a second one' do
+  describe 'uniqueness' do
+    subject do
       user = User.create!(email: 'usuario@teste.com.br', password: '123456', role: :user)
       professional = User.create!(email: 'profissional@teste.com.br', password: '123456', role: :professional)
       project = Project.new(open_until: Date.tomorrow, attendance_type: :mixed_attendance, user: user)
       project.save(validate: false)
-      proposal1 = ProjectProposal.new(project: project, user: professional)
-      proposal1.save(validate: false)
+      ProjectProposal.new(project: project, user: professional)
+    end
 
-      proposal2 = ProjectProposal.new(project: project, user: professional)
-      proposal2.valid?
+    it {
+      should validate_uniqueness_of(:user_id).scoped_to(:project_id).with_message('já possui proposta para esse projeto')
+    }
+  end
 
-      expect(proposal2.errors.full_messages_for(:base)).to include('Proposta já existe pra esse projeto')
+  describe 'deadline_cannot_be_in_the_past' do
+    it { should_not allow_values(Date.yesterday).for(:deadline) }
+    it { should_not allow_values(Date.current).for(:deadline) }
+    it { should allow_values(Date.tomorrow).for(:deadline) }
+  end
+
+  describe 'deadline_must_be_within_limit' do
+    it { should allow_values(1.year.from_now - 1.day).for(:deadline) }
+    it { should_not allow_values(1.year.from_now + 1.day).for(:deadline) }
+  end
+
+  describe 'check_project_status' do
+    context 'validate project date' do
+      context 'proposal was done after the closing day' do
+        subject do
+          project = Project.new(open_until: Date.yesterday)
+          ProjectProposal.new(project: project)
+        end
+
+        it { should validate_presence_of(:project_id).with_message('não está aberto') }
+      end
+
+      context 'proposal was done after the closing day' do
+        subject do
+          project = Project.new(open_until: Date.current)
+          ProjectProposal.new(project: project)
+        end
+
+        it { should_not validate_presence_of(:project_id) }
+      end
+
+      context 'proposal was done after the closing day' do
+        subject do
+          project = Project.new(open_until: Date.tomorrow)
+          ProjectProposal.new(project: project)
+        end
+
+        it { should_not validate_presence_of(:project_id) }
+      end
+    end
+
+    context 'validate project status' do
+      context 'when project is open' do
+        subject do
+          project = Project.new(open_until: Date.tomorrow, status: :open)
+          ProjectProposal.new(project: project)
+        end
+
+        it { should_not validate_presence_of(:project_id) }
+      end
+
+      context 'when project is closed' do
+        subject do
+          project = Project.new(open_until: Date.tomorrow, status: :closed)
+          ProjectProposal.new(project: project)
+        end
+
+        it { should validate_presence_of(:project_id).with_message('não está aberto') }
+      end
+
+      context 'when project is finished' do
+        subject do
+          project = Project.new(open_until: Date.tomorrow, status: :finished)
+          ProjectProposal.new(project: project)
+        end
+
+        it { should validate_presence_of(:project_id).with_message('não está aberto') }
+      end
     end
   end
 
-  context 'proposal must be done while project is open' do
-    it 'and was done after the closing day' do
-      project = Project.new(open_until: Date.yesterday)
-      proposal = ProjectProposal.new(project: project)
-      proposal.valid?
-      expect(proposal.errors.full_messages_for(:project_id)).to include('Projeto não está aberto')
+  describe 'hourly_rate_cannot_exceed_maximum_allowed' do
+    subject do
+      project = Project.new(max_hourly_rate: 50, open_until: Date.tomorrow)
+      ProjectProposal.new(project: project)
     end
 
-    it 'and was done during the closing day' do
-      project = Project.new(open_until: Date.current)
-      proposal = ProjectProposal.new(project: project)
-      proposal.valid?
-      expect(proposal.errors.full_messages_for(:project_id)).to eq []
-    end
-
-    it 'and was done before the closing day' do
-      project = Project.new(open_until: Date.tomorrow)
-      proposal = ProjectProposal.new(project: project)
-      proposal.valid?
-      expect(proposal.errors.full_messages_for(:project_id)).to eq []
-    end
-
-    it 'and was done when open' do
-      project = Project.new(open_until: Date.tomorrow, status: :open)
-      proposal = ProjectProposal.new(project: project)
-      proposal.valid?
-      expect(proposal.errors.full_messages_for(:project_id)).to eq []
-    end
-
-    it 'and was done when closed' do
-      project = Project.new(open_until: Date.tomorrow, status: :closed)
-      proposal = ProjectProposal.new(project: project)
-      proposal.valid?
-      expect(proposal.errors.full_messages_for(:project_id)).to include('Projeto não está aberto')
-    end
-
-    it 'and was done when finished' do
-      project = Project.new(open_until: Date.tomorrow, status: :finished)
-      proposal = ProjectProposal.new(project: project)
-      proposal.valid?
-      expect(proposal.errors.full_messages_for(:project_id)).to include('Projeto não está aberto')
-    end
+    it { should_not allow_values(50.1).for(:hourly_rate).with_message('não pode ser maior que o limite do projeto') }
+    it { should allow_values(50.0).for(:hourly_rate) }
+    it { should allow_values(49.9).for(:hourly_rate) }
   end
 
-  context 'hourly_rate must not exceed the maximum allowed for the project' do
-    before :context do
-      @project = Project.new(max_hourly_rate: 50, open_until: Date.tomorrow)
+  context 'can_not_be_canceled' do
+    context 'validate status_date' do
+      subject { ProjectProposal.new(status: :approved) }
+
+      it '2 days after it was approved' do
+        should allow_values(2.days.ago).for(:status_date).on(:destroy)
+      end
+      it '3 days after it was approved' do
+        should allow_values(3.days.ago + 1.minute).for(:status_date).on(:destroy)
+      end
+      it '3 days after it was approved' do
+        should_not allow_values(3.days.ago - 1.minute).for(:status_date).on(:destroy).with_message('da proposta não permite cancelamento')
+      end
+      it '4 days after it was approved' do
+        should_not allow_values(4.days.ago).for(:status_date).on(:destroy).with_message('da proposta não permite cancelamento')
+      end
     end
 
-    it 'and is greater than the maximum' do
-      proposal = ProjectProposal.new(project: @project, hourly_rate: 60)
-      proposal.valid?
-      expect(proposal.errors.full_messages_for(:hourly_rate)).to include(
-        'Valor (R$/hora) não pode ser maior que o limite do projeto'
-      )
-    end
+    context 'validate project status' do
+      subject { ProjectProposal.new(status_date: 10.days.ago) }
 
-    it 'and is equal to the maximum' do
-      proposal = ProjectProposal.new(project: @project, hourly_rate: 50)
-      proposal.valid?
-      expect(proposal.errors.full_messages_for(:hourly_rate)).to eq []
-    end
-
-    it 'and is lower than the maximum' do
-      proposal = ProjectProposal.new(project: @project, hourly_rate: 40)
-      proposal.valid?
-      expect(proposal.errors.full_messages_for(:hourly_rate)).to eq []
-    end
-  end
-
-  context 'professional tries to cancel proposal' do
-    it '2 days after it was approved' do
-      proposal = ProjectProposal.new(status: :approved)
-      proposal.status_date = 2.days.ago
-      proposal.valid?(:destroy)
-      expect(proposal.errors.full_messages_for(:status)).to eq []
-    end
-
-    it '3 days after it was approved' do
-      proposal = ProjectProposal.new(status: :approved)
-      proposal.status_date = 3.days.ago + 1.minute
-      proposal.valid?(:destroy)
-      expect(proposal.errors.full_messages_for(:status)).to eq []
-    end
-
-    it '3 days after it was approved' do
-      proposal = ProjectProposal.new(status: :approved)
-      proposal.status_date = 3.days.ago - 1.minute
-      proposal.valid?(:destroy)
-      expect(proposal.errors.full_messages_for(:status)).to include('Situação da proposta não permite cancelamento')
-    end
-
-    it '4 days after it was approved' do
-      proposal = ProjectProposal.new(status: :approved)
-      proposal.status_date = 4.days.ago
-      proposal.valid?(:destroy)
-      expect(proposal.errors.full_messages_for(:status)).to include('Situação da proposta não permite cancelamento')
-    end
-
-    it 'when it is pending' do
-      proposal = ProjectProposal.new(status: :pending)
-      proposal.status_date = 10.days.ago
-      proposal.valid?(:destroy)
-      expect(proposal.errors.full_messages_for(:status)).to eq []
-    end
-
-    it 'when it was rejected' do
-      proposal = ProjectProposal.new(status: :rejected)
-      proposal.status_date = 10.days.ago
-      proposal.valid?(:destroy)
-      expect(proposal.errors.full_messages_for(:status)).to eq []
-    end
-
-    it 'when it was rated' do
-      proposal = ProjectProposal.new(status: :rated)
-      proposal.status_date = 10.days.ago
-      proposal.valid?(:destroy)
-      expect(proposal.errors.full_messages_for(:status)).to include('Situação da proposta não permite cancelamento')
-    end
-  end
-
-  context 'user tries to reject proposal' do
-    it 'with status_reason filled and succeeds' do
-      proposal = ProjectProposal.new(status: :rejected, status_reason: 'Motivo da rejeição')
-      proposal.valid?(:reject)
-      expect(proposal.errors.full_messages_for(:status_reason)).to eq []
-    end
-
-    it 'with status_reason empty and fails' do
-      proposal = ProjectProposal.new(status: :rejected, status_reason: '')
-      proposal.valid?(:reject)
-      expect(proposal.errors.full_messages_for(:status_reason)).to include('Motivo da Situação não pode ficar em branco')
+      it { should allow_values(:pending).for(:status).on(:destroy) }
+      it { should allow_values(:rejected).for(:status).on(:destroy) }
+      it {
+        should_not allow_values(:rated).for(:status).on(:destroy).with_message('da proposta não permite cancelamento')
+      }
     end
   end
 end

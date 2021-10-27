@@ -10,7 +10,7 @@ class User < ApplicationRecord
   has_many :feedbacks_created, class_name: 'Feedback', foreign_key: :feedback_creator_id
   has_many :feedbacks_received, class_name: 'Feedback', foreign_key: :feedback_receiver_id
 
-  enum role: { admin: 0, user: 10, professional: 20 }
+  enum role: { user: 10, professional: 20, admin: 900 }
 
   validates :role, presence: true
   validates :role, inclusion: %w[user professional], on: %i[create]

@@ -1,127 +1,40 @@
 require 'rails_helper'
 
 RSpec.describe Project, type: :model do
-  context 'validates presence' do
-    it 'title must be present' do
-      project = Project.new
-      project.valid?
-      expect(project.errors.full_messages_for(:title)).to include('Título não pode ficar em branco')
-    end
-
-    it 'description must be present' do
-      project = Project.new
-      project.valid?
-      expect(project.errors.full_messages_for(:description)).to include('Descrição não pode ficar em branco')
-    end
-
-    it 'skills must be present' do
-      project = Project.new
-      project.valid?
-      expect(project.errors.full_messages_for(:skills)).to include('Habilidades desejadas não pode ficar em branco')
-    end
-
-    it 'max_hourly_rate must be present' do
-      project = Project.new
-      project.valid?
-      expect(project.errors.full_messages_for(:max_hourly_rate)).to include(
-        'Valor máximo (R$/hora) não pode ficar em branco'
-      )
-    end
-
-    it 'open_until must be present' do
-      project = Project.new
-      project.valid?
-      expect(project.errors.full_messages_for(:open_until)).to include(
-        'Prazo para recebimento de propostas não pode ficar em branco'
-      )
-    end
-
-    it 'attendance_type must be present' do
-      project = Project.new
-      project.valid?
-      expect(project.errors.full_messages_for(:attendance_type)).to include('Tipo de atuação não pode ficar em branco')
-    end
+  describe 'associations' do
+    it { should belong_to(:user) }
+    it { should have_many(:project_proposals) }
   end
 
-  context 'validates numericality' do
-    it 'max_hourly_rate must be greater than 0' do
-      project = Project.new(max_hourly_rate: -0.1)
-      project.valid?
-      expect(project.errors.full_messages_for(:max_hourly_rate)).to include(
-        'Valor máximo (R$/hora) deve ser maior que 0'
-      )
-    end
-
-    it 'max_hourly_rate must be greater than 0' do
-      project = Project.new(max_hourly_rate: 0)
-      project.valid?
-      expect(project.errors.full_messages_for(:max_hourly_rate)).to include(
-        'Valor máximo (R$/hora) deve ser maior que 0'
-      )
-    end
-
-    it 'max_hourly_rate must be greater than 0' do
-      project = Project.new(max_hourly_rate: 0.1)
-      project.valid?
-      expect(project.errors.full_messages_for(:max_hourly_rate)).to eq []
-    end
+  describe 'define_enum' do
+    it { should define_enum_for(:status).with_values(open: 10, closed: 20, finished: 30) }
+    it {
+      should define_enum_for(:attendance_type).with_values(mixed_attendance: 10, remote_attendance: 20,
+                                                           presential_attendance: 30)
+    }
   end
 
-  context 'open_until must not be in the past' do
-    it 'and was in the past' do
-      project = Project.new(open_until: Date.yesterday)
-      project.valid?
-      expect(project.errors.full_messages_for(:open_until)).to include(
-        'Prazo para recebimento de propostas não pode estar no passado'
-      )
-    end
-
-    it 'and was in the present' do
-      project = Project.new(open_until: Date.current)
-      project.valid?
-      expect(project.errors.full_messages_for(:open_until)).to eq []
-    end
-
-    it 'and was in the future' do
-      project = Project.new(open_until: Date.tomorrow)
-      project.valid?
-      expect(project.errors.full_messages_for(:open_until)).to eq []
-    end
+  describe 'presence' do
+    it { should validate_presence_of(:title) }
+    it { should validate_presence_of(:description) }
+    it { should validate_presence_of(:skills) }
+    it { should validate_presence_of(:max_hourly_rate) }
+    it { should validate_presence_of(:open_until) }
+    it { should validate_presence_of(:attendance_type) }
   end
 
-  context 'open_until must be within one year' do
-    it 'and was before that' do
-      project = Project.new(open_until: 1.year.from_now - 1.day)
-      project.valid?
-      expect(project.errors.full_messages_for(:open_until)).to eq []
-    end
-
-    it 'and was after that' do
-      project = Project.new(open_until: 1.year.from_now + 1.day)
-      project.valid?
-      expect(project.errors.full_messages_for(:open_until)).to include(
-        'Prazo para recebimento de propostas não pode passar de um ano'
-      )
-    end
+  describe 'numericality' do
+    it { should validate_numericality_of(:max_hourly_rate).is_greater_than(0) }
   end
 
-  context 'validates attendance_type' do
-    it 'mixed_attendance is valid' do
-      project = Project.new(attendance_type: :mixed_attendance)
-      project.valid?
-      expect(project.errors.full_messages_for(:attendance_type)).to eq []
-    end
+  describe 'open_until_cannot_be_in_the_past' do
+    it { should_not allow_values(Date.yesterday).for(:open_until) }
+    it { should allow_values(Date.current).for(:open_until) }
+    it { should allow_values(Date.tomorrow).for(:open_until) }
+  end
 
-    it 'remote_attendance is valid' do
-      project = Project.new(attendance_type: :remote_attendance)
-      project.valid?
-      expect(project.errors.full_messages_for(:attendance_type)).to eq []
-    end
-
-    it 'presential_attendance is valid' do
-      project = Project.new(attendance_type: :presential_attendance)
-      project.valid?
-      expect(project.errors.full_messages_for(:attendance_type)).to eq []
-    end
+  describe 'open_until_must_be_within_limit' do
+    it { should allow_values(1.year.from_now - 1.day).for(:open_until) }
+    it { should_not allow_values(1.year.from_now + 1.day).for(:open_until) }
   end
 end

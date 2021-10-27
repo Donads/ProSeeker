@@ -11,13 +11,16 @@ class ProjectProposal < ApplicationRecord
   validates :status_reason, presence: true, on: %i[cancel reject]
   validates :hourly_rate, :weekly_hours, numericality: { greater_than: 0 }
   validates :weekly_hours, numericality: { only_integer: true }
+  validates :user_id, uniqueness: {
+    message: 'já possui proposta para esse projeto',
+    scope: :project_id
+  }
 
   validate :deadline_cannot_be_in_the_past
   validate :deadline_must_be_within_limit
   validate :hourly_rate_cannot_exceed_maximum_allowed
   validate :check_project_status
   validate :can_not_be_canceled, on: %i[destroy]
-  validate :proposal_must_be_unique_for_each_project, on: %i[create]
 
   def can_be_canceled?
     case status
@@ -65,12 +68,9 @@ class ProjectProposal < ApplicationRecord
   end
 
   def can_not_be_canceled
-    errors.add(:status, 'da proposta não permite cancelamento') unless can_be_canceled?
-  end
+    return if can_be_canceled?
 
-  def proposal_must_be_unique_for_each_project
-    return unless ProjectProposal.find_by(project: project, user: user)
-
-    errors.add(:base, 'Proposta já existe pra esse projeto')
+    errors.add(:status_date, 'da proposta não permite cancelamento')
+    errors.add(:status, 'da proposta não permite cancelamento')
   end
 end
