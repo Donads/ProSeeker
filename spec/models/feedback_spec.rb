@@ -35,34 +35,34 @@ RSpec.describe Feedback, type: :model do
   end
 
   describe 'check_project_status' do
-    context 'when project is open' do
-      subject do
-        project = Project.new(status: :open)
-        project_proposal = ProjectProposal.new(project: project)
-        Feedback.new(project_proposal: project_proposal)
-      end
+    subject do
+      project = Project.new(status: status)
+      project_proposal = ProjectProposal.new(project: project)
+      Feedback.new(project_proposal: project_proposal)
+    end
 
-      it { should validate_presence_of(:project_proposal_id).with_message('deve pertencer a um projeto finalizado') }
+    context 'when project is open' do
+      let(:status) { :open }
+
+      it {
+        should validate_presence_of(:project_proposal_id).with_message('deve pertencer a um projeto finalizado')
+      }
     end
 
     context 'when project is closed' do
-      subject do
-        project = Project.new(status: :closed)
-        project_proposal = ProjectProposal.new(project: project)
-        Feedback.new(project_proposal: project_proposal)
-      end
+      let(:status) { :closed }
 
-      it { should validate_presence_of(:project_proposal_id).with_message('deve pertencer a um projeto finalizado') }
+      it {
+        should validate_presence_of(:project_proposal_id).with_message('deve pertencer a um projeto finalizado')
+      }
     end
 
     context 'when project is finished' do
-      subject do
-        project = Project.new(status: :finished)
-        project_proposal = ProjectProposal.new(project: project)
-        Feedback.new(project_proposal: project_proposal)
-      end
+      let(:status) { :finished }
 
-      it { should_not validate_presence_of(:project_proposal_id) }
+      it {
+        should_not validate_presence_of(:project_proposal_id).with_message('deve pertencer a um projeto finalizado')
+      }
     end
   end
 end

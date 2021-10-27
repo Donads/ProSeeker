@@ -51,59 +51,47 @@ RSpec.describe ProjectProposal, type: :model do
   end
 
   describe 'check_project_status' do
+    subject { ProjectProposal.new(project: project) }
+
     context 'validate project date' do
+      let(:project) { Project.new(open_until: open_until) }
+
       context 'proposal was done after the closing day' do
-        subject do
-          project = Project.new(open_until: Date.yesterday)
-          ProjectProposal.new(project: project)
-        end
+        let(:open_until) { Date.yesterday }
 
         it { should validate_presence_of(:project_id).with_message('não está aberto') }
       end
 
       context 'proposal was done after the closing day' do
-        subject do
-          project = Project.new(open_until: Date.current)
-          ProjectProposal.new(project: project)
-        end
+        let(:open_until) { Date.current }
 
-        it { should_not validate_presence_of(:project_id) }
+        it { should_not validate_presence_of(:project_id).with_message('não está aberto') }
       end
 
       context 'proposal was done after the closing day' do
-        subject do
-          project = Project.new(open_until: Date.tomorrow)
-          ProjectProposal.new(project: project)
-        end
+        let(:open_until) { Date.tomorrow }
 
-        it { should_not validate_presence_of(:project_id) }
+        it { should_not validate_presence_of(:project_id).with_message('não está aberto') }
       end
     end
 
     context 'validate project status' do
-      context 'when project is open' do
-        subject do
-          project = Project.new(open_until: Date.tomorrow, status: :open)
-          ProjectProposal.new(project: project)
-        end
+      let(:project) { Project.new(open_until: Date.tomorrow, status: status) }
 
-        it { should_not validate_presence_of(:project_id) }
+      context 'when project is open' do
+        let(:status) { :open }
+
+        it { should_not validate_presence_of(:project_id).with_message('não está aberto') }
       end
 
       context 'when project is closed' do
-        subject do
-          project = Project.new(open_until: Date.tomorrow, status: :closed)
-          ProjectProposal.new(project: project)
-        end
+        let(:status) { :closed }
 
         it { should validate_presence_of(:project_id).with_message('não está aberto') }
       end
 
       context 'when project is finished' do
-        subject do
-          project = Project.new(open_until: Date.tomorrow, status: :finished)
-          ProjectProposal.new(project: project)
-        end
+        let(:status) { :finished }
 
         it { should validate_presence_of(:project_id).with_message('não está aberto') }
       end
