@@ -3,34 +3,14 @@ require 'rails_helper'
 describe 'User marks project as finished' do
   context 'with approved proposals' do
     it 'successfully' do
-      birth_date = 30.years.ago.to_date
-      future_date = 2.months.from_now.to_date
-      photo = fixture_file_upload('avatar_placeholder.png', 'image/png')
-      knowledge_field = KnowledgeField.create!(title: 'Desenvolvedor')
-      user = User.create!(email: 'usuario1@teste.com.br', password: '123456', role: :user)
-      project = Project.create!(title: 'Projeto de E-commerce', description: 'Desenvolver plataforma web',
-                                skills: 'Ruby on Rails', max_hourly_rate: 80, open_until: future_date,
-                                attendance_type: :remote_attendance, user: user)
-      professional_1 = User.create!(email: 'profissional1@teste.com.br', password: '123456',
-                                    role: :professional)
-      profile_1 = ProfessionalProfile.create!(full_name: 'Fulano de Tal', social_name: 'Ciclano da Silva',
-                                              description: 'Busco projetos desafiadores',
-                                              professional_qualification: 'Ensino Superior',
-                                              professional_experience: '6 anos trabalhando em projetos diversos',
-                                              birth_date: birth_date, user: professional_1, knowledge_field: knowledge_field, profile_photo: photo)
-      professional_2 = User.create!(email: 'profissional2@teste.com.br', password: '123456',
-                                    role: :professional)
-      profile_2 = ProfessionalProfile.create!(full_name: 'George Washington', social_name: 'Antonio Nunes',
-                                              description: 'Desenvolvedor com anos de experiência',
-                                              professional_qualification: 'Ensino Superior',
-                                              professional_experience: '15 anos trabalhando em projetos diversos',
-                                              birth_date: birth_date, user: professional_2, knowledge_field: knowledge_field, profile_photo: photo)
-      proposal_1 = ProjectProposal.create!(reason: 'Gosto muito de trabalhar com e-commerces e tenho experiência',
-                                           hourly_rate: 70.0, weekly_hours: 30, deadline: future_date, project: project,
-                                           user: professional_1, status: :approved)
-      proposal_2 = ProjectProposal.create!(reason: 'Domino o desenvolvimento de projetos web',
-                                           hourly_rate: 80.0, weekly_hours: 40, deadline: future_date, project: project,
-                                           user: professional_2, status: :approved)
+      user = create(:user)
+      project = create(:project, user: user)
+      professional_1 = create(:user, :professional)
+      profile_1 = create(:profile, user: professional_1)
+      professional_2 = create(:user, :professional)
+      profile_2 = create(:profile, :profile_2, user: professional_2)
+      proposal_1 = create(:proposal, user: professional_1, project: project, status: :approved)
+      proposal_2 = create(:proposal, :proposal_2, user: professional_2, project: project, status: :approved)
       project.closed!
 
       login_as user, scope: :user

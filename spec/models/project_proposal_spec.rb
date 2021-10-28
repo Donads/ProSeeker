@@ -26,13 +26,7 @@ RSpec.describe ProjectProposal, type: :model do
   end
 
   describe 'uniqueness' do
-    subject do
-      user = User.create!(email: 'usuario@teste.com.br', password: '123456', role: :user)
-      professional = User.create!(email: 'profissional@teste.com.br', password: '123456', role: :professional)
-      project = Project.new(open_until: Date.tomorrow, attendance_type: :mixed_attendance, user: user)
-      project.save(validate: false)
-      ProjectProposal.new(project: project, user: professional)
-    end
+    subject { build(:proposal) }
 
     it {
       should validate_uniqueness_of(:user_id).scoped_to(:project_id).with_message('já possui proposta para esse projeto')
@@ -51,10 +45,10 @@ RSpec.describe ProjectProposal, type: :model do
   end
 
   describe 'check_project_status' do
-    subject { ProjectProposal.new(project: project) }
+    subject { build(:proposal, project: project) }
 
     context 'validate project date' do
-      let(:project) { Project.new(open_until: open_until) }
+      let(:project) { build(:project, open_until: open_until) }
 
       context 'proposal was done after the closing day' do
         let(:open_until) { Date.yesterday }
@@ -85,7 +79,7 @@ RSpec.describe ProjectProposal, type: :model do
     end
 
     context 'validate project status' do
-      let(:project) { Project.new(open_until: Date.tomorrow, status: status) }
+      let(:project) { build(:project, open_until: Date.tomorrow, status: status) }
 
       context 'when project is open' do
         let(:status) { :open }
@@ -118,8 +112,8 @@ RSpec.describe ProjectProposal, type: :model do
 
   describe 'hourly_rate_cannot_exceed_maximum_allowed' do
     subject do
-      project = Project.new(max_hourly_rate: 50, open_until: Date.tomorrow)
-      ProjectProposal.new(project: project)
+      project = build(:project, max_hourly_rate: 50, open_until: Date.tomorrow)
+      build(:proposal, project: project)
     end
 
     it { should_not allow_values(50.1).for(:hourly_rate).with_message('não pode ser maior que o limite do projeto') }
@@ -129,7 +123,7 @@ RSpec.describe ProjectProposal, type: :model do
 
   context 'can_not_be_canceled' do
     context 'validate status_date' do
-      subject { ProjectProposal.new(status: :approved) }
+      subject { build(:proposal, status: :approved) }
 
       it '2 days after it was approved' do
         should allow_values(2.days.ago).for(:status_date).on(:destroy)
@@ -146,7 +140,7 @@ RSpec.describe ProjectProposal, type: :model do
     end
 
     context 'validate project status' do
-      subject { ProjectProposal.new(status_date: 10.days.ago) }
+      subject { build(:proposal, status_date: 10.days.ago) }
 
       it { should allow_values(:pending).for(:status).on(:destroy) }
       it { should allow_values(:rejected).for(:status).on(:destroy) }

@@ -57,23 +57,26 @@ namespace :dev do
     knowledge_field_2 = KnowledgeField.find_by(title: 'Desenvolvedor Full Stack')
     knowledge_field_3 = KnowledgeField.find_by(title: 'Desenvolvedor Back-End')
     birth_date = 40.years.ago
+    profile_photo = Rack::Test::UploadedFile.new(
+      File.join("#{::Rails.root}/spec/fixtures", 'files/avatar_placeholder.png'), 'image/png'
+    )
 
     professional_profiles = [
       { full_name: 'João da Silva', social_name: 'João da Silva', description: 'Essa é a descrição do meu perfil',
         birth_date: birth_date, professional_qualification: 'Essas são minhas qualificações profissionais',
-        professional_experience: 'Essa é minha experiência profissional', knowledge_field: knowledge_field_1, user: professional_1 },
+        professional_experience: 'Essa é minha experiência profissional', knowledge_field: knowledge_field_1,
+        user: professional_1, profile_photo: profile_photo },
       { full_name: 'Alessando Oliveira', social_name: 'Marcia Oliveira', description: 'Essa é a descrição do meu perfil',
         birth_date: birth_date, professional_qualification: 'Essas são minhas qualificações profissionais',
-        professional_experience: 'Essa é minha experiência profissional', knowledge_field: knowledge_field_2, user: professional_2 },
+        professional_experience: 'Essa é minha experiência profissional', knowledge_field: knowledge_field_2,
+        user: professional_2, profile_photo: profile_photo },
       { full_name: 'Maria Eduarda', social_name: 'Maria Eduarda', description: 'Essa é a descrição do meu perfil',
         birth_date: birth_date, professional_qualification: 'Essas são minhas qualificações profissionais',
-        professional_experience: 'Essa é minha experiência profissional', knowledge_field: knowledge_field_3, user: professional_3 }
+        professional_experience: 'Essa é minha experiência profissional', knowledge_field: knowledge_field_3,
+        user: professional_3, profile_photo: profile_photo }
     ]
 
-    professional_profiles.each do |profile|
-      new_profile = ProfessionalProfile.new(profile)
-      new_profile.save(validate: false) # Ignores validation for profile photo
-    end
+    professional_profiles.each { |profile| ProfessionalProfile.create!(profile) }
   end
 
   desc 'Creates some records for the Project model'

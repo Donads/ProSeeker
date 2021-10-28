@@ -3,24 +3,11 @@ require 'rails_helper'
 describe 'Professional gives feedback to user' do
   context 'after the project is finished' do
     it 'successfully' do
-      birth_date = 30.years.ago.to_date
-      future_date = 2.months.from_now.to_date
-      photo = fixture_file_upload('avatar_placeholder.png', 'image/png')
-      knowledge_field = KnowledgeField.create!(title: 'Desenvolvedor')
-      user = User.create!(email: 'usuario1@teste.com.br', password: '123456', role: :user)
-      project = Project.create!(title: 'Projeto de E-commerce', description: 'Desenvolver plataforma web',
-                                skills: 'Ruby on Rails', max_hourly_rate: 80, open_until: future_date,
-                                attendance_type: :remote_attendance, user: user)
-      professional = User.create!(email: 'profissional2@teste.com.br', password: '123456',
-                                  role: :professional)
-      ProfessionalProfile.create!(full_name: 'George Washington', social_name: 'Antonio Nunes',
-                                  description: 'Desenvolvedor com anos de experiência',
-                                  professional_qualification: 'Ensino Superior',
-                                  professional_experience: '15 anos trabalhando em projetos diversos',
-                                  birth_date: birth_date, user: professional, knowledge_field: knowledge_field, profile_photo: photo)
-      proposal = ProjectProposal.create!(reason: 'Domino o desenvolvimento de projetos web',
-                                         hourly_rate: 80.0, weekly_hours: 40, deadline: future_date, project: project,
-                                         user: professional, status: :approved)
+      user = create(:user)
+      project = create(:project, user: user)
+      professional = create(:user, :professional)
+      profile = create(:profile, :profile_2, user: professional)
+      proposal = create(:proposal, user: professional, project: project, status: :approved)
       project.finished!
       feedback_params = { score: 5, user_feedback: 'Gerente responsável', project_feedback: 'Projeto desafiador' }
 
@@ -39,7 +26,7 @@ describe 'Professional gives feedback to user' do
       expect(page).to have_css('div', text: 'Avaliação enviada com sucesso!')
       expect(feedback.project_feedback).to include(feedback_params[:project_feedback])
       expect(user.reload.average_score_received?).to eq feedback_params[:score]
-      expect(page).to have_link('usuario1@teste.com.br (Nota média: 5.0)', href: received_feedbacks_path(user))
+      expect(page).to have_link("#{user.email} (Nota média: 5.0)", href: received_feedbacks_path(user))
       expect(page).to have_content('Situação: Finalizado')
       expect(page).to have_link('Avaliação', href: feedback_path(feedback))
       expect(page).to have_no_link('Editar')

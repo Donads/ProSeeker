@@ -23,22 +23,22 @@ RSpec.describe Feedback, type: :model do
   end
 
   describe 'professional_must_fill_project_feedback' do
-    subject { Feedback.new(feedback_creator: User.new(role: :professional)) }
+    subject { build(:feedback, :from_professional) }
 
     it { should validate_presence_of(:project_feedback) }
   end
 
   describe 'user_can_not_fill_project_feedback' do
-    subject { Feedback.new(feedback_creator: User.new(role: :user)) }
+    subject { build(:feedback) }
 
     it { should_not allow_value('abc').for(:project_feedback) }
   end
 
   describe 'check_project_status' do
     subject do
-      project = Project.new(status: status)
-      project_proposal = ProjectProposal.new(project: project)
-      Feedback.new(project_proposal: project_proposal)
+      project = build(:project, status: status)
+      project_proposal = build(:proposal, project: project)
+      build(:feedback, project_proposal: project_proposal)
     end
 
     context 'when project is open' do

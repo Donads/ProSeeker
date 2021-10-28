@@ -3,7 +3,7 @@ require 'rails_helper'
 describe 'Professional must fill profile' do
   context 'profile has not been filled' do
     it 'gets redirected when trying to access the homepage' do
-      professional = User.create!(email: 'profissional@teste.com.br', password: '123456', role: :professional)
+      professional = create(:user, :professional)
 
       login_as professional, scope: :user
       visit root_path
@@ -16,8 +16,8 @@ describe 'Professional must fill profile' do
 
     it 'gets redirected and fills it successfully' do
       birth_date = 30.years.ago.to_date
-      professional = User.create!(email: 'profissional@teste.com.br', password: '123456', role: :professional)
-      knowledge_field = KnowledgeField.create!(title: 'Desenvolvedor')
+      professional = create(:user, :professional)
+      create(:knowledge_field)
 
       login_as professional, scope: :user
       visit root_path
@@ -50,7 +50,7 @@ describe 'Professional must fill profile' do
 
     it 'gets redirected and fails to fill it due to validations' do
       birth_date = 10.days.from_now
-      professional = User.create!(email: 'profissional@teste.com.br', password: '123456', role: :professional)
+      professional = create(:user, :professional)
 
       login_as professional, scope: :user
       visit root_path
@@ -92,7 +92,7 @@ describe 'Professional must fill profile' do
     end
 
     it 'user is signed out and then must sign in as professional' do
-      user = User.create!(email: 'usuario@teste.com.br', password: '123456', role: :user)
+      user = create(:user)
 
       login_as user, scope: :user
       visit new_professional_profile_path
@@ -107,17 +107,8 @@ describe 'Professional must fill profile' do
 
   context 'professional edits their profile' do
     it 'successfully' do
-      birth_date = 30.years.ago.to_date
-      photo = fixture_file_upload('avatar_placeholder.png', 'image/png')
-      knowledge_field = KnowledgeField.create!(title: 'Desenvolvedor')
-      professional = User.create!(email: 'profissional1@teste.com.br', password: '123456',
-                                  role: :professional)
-      ProfessionalProfile.create!(full_name: 'Fulano de Tal', social_name: 'Ciclano da Silva',
-                                  description: 'Busco projetos desafiadores',
-                                  professional_qualification: 'Ensino Superior',
-                                  professional_experience: '6 anos trabalhando em projetos diversos',
-                                  birth_date: birth_date, user: professional, knowledge_field: knowledge_field,
-                                  profile_photo: photo)
+      professional = create(:user, :professional)
+      create(:profile, user: professional)
 
       login_as professional, scope: :user
       visit root_path
@@ -132,17 +123,8 @@ describe 'Professional must fill profile' do
     end
 
     it 'and fails due to invalid fields' do
-      birth_date = 30.years.ago.to_date
-      photo = fixture_file_upload('avatar_placeholder.png', 'image/png')
-      knowledge_field = KnowledgeField.create!(title: 'Desenvolvedor')
-      professional = User.create!(email: 'profissional1@teste.com.br', password: '123456',
-                                  role: :professional)
-      ProfessionalProfile.create!(full_name: 'Fulano de Tal', social_name: 'Ciclano da Silva',
-                                  description: 'Busco projetos desafiadores',
-                                  professional_qualification: 'Ensino Superior',
-                                  professional_experience: '6 anos trabalhando em projetos diversos',
-                                  birth_date: birth_date, user: professional, knowledge_field: knowledge_field,
-                                  profile_photo: photo)
+      professional = create(:user, :professional)
+      create(:profile, user: professional)
 
       login_as professional, scope: :user
       visit root_path
@@ -168,25 +150,10 @@ describe 'Professional must fill profile' do
     end
 
     it 'and fails due to not being their profile' do
-      birth_date = 30.years.ago.to_date
-      photo = fixture_file_upload('avatar_placeholder.png', 'image/png')
-      knowledge_field = KnowledgeField.create!(title: 'Desenvolvedor')
-      professional_1 = User.create!(email: 'profissional1@teste.com.br', password: '123456',
-                                    role: :professional)
-      ProfessionalProfile.create!(full_name: 'Fulano de Tal', social_name: 'Ciclano da Silva',
-                                  description: 'Busco projetos desafiadores',
-                                  professional_qualification: 'Ensino Superior',
-                                  professional_experience: '6 anos trabalhando em projetos diversos',
-                                  birth_date: birth_date, user: professional_1, knowledge_field: knowledge_field,
-                                  profile_photo: photo)
-      professional_2 = User.create!(email: 'profissional2@teste.com.br', password: '123456',
-                                    role: :professional)
-      ProfessionalProfile.create!(full_name: 'George Washington', social_name: 'Antonio Nunes',
-                                  description: 'Desenvolvedor com anos de experiência',
-                                  professional_qualification: 'Ensino Superior',
-                                  professional_experience: '15 anos trabalhando em projetos diversos',
-                                  birth_date: birth_date, user: professional_2, knowledge_field: knowledge_field,
-                                  profile_photo: photo)
+      professional_1 = create(:user, :professional)
+      create(:profile, user: professional_1)
+      professional_2 = create(:user, :professional)
+      create(:profile, :profile_2, user: professional_2)
 
       login_as professional_1, scope: :user
       visit edit_professional_profile_path(professional_2)

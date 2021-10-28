@@ -3,7 +3,7 @@ require 'rails_helper'
 describe 'User creates project' do
   it 'successfully' do
     future_date = 2.months.from_now.to_date
-    user = User.create!(email: 'usuario@teste.com.br', password: '123456', role: :user)
+    user = create(:user)
     project = { title: 'Teste de título', description: 'Teste de descrição', skills: 'Teste de habilidades',
                 max_hourly_rate: 60, open_until: future_date, attendance_type: :remote_attendance }
 
@@ -36,7 +36,7 @@ describe 'User creates project' do
   end
 
   it 'and fails due to failed validations' do
-    user = User.create!(email: 'usuario@teste.com.br', password: '123456', role: :user)
+    user = create(:user)
 
     login_as user, scope: :user
     visit root_path
@@ -62,10 +62,8 @@ describe 'User creates project' do
 
   context 'and then edits it' do
     it 'successfully' do
-      future_date = 2.months.from_now.to_date
-      user = User.create!(email: 'usuario@teste.com.br', password: '123456', role: :user)
-      project = Project.create!(title: 'Teste de título', description: 'Teste de descrição', skills: 'Teste de habilidades',
-                                max_hourly_rate: 60, open_until: future_date, attendance_type: :remote_attendance, user: user)
+      user = create(:user)
+      project = create(:project, user: user)
 
       login_as user, scope: :user
       visit root_path
@@ -87,10 +85,8 @@ describe 'User creates project' do
     end
 
     it 'but fails due to missing fields' do
-      future_date = 2.months.from_now.to_date
-      user = User.create!(email: 'usuario@teste.com.br', password: '123456', role: :user)
-      project = Project.create!(title: 'Teste de título', description: 'Teste de descrição', skills: 'Teste de habilidades',
-                                max_hourly_rate: 60, open_until: future_date, attendance_type: :remote_attendance, user: user)
+      user = create(:user)
+      project = create(:project, user: user)
 
       login_as user, scope: :user
       visit root_path

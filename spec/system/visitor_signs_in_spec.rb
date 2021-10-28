@@ -3,7 +3,7 @@ require 'rails_helper'
 describe 'Visitor signs in' do
   context 'as an user' do
     it 'successfully' do
-      user = User.create!(email: 'usuario@teste.com.br', password: '123456', role: :user)
+      user = create(:user)
 
       visit root_path
       click_link 'Entrar'
@@ -21,7 +21,7 @@ describe 'Visitor signs in' do
     end
 
     it 'and logs out' do
-      user = User.create!(email: 'usuario@teste.com.br', password: '123456', role: :user)
+      user = create(:user)
 
       login_as user, scope: :user
       visit root_path
@@ -38,15 +38,8 @@ describe 'Visitor signs in' do
 
   context 'as a professional' do
     it 'successfully and has filled their profile' do
-      photo = fixture_file_upload('avatar_placeholder.png', 'image/png')
-      knowledge_field = KnowledgeField.create!(title: 'Desenvolvedor')
-      professional = User.create!(email: 'profissional@teste.com.br', password: '123456', role: :professional)
-      profile = ProfessionalProfile.create!(full_name: 'Fulano de Tal', social_name: 'Ciclano da Silva',
-                                            description: 'Busco projetos desafiadores',
-                                            professional_qualification: 'Ensino Superior',
-                                            professional_experience: '6 anos trabalhando em projetos diversos',
-                                            birth_date: '1990-12-31',
-                                            user: professional, knowledge_field: knowledge_field, profile_photo: photo)
+      professional = create(:user, :professional)
+      profile = create(:profile, user: professional)
 
       visit root_path
       click_link 'Entrar'
@@ -64,7 +57,7 @@ describe 'Visitor signs in' do
     end
 
     it 'successfully and has not filled their profile' do
-      professional = User.create!(email: 'profissional@teste.com.br', password: '123456', role: :professional)
+      professional = create(:user, :professional)
 
       visit root_path
       click_link 'Entrar'
@@ -84,7 +77,7 @@ describe 'Visitor signs in' do
     end
 
     it 'and logs out' do
-      professional = User.create!(email: 'usuario@teste.com.br', password: '123456', role: :professional)
+      professional = create(:user, :professional)
 
       login_as professional, scope: :user
       visit root_path

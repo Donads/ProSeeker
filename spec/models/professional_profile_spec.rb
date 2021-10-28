@@ -18,11 +18,7 @@ RSpec.describe ProfessionalProfile, type: :model do
   end
 
   describe 'uniqueness' do
-    subject do
-      ProfessionalProfile.new(user: User.create!(email: 'profissional@teste.com.br', password: '123456',
-                                                 role: :professional),
-                              knowledge_field: KnowledgeField.create!(title: 'Desenvolvedor'))
-    end
+    subject { build(:profile) }
 
     it { should validate_uniqueness_of(:user_id).with_message('já possui um perfil cadastrado') }
   end

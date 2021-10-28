@@ -3,34 +3,14 @@ require 'rails_helper'
 describe 'User views project proposals' do
   context 'on their own projects' do
     it 'successfully' do
-      birth_date = 30.years.ago.to_date
-      future_date = 2.months.from_now.to_date
-      photo = fixture_file_upload('avatar_placeholder.png', 'image/png')
-      knowledge_field = KnowledgeField.create!(title: 'Desenvolvedor')
-      user = User.create!(email: 'usuario1@teste.com.br', password: '123456', role: :user)
-      project = Project.create!(title: 'Projeto de E-commerce', description: 'Desenvolver plataforma web',
-                                skills: 'Ruby on Rails', max_hourly_rate: 80, open_until: future_date,
-                                attendance_type: :remote_attendance, user: user)
-      professional_1 = User.create!(email: 'profissional1@teste.com.br', password: '123456',
-                                    role: :professional)
-      profile_1 = ProfessionalProfile.create!(full_name: 'Fulano de Tal', social_name: 'Ciclano da Silva',
-                                              description: 'Busco projetos desafiadores',
-                                              professional_qualification: 'Ensino Superior',
-                                              professional_experience: '6 anos trabalhando em projetos diversos',
-                                              birth_date: birth_date, user: professional_1, knowledge_field: knowledge_field, profile_photo: photo)
-      professional_2 = User.create!(email: 'profissional2@teste.com.br', password: '123456',
-                                    role: :professional)
-      profile_2 = ProfessionalProfile.create!(full_name: 'George Washington', social_name: 'Antonio Nunes',
-                                              description: 'Desenvolvedor com anos de experiência',
-                                              professional_qualification: 'Ensino Superior',
-                                              professional_experience: '15 anos trabalhando em projetos diversos',
-                                              birth_date: birth_date, user: professional_2, knowledge_field: knowledge_field, profile_photo: photo)
-      proposal_1 = ProjectProposal.create!(reason: 'Gosto muito de trabalhar com e-commerces e tenho experiência',
-                                           hourly_rate: 70.0, weekly_hours: 30, deadline: future_date, project: project,
-                                           user: professional_1)
-      proposal_2 = ProjectProposal.create!(reason: 'Domino o desenvolvimento de projetos web',
-                                           hourly_rate: 80.0, weekly_hours: 40, deadline: future_date, project: project,
-                                           user: professional_2)
+      user = create(:user)
+      project = create(:project, user: user)
+      professional_1 = create(:user, :professional)
+      profile_1 = create(:profile, user: professional_1)
+      professional_2 = create(:user, :professional)
+      profile_2 = create(:profile, :profile_2, user: professional_2)
+      proposal_1 = create(:proposal, user: professional_1, project: project)
+      proposal_2 = create(:proposal, :proposal_2, user: professional_2, project: project)
 
       login_as user, scope: :user
       visit root_path
@@ -51,36 +31,16 @@ describe 'User views project proposals' do
     end
 
     it 'and views the professional profile of the second proposal' do
-      birth_date = 30.years.ago.to_date
-      future_date = 2.months.from_now.to_date
-      photo = fixture_file_upload('avatar_placeholder.png', 'image/png')
-      knowledge_field = KnowledgeField.create!(title: 'Desenvolvedor')
-      user_1 = User.create!(email: 'usuario1@teste.com.br', password: '123456', role: :user)
-      project_1 = Project.create!(title: 'Projeto de E-commerce', description: 'Desenvolver plataforma web',
-                                  skills: 'Ruby on Rails', max_hourly_rate: 80, open_until: future_date,
-                                  attendance_type: :remote_attendance, user: user_1)
-      professional_1 = User.create!(email: 'profissional1@teste.com.br', password: '123456',
-                                    role: :professional)
-      ProfessionalProfile.create!(full_name: 'Fulano de Tal', social_name: 'Ciclano da Silva',
-                                  description: 'Busco projetos desafiadores',
-                                  professional_qualification: 'Ensino Superior',
-                                  professional_experience: '6 anos trabalhando em projetos diversos',
-                                  birth_date: birth_date, user: professional_1, knowledge_field: knowledge_field, profile_photo: photo)
-      professional_2 = User.create!(email: 'profissional2@teste.com.br', password: '123456',
-                                    role: :professional)
-      ProfessionalProfile.create!(full_name: 'George Washington', social_name: 'Antonio Nunes',
-                                  description: 'Desenvolvedor com anos de experiência',
-                                  professional_qualification: 'Ensino Superior',
-                                  professional_experience: '15 anos trabalhando em projetos diversos',
-                                  birth_date: birth_date, user: professional_2, knowledge_field: knowledge_field, profile_photo: photo)
-      ProjectProposal.create!(reason: 'Gosto muito de trabalhar com e-commerces e tenho experiência',
-                              hourly_rate: 70.0, weekly_hours: 30, deadline: future_date, project: project_1,
-                              user: professional_1)
-      ProjectProposal.create!(reason: 'Domino o desenvolvimento de projetos web',
-                              hourly_rate: 80.0, weekly_hours: 40, deadline: future_date, project: project_1,
-                              user: professional_2)
+      user = create(:user)
+      project = create(:project, user: user)
+      professional_1 = create(:user, :professional)
+      create(:profile, user: professional_1)
+      professional_2 = create(:user, :professional)
+      create(:profile, :profile_2, user: professional_2)
+      create(:proposal, project: project, user: professional_1)
+      create(:proposal, project: project, user: professional_2)
 
-      login_as user_1, scope: :user
+      login_as user, scope: :user
       visit root_path
       click_link 'Projetos'
       click_link 'Projeto de E-commerce'
@@ -97,25 +57,12 @@ describe 'User views project proposals' do
 
   context 'on other users projects' do
     it 'and does not see them' do
-      birth_date = 30.years.ago.to_date
-      future_date = 2.months.from_now.to_date
-      photo = fixture_file_upload('avatar_placeholder.png', 'image/png')
-      knowledge_field = KnowledgeField.create!(title: 'Desenvolvedor')
-      user_1 = User.create!(email: 'usuario1@teste.com.br', password: '123456', role: :user)
-      user_2 = User.create!(email: 'usuario2@teste.com.br', password: '123456', role: :user)
-      project = Project.create!(title: 'Desenvolvimento no cliente', description: 'Desenvolver customizações em sistema',
-                                skills: 'Comunicação e regras de negócio', max_hourly_rate: 50, open_until: future_date,
-                                attendance_type: :presential_attendance, user: user_2)
-      professional = User.create!(email: 'profissional1@teste.com.br', password: '123456',
-                                  role: :professional)
-      ProfessionalProfile.create!(full_name: 'Fulano de Tal', social_name: 'Ciclano da Silva',
-                                  description: 'Busco projetos desafiadores',
-                                  professional_qualification: 'Ensino Superior',
-                                  professional_experience: '6 anos trabalhando em projetos diversos',
-                                  birth_date: birth_date, user: professional, knowledge_field: knowledge_field, profile_photo: photo)
-      ProjectProposal.create!(reason: 'Sou especialista em atendimento presencial',
-                              hourly_rate: 40.0, weekly_hours: 20, deadline: future_date, project: project,
-                              user: professional)
+      user_1 = create(:user)
+      user_2 = create(:user)
+      project = create(:project, :project_2, user: user_2)
+      professional = create(:user, :professional)
+      create(:profile, user: professional)
+      create(:proposal, :proposal_4, user: professional, project: project)
 
       login_as user_1, scope: :user
       visit root_path
@@ -133,34 +80,14 @@ describe 'User views project proposals' do
 
   context 'and accepts a proposal' do
     it 'successfully' do
-      birth_date = 30.years.ago.to_date
-      future_date = 2.months.from_now.to_date
-      photo = fixture_file_upload('avatar_placeholder.png', 'image/png')
-      knowledge_field = KnowledgeField.create!(title: 'Desenvolvedor')
-      user = User.create!(email: 'usuario1@teste.com.br', password: '123456', role: :user)
-      project = Project.create!(title: 'Projeto de E-commerce', description: 'Desenvolver plataforma web',
-                                skills: 'Ruby on Rails', max_hourly_rate: 80, open_until: future_date,
-                                attendance_type: :remote_attendance, user: user)
-      professional_1 = User.create!(email: 'profissional1@teste.com.br', password: '123456',
-                                    role: :professional)
-      profile_1 = ProfessionalProfile.create!(full_name: 'Fulano de Tal', social_name: 'Ciclano da Silva',
-                                              description: 'Busco projetos desafiadores',
-                                              professional_qualification: 'Ensino Superior',
-                                              professional_experience: '6 anos trabalhando em projetos diversos',
-                                              birth_date: birth_date, user: professional_1, knowledge_field: knowledge_field, profile_photo: photo)
-      professional_2 = User.create!(email: 'profissional2@teste.com.br', password: '123456',
-                                    role: :professional)
-      profile_2 = ProfessionalProfile.create!(full_name: 'George Washington', social_name: 'Antonio Nunes',
-                                              description: 'Desenvolvedor com anos de experiência',
-                                              professional_qualification: 'Ensino Superior',
-                                              professional_experience: '15 anos trabalhando em projetos diversos',
-                                              birth_date: birth_date, user: professional_2, knowledge_field: knowledge_field, profile_photo: photo)
-      proposal_1 = ProjectProposal.create!(reason: 'Gosto muito de trabalhar com e-commerces e tenho experiência',
-                                           hourly_rate: 70.0, weekly_hours: 30, deadline: future_date, project: project,
-                                           user: professional_1)
-      proposal_2 = ProjectProposal.create!(reason: 'Domino o desenvolvimento de projetos web',
-                                           hourly_rate: 80.0, weekly_hours: 40, deadline: future_date, project: project,
-                                           user: professional_2)
+      user = create(:user)
+      project = create(:project, user: user)
+      professional_1 = create(:user, :professional)
+      profile_1 = create(:profile, user: professional_1)
+      professional_2 = create(:user, :professional)
+      profile_2 = create(:profile, :profile_2, user: professional_2)
+      proposal_1 = create(:proposal, user: professional_1, project: project)
+      proposal_2 = create(:proposal, :proposal_2, user: professional_2, project: project)
 
       login_as user, scope: :user
       visit root_path
@@ -181,34 +108,14 @@ describe 'User views project proposals' do
 
   context 'and rejects a proposal' do
     it 'successfully' do
-      birth_date = 30.years.ago.to_date
-      future_date = 2.months.from_now.to_date
-      photo = fixture_file_upload('avatar_placeholder.png', 'image/png')
-      knowledge_field = KnowledgeField.create!(title: 'Desenvolvedor')
-      user = User.create!(email: 'usuario1@teste.com.br', password: '123456', role: :user)
-      project = Project.create!(title: 'Projeto de E-commerce', description: 'Desenvolver plataforma web',
-                                skills: 'Ruby on Rails', max_hourly_rate: 80, open_until: future_date,
-                                attendance_type: :remote_attendance, user: user)
-      professional_1 = User.create!(email: 'profissional1@teste.com.br', password: '123456',
-                                    role: :professional)
-      profile_1 = ProfessionalProfile.create!(full_name: 'Fulano de Tal', social_name: 'Ciclano da Silva',
-                                              description: 'Busco projetos desafiadores',
-                                              professional_qualification: 'Ensino Superior',
-                                              professional_experience: '6 anos trabalhando em projetos diversos',
-                                              birth_date: birth_date, user: professional_1, knowledge_field: knowledge_field, profile_photo: photo)
-      professional_2 = User.create!(email: 'profissional2@teste.com.br', password: '123456',
-                                    role: :professional)
-      profile_2 = ProfessionalProfile.create!(full_name: 'George Washington', social_name: 'Antonio Nunes',
-                                              description: 'Desenvolvedor com anos de experiência',
-                                              professional_qualification: 'Ensino Superior',
-                                              professional_experience: '15 anos trabalhando em projetos diversos',
-                                              birth_date: birth_date, user: professional_2, knowledge_field: knowledge_field, profile_photo: photo)
-      proposal_1 = ProjectProposal.create!(reason: 'Gosto muito de trabalhar com e-commerces e tenho experiência',
-                                           hourly_rate: 70.0, weekly_hours: 30, deadline: future_date, project: project,
-                                           user: professional_1)
-      proposal_2 = ProjectProposal.create!(reason: 'Domino o desenvolvimento de projetos web',
-                                           hourly_rate: 80.0, weekly_hours: 40, deadline: future_date, project: project,
-                                           user: professional_2)
+      user = create(:user)
+      project = create(:project, user: user)
+      professional_1 = create(:user, :professional)
+      profile_1 = create(:profile, user: professional_1)
+      professional_2 = create(:user, :professional)
+      profile_2 = create(:profile, :profile_2, user: professional_2)
+      proposal_1 = create(:proposal, user: professional_1, project: project)
+      proposal_2 = create(:proposal, :proposal_2, user: professional_2, project: project)
 
       login_as user, scope: :user
       visit root_path
@@ -229,34 +136,14 @@ describe 'User views project proposals' do
     end
 
     it 'but fails due to not providing a reason' do
-      birth_date = 30.years.ago.to_date
-      future_date = 2.months.from_now.to_date
-      photo = fixture_file_upload('avatar_placeholder.png', 'image/png')
-      knowledge_field = KnowledgeField.create!(title: 'Desenvolvedor')
-      user = User.create!(email: 'usuario1@teste.com.br', password: '123456', role: :user)
-      project = Project.create!(title: 'Projeto de E-commerce', description: 'Desenvolver plataforma web',
-                                skills: 'Ruby on Rails', max_hourly_rate: 80, open_until: future_date,
-                                attendance_type: :remote_attendance, user: user)
-      professional_1 = User.create!(email: 'profissional1@teste.com.br', password: '123456',
-                                    role: :professional)
-      profile_1 = ProfessionalProfile.create!(full_name: 'Fulano de Tal', social_name: 'Ciclano da Silva',
-                                              description: 'Busco projetos desafiadores',
-                                              professional_qualification: 'Ensino Superior',
-                                              professional_experience: '6 anos trabalhando em projetos diversos',
-                                              birth_date: birth_date, user: professional_1, knowledge_field: knowledge_field, profile_photo: photo)
-      professional_2 = User.create!(email: 'profissional2@teste.com.br', password: '123456',
-                                    role: :professional)
-      profile_2 = ProfessionalProfile.create!(full_name: 'George Washington', social_name: 'Antonio Nunes',
-                                              description: 'Desenvolvedor com anos de experiência',
-                                              professional_qualification: 'Ensino Superior',
-                                              professional_experience: '15 anos trabalhando em projetos diversos',
-                                              birth_date: birth_date, user: professional_2, knowledge_field: knowledge_field, profile_photo: photo)
-      proposal_1 = ProjectProposal.create!(reason: 'Gosto muito de trabalhar com e-commerces e tenho experiência',
-                                           hourly_rate: 70.0, weekly_hours: 30, deadline: future_date, project: project,
-                                           user: professional_1)
-      proposal_2 = ProjectProposal.create!(reason: 'Domino o desenvolvimento de projetos web',
-                                           hourly_rate: 80.0, weekly_hours: 40, deadline: future_date, project: project,
-                                           user: professional_2)
+      user = create(:user)
+      project = create(:project, user: user)
+      professional_1 = create(:user, :professional)
+      profile_1 = create(:profile, user: professional_1)
+      professional_2 = create(:user, :professional)
+      profile_2 = create(:profile, :profile_2, user: professional_2)
+      proposal_1 = create(:proposal, user: professional_1, project: project)
+      proposal_2 = create(:proposal, :proposal_2, user: professional_2, project: project)
 
       login_as user, scope: :user
       visit root_path

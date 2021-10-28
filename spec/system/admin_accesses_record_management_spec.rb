@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe 'Admin accesses record management' do
   it 'successfully' do
-    admin = User.create!(email: 'admin@admin.com.br', password: '123456', role: :user)
+    admin = create(:user, :admin)
     admin.admin!
 
     login_as admin, scope: :user
@@ -15,7 +15,7 @@ describe 'Admin accesses record management' do
 
   context 'but is not an admin' do
     it 'and can not see the link in the navbar' do
-      user = User.create!(email: 'admin@admin.com.br', password: '123456', role: :user)
+      user = create(:user, :admin)
 
       login_as user, scope: :user
       visit root_path
@@ -24,7 +24,7 @@ describe 'Admin accesses record management' do
     end
 
     it 'and can not access the page' do
-      user = User.create!(email: 'admin@admin.com.br', password: '123456', role: :user)
+      user = create(:user, :admin)
 
       login_as user, scope: :user
       visit manage_records_path

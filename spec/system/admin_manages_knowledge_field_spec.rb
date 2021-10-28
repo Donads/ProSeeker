@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe 'Admin manages knowledge field' do
   it 'creates a new one successfully' do
-    admin = User.create!(email: 'admin@admin.com.br', password: '123456', role: :user)
+    admin = create(:user, :admin)
     admin.admin!
 
     login_as admin, scope: :user
@@ -20,7 +20,7 @@ describe 'Admin manages knowledge field' do
   end
 
   it 'and fails to create it due to missing fields' do
-    admin = User.create!(email: 'admin@admin.com.br', password: '123456', role: :user)
+    admin = create(:user, :admin)
     admin.admin!
 
     login_as admin, scope: :user
