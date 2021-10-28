@@ -59,19 +59,28 @@ RSpec.describe ProjectProposal, type: :model do
       context 'proposal was done after the closing day' do
         let(:open_until) { Date.yesterday }
 
-        it { should validate_presence_of(:project_id).with_message('não está aberto') }
+        it {
+          subject.valid?
+          expect(subject.errors.full_messages_for(:project_id)).to include('Projeto não está aberto')
+        }
       end
 
-      context 'proposal was done after the closing day' do
+      context 'proposal was done on the closing day' do
         let(:open_until) { Date.current }
 
-        it { should_not validate_presence_of(:project_id).with_message('não está aberto') }
+        it {
+          subject.valid?
+          expect(subject.errors.full_messages_for(:project_id)).to eq []
+        }
       end
 
-      context 'proposal was done after the closing day' do
+      context 'proposal was done before the closing day' do
         let(:open_until) { Date.tomorrow }
 
-        it { should_not validate_presence_of(:project_id).with_message('não está aberto') }
+        it {
+          subject.valid?
+          expect(subject.errors.full_messages_for(:project_id)).to eq []
+        }
       end
     end
 
@@ -81,19 +90,28 @@ RSpec.describe ProjectProposal, type: :model do
       context 'when project is open' do
         let(:status) { :open }
 
-        it { should_not validate_presence_of(:project_id).with_message('não está aberto') }
+        it {
+          subject.valid?
+          expect(subject.errors.full_messages_for(:project_id)).to eq []
+        }
       end
 
       context 'when project is closed' do
         let(:status) { :closed }
 
-        it { should validate_presence_of(:project_id).with_message('não está aberto') }
+        it {
+          subject.valid?
+          expect(subject.errors.full_messages_for(:project_id)).to include('Projeto não está aberto')
+        }
       end
 
       context 'when project is finished' do
         let(:status) { :finished }
 
-        it { should validate_presence_of(:project_id).with_message('não está aberto') }
+        it {
+          subject.valid?
+          expect(subject.errors.full_messages_for(:project_id)).to include('Projeto não está aberto')
+        }
       end
     end
   end

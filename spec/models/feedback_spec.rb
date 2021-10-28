@@ -45,7 +45,8 @@ RSpec.describe Feedback, type: :model do
       let(:status) { :open }
 
       it {
-        should validate_presence_of(:project_proposal_id).with_message('deve pertencer a um projeto finalizado')
+        subject.valid?
+        expect(subject.errors.full_messages_for(:project_proposal_id)).to include('Proposta deve pertencer a um projeto finalizado')
       }
     end
 
@@ -53,7 +54,8 @@ RSpec.describe Feedback, type: :model do
       let(:status) { :closed }
 
       it {
-        should validate_presence_of(:project_proposal_id).with_message('deve pertencer a um projeto finalizado')
+        subject.valid?
+        expect(subject.errors.full_messages_for(:project_proposal_id)).to include('Proposta deve pertencer a um projeto finalizado')
       }
     end
 
@@ -61,7 +63,8 @@ RSpec.describe Feedback, type: :model do
       let(:status) { :finished }
 
       it {
-        should_not validate_presence_of(:project_proposal_id).with_message('deve pertencer a um projeto finalizado')
+        subject.valid?
+        expect(subject.errors.full_messages_for(:project_proposal_id)).to eq []
       }
     end
   end
