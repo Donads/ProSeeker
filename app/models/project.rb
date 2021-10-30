@@ -12,6 +12,18 @@ class Project < ApplicationRecord
   validate :open_until_cannot_be_in_the_past
   validate :open_until_must_be_within_limit
 
+  def closed!
+    return super if open?
+
+    errors.add(:status, 'do projeto não permite essa alteração')
+  end
+
+  def finished!
+    return super if closed?
+
+    errors.add(:status, 'do projeto não permite essa alteração')
+  end
+
   def creator?(user_param)
     user == user_param
   end

@@ -22,6 +22,36 @@ class ProjectProposal < ApplicationRecord
   validate :check_project_status
   validate :can_not_be_canceled, on: %i[destroy]
 
+  def pending!
+    return super if pending? || approved? || rejected?
+
+    errors.add(:status, 'da proposta não permite essa alteração')
+  end
+
+  def approved!
+    return super if pending? || approved?
+
+    errors.add(:status, 'da proposta não permite essa alteração')
+  end
+
+  def rejected!
+    return super if pending? || rejected?
+
+    errors.add(:status, 'da proposta não permite essa alteração')
+  end
+
+  def rated!
+    return super if approved? || rated?
+
+    errors.add(:status, 'da proposta não permite essa alteração')
+  end
+
+  def canceled!
+    return super if can_be_canceled? || canceled?
+
+    errors.add(:status, 'da proposta não permite essa alteração')
+  end
+
   def can_be_canceled?
     case status
     when 'approved'

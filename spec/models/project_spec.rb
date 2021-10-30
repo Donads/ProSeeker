@@ -37,4 +37,70 @@ RSpec.describe Project, type: :model do
     it { should allow_values(1.year.from_now - 1.day).for(:open_until) }
     it { should_not allow_values(1.year.from_now + 1.day).for(:open_until) }
   end
+
+  describe '#closed!' do
+    subject { create(:project, status: status) }
+
+    context 'when status is open' do
+      let(:status) { :open }
+
+      it {
+        subject.closed!
+        expect(subject.errors.full_messages_for(:status)).to eq []
+        expect(subject.status).to eq 'closed'
+      }
+    end
+    context 'when status is closed' do
+      let(:status) { :closed }
+
+      it {
+        subject.closed!
+        expect(subject.errors.full_messages_for(:status)).to include('Situação do projeto não permite essa alteração')
+        expect(subject.status).to eq 'closed'
+      }
+    end
+    context 'when status is finished' do
+      let(:status) { :finished }
+
+      it {
+        subject.closed!
+        expect(subject.errors.full_messages_for(:status)).to include('Situação do projeto não permite essa alteração')
+        expect(subject.status).to eq 'finished'
+      }
+    end
+  end
+
+  describe '#finished!' do
+    subject { create(:project, status: status) }
+
+    context 'when status is open' do
+      let(:status) { :open }
+
+      it {
+        subject.finished!
+        expect(subject.errors.full_messages_for(:status)).to include('Situação do projeto não permite essa alteração')
+        expect(subject.status).to eq 'open'
+      }
+    end
+
+    context 'when status is closed' do
+      let(:status) { :closed }
+
+      it {
+        subject.finished!
+        expect(subject.errors.full_messages_for(:status)).to eq []
+        expect(subject.status).to eq 'finished'
+      }
+    end
+
+    context 'when status is finished' do
+      let(:status) { :finished }
+
+      it {
+        subject.finished!
+        expect(subject.errors.full_messages_for(:status)).to include('Situação do projeto não permite essa alteração')
+        expect(subject.status).to eq 'finished'
+      }
+    end
+  end
 end

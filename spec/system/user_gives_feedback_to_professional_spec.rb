@@ -11,6 +11,7 @@ describe 'User gives feedback to professional' do
       profile_2 = create(:profile, :profile_2, user: professional_2)
       proposal_1 = create(:proposal, user: professional_1, project: project, status: :approved)
       proposal_2 = create(:proposal, :proposal_2, user: professional_2, project: project, status: :approved)
+      project.closed!
       project.finished!
       feedback = { score: 5, user_feedback: 'Profissional dedicado' }
 

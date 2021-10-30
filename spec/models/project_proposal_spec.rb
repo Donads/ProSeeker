@@ -33,6 +33,295 @@ RSpec.describe ProjectProposal, type: :model do
     }
   end
 
+  describe '#pending!' do
+    subject do
+      project = create(:project, status: :open)
+      create(:proposal, project: project, status: proposal_status)
+    end
+
+    context 'when status is pending' do
+      let(:proposal_status) { :pending }
+
+      it {
+        subject.pending!
+        expect(subject.errors.full_messages_for(:status)).to eq []
+        expect(subject.status).to eq 'pending'
+      }
+    end
+
+    context 'when status is approved' do
+      let(:proposal_status) { :approved }
+
+      it {
+        subject.pending!
+        expect(subject.errors.full_messages_for(:status)).to eq []
+        expect(subject.status).to eq 'pending'
+      }
+    end
+
+    context 'when status is rejected' do
+      let(:proposal_status) { :rejected }
+
+      it {
+        subject.pending!
+        expect(subject.errors.full_messages_for(:status)).to eq []
+        expect(subject.status).to eq 'pending'
+      }
+    end
+
+    context 'when status is rated' do
+      let(:proposal_status) { :rated }
+
+      it {
+        subject.pending!
+        expect(subject.errors.full_messages_for(:status)).to include('Situação da proposta não permite essa alteração')
+        expect(subject.status).to eq 'rated'
+      }
+    end
+
+    context 'when status is canceled' do
+      let(:proposal_status) { :canceled }
+
+      it {
+        subject.pending!
+        expect(subject.errors.full_messages_for(:status)).to include('Situação da proposta não permite essa alteração')
+        expect(subject.status).to eq 'canceled'
+      }
+    end
+  end
+
+  describe '#approved!' do
+    subject do
+      project = create(:project, status: :open)
+      create(:proposal, project: project, status: proposal_status)
+    end
+
+    context 'when status is pending' do
+      let(:proposal_status) { :pending }
+
+      it {
+        subject.approved!
+        expect(subject.errors.full_messages_for(:status)).to eq []
+        expect(subject.status).to eq 'approved'
+      }
+    end
+
+    context 'when status is approved' do
+      let(:proposal_status) { :approved }
+
+      it {
+        subject.approved!
+        expect(subject.errors.full_messages_for(:status)).to eq []
+        expect(subject.status).to eq 'approved'
+      }
+    end
+
+    context 'when status is rejected' do
+      let(:proposal_status) { :rejected }
+
+      it {
+        subject.approved!
+        expect(subject.errors.full_messages_for(:status)).to include('Situação da proposta não permite essa alteração')
+        expect(subject.status).to eq 'rejected'
+      }
+    end
+
+    context 'when status is rated' do
+      let(:proposal_status) { :rated }
+
+      it {
+        subject.approved!
+        expect(subject.errors.full_messages_for(:status)).to include('Situação da proposta não permite essa alteração')
+        expect(subject.status).to eq 'rated'
+      }
+    end
+
+    context 'when status is canceled' do
+      let(:proposal_status) { :canceled }
+
+      it {
+        subject.approved!
+        expect(subject.errors.full_messages_for(:status)).to include('Situação da proposta não permite essa alteração')
+        expect(subject.status).to eq 'canceled'
+      }
+    end
+  end
+
+  describe '#rejected!' do
+    subject do
+      project = create(:project, status: :open)
+      create(:proposal, project: project, status: proposal_status)
+    end
+
+    context 'when status is pending' do
+      let(:proposal_status) { :pending }
+
+      it {
+        subject.rejected!
+        expect(subject.errors.full_messages_for(:status)).to eq []
+        expect(subject.status).to eq 'rejected'
+      }
+    end
+
+    context 'when status is approved' do
+      let(:proposal_status) { :approved }
+
+      it {
+        subject.rejected!
+        expect(subject.errors.full_messages_for(:status)).to include('Situação da proposta não permite essa alteração')
+        expect(subject.status).to eq 'approved'
+      }
+    end
+
+    context 'when status is rejected' do
+      let(:proposal_status) { :rejected }
+
+      it {
+        subject.rejected!
+        expect(subject.errors.full_messages_for(:status)).to eq []
+        expect(subject.status).to eq 'rejected'
+      }
+    end
+
+    context 'when status is rated' do
+      let(:proposal_status) { :rated }
+
+      it {
+        subject.rejected!
+        expect(subject.errors.full_messages_for(:status)).to include('Situação da proposta não permite essa alteração')
+        expect(subject.status).to eq 'rated'
+      }
+    end
+
+    context 'when status is canceled' do
+      let(:proposal_status) { :canceled }
+
+      it {
+        subject.rejected!
+        expect(subject.errors.full_messages_for(:status)).to include('Situação da proposta não permite essa alteração')
+        expect(subject.status).to eq 'canceled'
+      }
+    end
+  end
+
+  describe '#rated!' do
+    subject do
+      project = create(:project, status: :open)
+      proposal = create(:proposal, project: project, status: proposal_status)
+      project.closed!
+      project.finished!
+
+      proposal
+    end
+
+    context 'when status is pending' do
+      let(:proposal_status) { :pending }
+
+      it {
+        subject.rated!
+        expect(subject.errors.full_messages_for(:status)).to include('Situação da proposta não permite essa alteração')
+        expect(subject.status).to eq 'pending'
+      }
+    end
+
+    context 'when status is approved' do
+      let(:proposal_status) { :approved }
+
+      it {
+        subject.rated!
+        expect(subject.errors.full_messages_for(:status)).to eq []
+        expect(subject.status).to eq 'rated'
+      }
+    end
+
+    context 'when status is rejected' do
+      let(:proposal_status) { :rejected }
+
+      it {
+        subject.rated!
+        expect(subject.errors.full_messages_for(:status)).to include('Situação da proposta não permite essa alteração')
+        expect(subject.status).to eq 'rejected'
+      }
+    end
+
+    context 'when status is rated' do
+      let(:proposal_status) { :rated }
+
+      it {
+        subject.rated!
+        expect(subject.errors.full_messages_for(:status)).to eq []
+        expect(subject.status).to eq 'rated'
+      }
+    end
+
+    context 'when status is canceled' do
+      let(:proposal_status) { :canceled }
+
+      it {
+        subject.rated!
+        expect(subject.errors.full_messages_for(:status)).to include('Situação da proposta não permite essa alteração')
+        expect(subject.status).to eq 'canceled'
+      }
+    end
+  end
+
+  describe '#canceled!' do
+    subject do
+      project = create(:project, status: :open)
+      create(:proposal, project: project, status: proposal_status)
+    end
+
+    context 'when status is pending' do
+      let(:proposal_status) { :pending }
+
+      it {
+        subject.canceled!
+        expect(subject.errors.full_messages_for(:status)).to eq []
+        expect(subject.status).to eq 'canceled'
+      }
+    end
+
+    context 'when status is approved' do
+      let(:proposal_status) { :approved }
+
+      it {
+        subject.canceled!
+        expect(subject.errors.full_messages_for(:status)).to eq []
+        expect(subject.status).to eq 'canceled'
+      }
+    end
+
+    context 'when status is rejected' do
+      let(:proposal_status) { :rejected }
+
+      it {
+        subject.canceled!
+        expect(subject.errors.full_messages_for(:status)).to eq []
+        expect(subject.status).to eq 'canceled'
+      }
+    end
+
+    context 'when status is rated' do
+      let(:proposal_status) { :rated }
+
+      it {
+        subject.canceled!
+        expect(subject.errors.full_messages_for(:status)).to include('Situação da proposta não permite essa alteração')
+        expect(subject.status).to eq 'rated'
+      }
+    end
+
+    context 'when status is canceled' do
+      let(:proposal_status) { :canceled }
+
+      it {
+        subject.canceled!
+        expect(subject.errors.full_messages_for(:status)).to eq []
+        expect(subject.status).to eq 'canceled'
+      }
+    end
+  end
+
   describe 'deadline_cannot_be_in_the_past' do
     it { should_not allow_values(Date.yesterday).for(:deadline) }
     it { should_not allow_values(Date.current).for(:deadline) }
@@ -132,10 +421,12 @@ RSpec.describe ProjectProposal, type: :model do
         should allow_values(3.days.ago + 1.minute).for(:status_date).on(:destroy)
       end
       it '3 days after it was approved' do
-        should_not allow_values(3.days.ago - 1.minute).for(:status_date).on(:destroy).with_message('da proposta não permite cancelamento')
+        should_not allow_values(3.days.ago - 1.minute).for(:status_date).on(:destroy)
+                                                      .with_message('da proposta não permite cancelamento')
       end
       it '4 days after it was approved' do
-        should_not allow_values(4.days.ago).for(:status_date).on(:destroy).with_message('da proposta não permite cancelamento')
+        should_not allow_values(4.days.ago).for(:status_date).on(:destroy)
+                                           .with_message('da proposta não permite cancelamento')
       end
     end
 
