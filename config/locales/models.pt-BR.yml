@@ -24,6 +24,8 @@ pt-BR:
       feedback:
         score: Nota
         user_feedback: Avaliação do usuário
+        feedback_creator_id: Avaliador
+        feedback_receiver_id: Avaliado
         project_feedback: Avaliação do projeto
         project_proposal_id: Proposta
       knowledge_field:

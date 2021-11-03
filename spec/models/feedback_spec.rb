@@ -22,6 +22,37 @@ RSpec.describe Feedback, type: :model do
     }
   end
 
+  describe 'check_related_users' do
+    context 'from_user' do
+      subject { build(:feedback, feedback_creator: build(:user), feedback_receiver: build(:user, :professional)) }
+
+      it {
+        subject.valid?
+        expect(subject.errors.full_messages_for(:feedback_creator_id)).to include('Avaliador diferente do criador do projeto')
+      }
+      it {
+        subject.valid?
+        expect(subject.errors.full_messages_for(:feedback_receiver_id)).to include('Avaliado diferente do criador da proposta')
+      }
+    end
+
+    context 'from_professional' do
+      subject do
+        build(:feedback, :from_professional, feedback_creator: build(:user, :professional),
+                                             feedback_receiver: build(:user))
+      end
+
+      it {
+        subject.valid?
+        expect(subject.errors.full_messages_for(:feedback_creator_id)).to include('Avaliador diferente do criador da proposta')
+      }
+      it {
+        subject.valid?
+        expect(subject.errors.full_messages_for(:feedback_receiver_id)).to include('Avaliado diferente do criador do projeto')
+      }
+    end
+  end
+
   describe 'professional_must_fill_project_feedback' do
     subject { build(:feedback, :from_professional) }
 

@@ -8,11 +8,36 @@ class Feedback < ApplicationRecord
   validates :score, :user_feedback, presence: true
   validates :score, numericality: { only_integer: true, greater_than_or_equal_to: 1, less_than_or_equal_to: 5 }
 
+  validate :check_related_users
   validate :professional_must_fill_project_feedback
   validate :user_can_not_fill_project_feedback
   validate :check_project_status
 
   private
+
+  def check_related_users
+    if from_user?
+      unless feedback_creator == project_proposal.project.user
+        errors.add(:feedback_creator_id,
+                   'diferente do criador do projeto')
+      end
+      unless feedback_receiver == project_proposal.user
+        errors.add(:feedback_receiver_id,
+                   'diferente do criador da proposta')
+      end
+    end
+
+    if from_professional?
+      unless feedback_creator == project_proposal.user
+        errors.add(:feedback_creator_id,
+                   'diferente do criador da proposta')
+      end
+      unless feedback_receiver == project_proposal.project.user
+        errors.add(:feedback_receiver_id,
+                   'diferente do criador do projeto')
+      end
+    end
+  end
 
   def professional_must_fill_project_feedback
     return unless feedback_creator&.professional?
