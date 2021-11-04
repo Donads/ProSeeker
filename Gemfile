@@ -35,6 +35,7 @@ group :development, :test do
   gem 'capybara'
   gem 'factory_bot_rails'
   gem 'rspec-rails'
+  gem 'rubocop-rails', require: false
   gem 'shoulda-matchers', '~> 5.0'
   gem 'simplecov', require: false, group: :test
 end
