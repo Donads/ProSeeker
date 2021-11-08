@@ -2,3 +2,9 @@ AllCops:
   Exclude:
     - 'bin/**/*'
     - 'db/**/*'
+
+Metrics/BlockLength:
+ ExcludedMethods: ['describe', 'context', 'feature', 'scenario', 'let', 'it']
+
+Naming/VariableNumber:
+  EnforcedStyle: 'snake_case'

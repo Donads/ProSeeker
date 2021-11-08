@@ -7,8 +7,8 @@ describe 'Professional views their projects' do
     project_2 = create(:project, :project_2, user: user)
     professional = create(:user, :professional)
     create(:profile, user: professional)
-    proposal_1 = create(:proposal, project: project_1, user: professional, status: :approved)
-    proposal_2 = create(:proposal, project: project_2, user: professional, status: :approved)
+    create(:proposal, project: project_1, user: professional, status: :approved)
+    create(:proposal, project: project_2, user: professional, status: :approved)
     project_1.closed!
     project_2.finished!
 
@@ -27,8 +27,8 @@ describe 'Professional views their projects' do
     project_2 = create(:project, :project_2, user: user)
     professional = create(:user, :professional)
     create(:profile, user: professional)
-    proposal_1 = create(:proposal, project: project_1, user: professional, status: :approved)
-    proposal_2 = create(:proposal, project: project_2, user: professional, status: :approved)
+    create(:proposal, project: project_1, user: professional, status: :approved)
+    create(:proposal, project: project_2, user: professional, status: :approved)
     project_1.closed!
     project_2.finished!
 

@@ -6,8 +6,8 @@ describe 'Professional gives feedback to user' do
       user = create(:user)
       project = create(:project, user: user)
       professional = create(:user, :professional)
-      profile = create(:profile, :profile_2, user: professional)
-      proposal = create(:proposal, user: professional, project: project, status: :approved)
+      create(:profile, :profile_2, user: professional)
+      create(:proposal, user: professional, project: project, status: :approved)
       project.closed!
       project.finished!
       feedback_params = { score: 5, user_feedback: 'Gerente responsável', project_feedback: 'Projeto desafiador' }

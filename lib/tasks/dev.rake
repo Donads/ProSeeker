@@ -83,10 +83,6 @@ namespace :dev do
   task create_projects: :environment do
     user_1 = User.find_by(email: 'usuario1@teste.com.br')
     user_2 = User.find_by(email: 'usuario2@teste.com.br')
-    user_3 = User.find_by(email: 'usuario3@teste.com.br')
-    professional_1 = User.find_by(email: 'profissional1@teste.com.br')
-    professional_2 = User.find_by(email: 'profissional2@teste.com.br')
-    professional_3 = User.find_by(email: 'profissional3@teste.com.br')
     future_date = 20.days.from_now
 
     projects = [
@@ -108,7 +104,6 @@ namespace :dev do
   task create_project_proposals: :environment do
     project_1 = Project.find_by(title: 'Desenvolvimento de API')
     project_2 = Project.find_by(title: 'Desenvolvimento no cliente')
-    project_3 = Project.find_by(title: 'Projeto de E-commerce')
     professional_1 = User.find_by(email: 'profissional1@teste.com.br')
     professional_2 = User.find_by(email: 'profissional2@teste.com.br')
     professional_3 = User.find_by(email: 'profissional3@teste.com.br')

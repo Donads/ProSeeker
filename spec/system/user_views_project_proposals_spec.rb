@@ -9,8 +9,8 @@ describe 'User views project proposals' do
       profile_1 = create(:profile, user: professional_1)
       professional_2 = create(:user, :professional)
       profile_2 = create(:profile, :profile_2, user: professional_2)
-      proposal_1 = create(:proposal, user: professional_1, project: project)
-      proposal_2 = create(:proposal, :proposal_2, user: professional_2, project: project)
+      create(:proposal, user: professional_1, project: project)
+      create(:proposal, :proposal_2, user: professional_2, project: project)
 
       login_as user, scope: :user
       visit root_path
@@ -141,7 +141,7 @@ describe 'User views project proposals' do
       professional_1 = create(:user, :professional)
       profile_1 = create(:profile, user: professional_1)
       professional_2 = create(:user, :professional)
-      profile_2 = create(:profile, :profile_2, user: professional_2)
+      create(:profile, :profile_2, user: professional_2)
       proposal_1 = create(:proposal, user: professional_1, project: project)
       proposal_2 = create(:proposal, :proposal_2, user: professional_2, project: project)
 

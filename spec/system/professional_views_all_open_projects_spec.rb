@@ -22,7 +22,7 @@ describe 'Professional views all open projects' do
     create(:profile, user: professional)
     user = create(:user)
     project_1 = create(:project, user: user)
-    project_2 = create(:project, :project_2, user: user)
+    create(:project, :project_2, user: user)
 
     login_as professional, scope: :user
     visit root_path

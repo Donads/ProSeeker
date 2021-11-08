@@ -7,7 +7,7 @@ describe 'Professional views project team' do
     professional_1 = create(:user, :professional)
     profile_1 = create(:profile, user: professional_1)
     professional_2 = create(:user, :professional)
-    profile_2 = create(:profile, :profile_2, user: professional_2)
+    create(:profile, :profile_2, user: professional_2)
     professional_3 = create(:user, :professional)
     profile_3 = create(:profile, :profile_3, user: professional_3)
     proposal_1 = create(:proposal, user: professional_1, project: project, status: :approved)

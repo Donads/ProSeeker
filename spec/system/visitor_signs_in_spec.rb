@@ -39,7 +39,7 @@ describe 'Visitor signs in' do
   context 'as a professional' do
     it 'successfully and has filled their profile' do
       professional = create(:user, :professional)
-      profile = create(:profile, user: professional)
+      create(:profile, user: professional)
 
       visit root_path
       click_link 'Entrar'
