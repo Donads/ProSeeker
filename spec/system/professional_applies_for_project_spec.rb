@@ -143,9 +143,8 @@ describe 'Professional applies for project' do
     create(:profile, user: professional)
     user = create(:user)
     project = create(:project, user: user)
-    proposal = create(:proposal, project: project, user: professional, status: :approved)
-    proposal.status_date = 4.days.ago
-    proposal.save(validate: false)
+    proposal = create(:proposal, :without_validations, status_date: 4.days.ago, project: project, user: professional,
+                                                       status: :approved)
 
     login_as professional, scope: :user
     visit root_path

@@ -26,5 +26,9 @@ FactoryBot.define do
       hourly_rate { 40.0 }
       weekly_hours { 20 }
     end
+
+    trait :without_validations do
+      to_create { |instance| instance.save(validate: false) }
+    end
   end
 end

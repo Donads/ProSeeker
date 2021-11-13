@@ -1,0 +1,10 @@
+<h1>Nova proposta para seu projeto.</h1>
+
+<p>Olá, <%= @proposal.user.professional_profile.social_name %> enviou a seguinte proposta para seu projeto:</p>
+
+<p><%= "#{ProjectProposal.human_attribute_name(:reason)}: #{@proposal.reason}" %></p>
+<p><%= "#{ProjectProposal.human_attribute_name(:hourly_rate)}: #{number_to_currency(@proposal.hourly_rate)}" %></p>
+<p><%= "#{ProjectProposal.human_attribute_name(:weekly_hours)}: #{@proposal.weekly_hours}" %></p>
+<p><%= "#{ProjectProposal.human_attribute_name(:deadline)}: #{I18n.l(@proposal.deadline)}" %></p>
+
+<p><%= "#{ProjectProposal.human_attribute_name(:status_date)}: #{I18n.l(@proposal.status_date)}" %></p>

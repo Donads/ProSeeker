@@ -13,6 +13,7 @@ class ProjectProposalsController < ApplicationController
 
     if @project_proposal.save
       redirect_to @project_proposal.project, success: 'Proposta enviada com sucesso!'
+      ProjectProposalMailer.with(proposal: @project_proposal).notify_new_proposal.deliver_now
     else
       redirect_to @project, warning: 'Erro ao inserir a proposta!'
     end

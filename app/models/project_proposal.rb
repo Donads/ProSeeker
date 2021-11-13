@@ -53,18 +53,9 @@ class ProjectProposal < ApplicationRecord
   end
 
   def can_be_canceled?
-    case status
-    when 'approved'
-      status_date >= Time.current - 3.days
-    when 'rated'
-      false
-    when 'canceled'
-      false
-    when 'pending'
-      true
-    when 'rejected'
-      true
-    end
+    return status_date >= Time.current - 3.days if approved?
+
+    pending? | rejected?
   end
 
   def creator?(user_param)
