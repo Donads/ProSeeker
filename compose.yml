@@ -1,0 +1,20 @@
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: example
+    ports:
+      - 5432:5432
+  web:
+    build: .
+    restart: always
+    environment:
+      DB_HOST: db
+      DB_USERNAME: postgres
+      DB_PASSWORD: example
+    ports:
+      - "3000:3000"
+    tty: true
+    depends_on:
+      - db

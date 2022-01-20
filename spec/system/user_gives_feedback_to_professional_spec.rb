@@ -19,7 +19,7 @@ describe 'User gives feedback to professional' do
       visit root_path
       click_link 'Meus Projetos'
       click_link 'Projeto de E-commerce'
-      find('tr[project-proposal-id="2"]').click_link('Avaliar')
+      find("tr[project-proposal-id='#{proposal_2.id}']").click_link('Avaliar')
       fill_in 'Avaliação do usuário', with: feedback[:user_feedback]
       choose feedback[:score].to_s
       click_button 'Criar Avaliação'

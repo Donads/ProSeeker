@@ -93,7 +93,7 @@ describe 'User views project proposals' do
       visit root_path
       click_link 'Projetos'
       click_link 'Projeto de E-commerce'
-      find('tr[project-proposal-id="2"]').click_button('Aprovar')
+      find("tr[project-proposal-id='#{proposal_2.id}']").click_button('Aprovar')
 
       expect(current_path).to eq project_path(project)
       expect(page).to have_css('div', text: 'Proposta aprovada com sucesso!')
@@ -121,7 +121,7 @@ describe 'User views project proposals' do
       visit root_path
       click_link 'Projetos'
       click_link 'Projeto de E-commerce'
-      find('tr[project-proposal-id="1"]').click_link('Rejeitar')
+      find("tr[project-proposal-id='#{proposal_1.id}']").click_link('Rejeitar')
       fill_in 'Motivo da Situação', with: 'Baixa disponibilidade de horas para participação no projeto'
       click_button 'Atualizar Proposta'
 
@@ -149,7 +149,7 @@ describe 'User views project proposals' do
       visit root_path
       click_link 'Projetos'
       click_link 'Projeto de E-commerce'
-      find('tr[project-proposal-id="1"]').click_link('Rejeitar')
+      find("tr[project-proposal-id='#{proposal_1.id}']").click_link('Rejeitar')
       fill_in 'Motivo da Situação', with: ''
       click_button 'Atualizar Proposta'
 

@@ -117,7 +117,7 @@ describe 'Professional must fill profile' do
       fill_in 'Descrição', with: 'Desenvolvedor experiente em busca de novos desafios'
       click_button 'Atualizar Perfil Profissional'
 
-      expect(current_path).to eq professional_profile_path(professional)
+      expect(current_path).to eq professional_profile_path(professional.professional_profile)
       expect(page).to have_css('div', text: 'Perfil atualizado com sucesso!')
       expect(page).to have_content('Desenvolvedor experiente em busca de novos desafios')
     end
@@ -140,7 +140,7 @@ describe 'Professional must fill profile' do
         click_button 'Atualizar Perfil Profissional'
       end
 
-      expect(current_path).to eq professional_profile_path(professional)
+      expect(current_path).to eq professional_profile_path(professional.professional_profile)
       expect(page).to have_css('div', text: 'Nome Completo não pode ficar em branco')
       expect(page).to have_css('div', text: 'Nome Social não pode ficar em branco')
       expect(page).to have_css('div', text: 'Descrição não pode ficar em branco')
@@ -156,9 +156,9 @@ describe 'Professional must fill profile' do
       create(:profile, :profile_2, user: professional_2)
 
       login_as professional_1, scope: :user
-      visit edit_professional_profile_path(professional_2)
+      visit edit_professional_profile_path(professional_2.professional_profile)
 
-      expect(current_path).to eq professional_profile_path(professional_2)
+      expect(current_path).to eq professional_profile_path(professional_2.professional_profile)
       expect(page).to have_css('div', text: 'Somente o usuário pode atualizar o próprio perfil.')
     end
   end

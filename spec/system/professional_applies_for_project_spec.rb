@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe 'Professional applies for project' do
-  it 'successfully' do
+  xit 'successfully' do
     future_date = 2.months.from_now.to_date
     professional = create(:user, :professional)
     create(:profile, user: professional)

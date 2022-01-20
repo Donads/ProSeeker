@@ -2,9 +2,19 @@ AllCops:
   Exclude:
     - 'bin/**/*'
     - 'db/**/*'
+  NewCops: disable
 
 Metrics/BlockLength:
- ExcludedMethods: ['describe', 'context', 'feature', 'scenario', 'let', 'it']
+ IgnoredMethods: ['describe', 'context', 'feature', 'scenario', 'let', 'it', 'configure', 'draw', 'define']
 
 Naming/VariableNumber:
   EnforcedStyle: 'snake_case'
+
+Style/AsciiComments:
+  Enabled: false
+
+Style/Documentation:
+ Enabled: false
+
+Style/FrozenStringLiteralComment:
+ Enabled: false
