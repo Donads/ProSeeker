@@ -9,7 +9,7 @@ RSpec.describe ProjectProposalMailer, type: :mailer do
                                    hourly_rate: 70, weekly_hours: 30, deadline: 2.months.from_now.to_date)
       create(:professional_profile, user: proposal.user)
 
-      mail = ProjectProposalMailer.with(proposal: proposal).notify_new_proposal
+      mail = ProjectProposalMailer.with(proposal: proposal.id).notify_new_proposal
 
       expect(mail.to).to eq [project.user.email]
       expect(mail.from).to eq ['proseeker@yandonadi.dev']

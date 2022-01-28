@@ -1,3 +1,5 @@
+require 'sidekiq/web'
+
 Rails.application.routes.draw do
   devise_for :users
 
@@ -28,4 +30,6 @@ Rails.application.routes.draw do
   scope '/admin' do
     get 'manage_records', to: 'admin#manage_records'
   end
+
+  mount Sidekiq::Web => "/sidekiq"
 end

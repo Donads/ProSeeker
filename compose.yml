@@ -2,19 +2,44 @@ services:
   db:
     image: postgres
     restart: always
+    volumes:
+      - proseeker-pg_db:/var/lib/postgresql/data
     environment:
       POSTGRES_PASSWORD: example
-    ports:
-      - 5432:5432
+    networks:
+      - db_network
+
+  redis:
+    image: redis
+    command: redis-server
+    restart: always
+    networks:
+      - redis_network
+
   web:
     build: .
     restart: always
+    volumes:
+      - .:/usr/src/proseeker
+    command: bash -c "rails db:migrate && rails s -b 0.0.0.0"
     environment:
       DB_HOST: db
       DB_USERNAME: postgres
       DB_PASSWORD: example
     ports:
-      - "3000:3000"
-    tty: true
+      - 3000:3000
+    networks:
+      - default
+      - db_network
+      - redis_network
     depends_on:
       - db
+      - redis
+
+volumes:
+  proseeker-pg_db:
+networks:
+  db_network:
+    external: false
+  redis_network:
+    external: false
