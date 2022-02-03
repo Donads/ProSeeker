@@ -1,31 +1,46 @@
 services:
   db:
     image: postgres
-    restart: always
+    restart: on-failure
     volumes:
       - proseeker-pg_db:/var/lib/postgresql/data
-    environment:
-      POSTGRES_PASSWORD: example
+    env_file:
+      - .env.docker
     networks:
       - db_network
 
   redis:
     image: redis
     command: redis-server
-    restart: always
+    restart: on-failure
+    volumes:
+      - proseeker-pg_redis:/data
     networks:
       - redis_network
 
-  web:
+  sidekiq:
     build: .
-    restart: always
+    restart: on-failure
+    command: bundle exec sidekiq
+    env_file:
+      - .env.docker
     volumes:
       - .:/usr/src/proseeker
-    command: bash -c "rails db:migrate && rails s -b 0.0.0.0"
-    environment:
-      DB_HOST: db
-      DB_USERNAME: postgres
-      DB_PASSWORD: example
+      - /usr/src/proseeker/tmp # don't mount tmp directory
+    networks:
+      - db_network
+      - redis_network
+    depends_on:
+      - web
+
+  web:
+    build: .
+    restart: unless-stopped
+    volumes:
+      - .:/usr/src/proseeker
+    command: bash -c "bin/setup && rails server -b 0.0.0.0"
+    env_file:
+      - .env.docker
     ports:
       - 3000:3000
     networks:
@@ -38,6 +53,7 @@ services:
 
 volumes:
   proseeker-pg_db:
+  proseeker-pg_redis:
 networks:
   db_network:
     external: false

@@ -69,10 +69,14 @@ class ProjectProposal < ApplicationRecord
   end
 
   def deadline_cannot_be_in_the_past
+    return unless changes.key?(:deadline)
+
     errors.add(:deadline, 'não pode estar no passado') if deadline && deadline <= Date.current
   end
 
   def deadline_must_be_within_limit
+    return unless changes.key?(:deadline)
+
     errors.add(:deadline, 'não pode passar de um ano') unless deadline && deadline <= 1.year.from_now
   end
 

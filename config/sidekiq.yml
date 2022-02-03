@@ -1,0 +1,4 @@
+:schedule:
+  close_projects:
+    cron: ['0 0 0 * * *', first_in: '1m'] # Runs once per minute
+    class: CloseProjectsJob

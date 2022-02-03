@@ -44,10 +44,14 @@ class Project < ApplicationRecord
   private
 
   def open_until_cannot_be_in_the_past
+    return unless changes.key?(:open_until)
+
     errors.add(:open_until, 'não pode estar no passado') unless open_until && open_until >= Date.current
   end
 
   def open_until_must_be_within_limit
+    return unless changes.key?(:open_until)
+
     errors.add(:open_until, 'não pode passar de um ano') unless open_until && open_until <= 1.year.from_now
   end
 end
