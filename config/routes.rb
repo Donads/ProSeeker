@@ -2,7 +2,7 @@ require 'sidekiq/web'
 require 'sidekiq-scheduler/web'
 
 Rails.application.routes.draw do
-  devise_for :users
+  devise_for :users, controllers: { omniauth_callbacks: 'omniauth' }
 
   root to: 'home#index'
 
@@ -32,5 +32,5 @@ Rails.application.routes.draw do
     get 'manage_records', to: 'admin#manage_records'
   end
 
-  mount Sidekiq::Web => "/sidekiq"
+  mount Sidekiq::Web => '/sidekiq'
 end

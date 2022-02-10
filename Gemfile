@@ -10,6 +10,8 @@ gem 'devise'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.7'
+# JWT
+gem 'jwt'
 # Use Puma as the app server
 gem 'puma', '~> 5.0'
 # Use Postgres as the database for Active Record
@@ -33,10 +35,19 @@ gem 'sidekiq-scheduler'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.4', require: false
 
+# Omniauth
+gem 'omniauth'
+gem 'omniauth-facebook'
+gem 'omniauth-github'
+gem 'omniauth-google-oauth2'
+gem 'omniauth-rails_csrf_protection'
+
+gem 'activerecord-session_store'
+
 group :development, :test do
-  # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'capybara'
+  gem 'debug', '>= 1.0.0'
   gem 'factory_bot_rails'
   gem 'rspec-rails'
   gem 'rubocop-rails', require: false
