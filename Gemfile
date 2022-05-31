@@ -44,6 +44,13 @@ gem 'omniauth-rails_csrf_protection'
 
 gem 'activerecord-session_store'
 
+# ActiveModelSerializer
+gem 'active_model_serializers'
+# JSONAPI-RB
+gem 'jsonapi-rails'
+# JSON:API serializer (fork of Netflix/fast_jsonapi)
+gem 'jsonapi-serializer'
+
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'capybara'

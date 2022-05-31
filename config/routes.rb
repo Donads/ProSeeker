@@ -33,4 +33,17 @@ Rails.application.routes.draw do
   end
 
   mount Sidekiq::Web => '/sidekiq'
+
+  namespace :api, defaults: { format: :json } do
+    namespace :v1 do
+      resources :feedbacks, only: %i[index show]
+      resources :knowledge_fields, only: %i[index show]
+      resources :professional_profiles, only: %i[index show]
+      resources :projects, only: %i[index show]
+      resources :project_proposals, only: %i[index show]
+      resources :users, only: %i[index show]
+      get 'managers', to: 'users#managers'
+      get 'professionals', to: 'users#professionals'
+    end
+  end
 end
