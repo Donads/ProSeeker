@@ -5,6 +5,7 @@ class ProjectsController < ApplicationController
   before_action :set_project, only: %i[show edit update close finish]
 
   def new
+    redirect_to projects_path, alert: 'Criação de projetos desabilitada' unless Flipper.enabled?(:allow_creating_projects)
     @project = Project.new
   end
 

@@ -47,4 +47,5 @@ Rails.application.routes.draw do
 
   mount Sidekiq::Web => '/sidekiq'
   mount Coverband::Reporters::Web.new, at: '/coverage'
+  mount Flipper::UI.app(Flipper) => '/flipper'
 end

@@ -8,6 +8,10 @@ gem 'rails', '~> 6.1.4', '>= 6.1.4.1'
 
 gem 'devise'
 
+gem 'flipper'
+gem 'flipper-active_record'
+gem 'flipper-ui'
+
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.7'
 # JWT
