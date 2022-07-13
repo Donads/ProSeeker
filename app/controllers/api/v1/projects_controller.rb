@@ -4,8 +4,11 @@ class Api::V1::ProjectsController < Api::V1::ApiController
 
     return render_not_found if @projects.nil?
 
-    # render status: :ok, json: @projects
-    render status: :ok, json: ProjectSerializer.new(@projects).serializable_hash
+    projects = @projects
+
+    render json: projects, status: :ok
+    # render json: @projects, status: :ok
+    # render status: :ok, json: ProjectSerializer.new(@projects).serializable_hash
   end
 
   def show

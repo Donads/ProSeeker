@@ -32,8 +32,6 @@ Rails.application.routes.draw do
     get 'manage_records', to: 'admin#manage_records'
   end
 
-  mount Sidekiq::Web => '/sidekiq'
-
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
       resources :feedbacks, only: %i[index show]
@@ -46,4 +44,7 @@ Rails.application.routes.draw do
       get 'professionals', to: 'users#professionals'
     end
   end
+
+  mount Sidekiq::Web => '/sidekiq'
+  mount Coverband::Reporters::Web.new, at: '/coverage'
 end
